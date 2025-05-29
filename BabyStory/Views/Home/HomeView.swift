@@ -57,7 +57,7 @@ struct HomeView: View {
                 showCustomStory: true,
                 showLibrary: true,
                 showProgress: false, // Disabled for now, will be added later
-                showFavorites: false
+                showFavorites: true
               )
             }
             
