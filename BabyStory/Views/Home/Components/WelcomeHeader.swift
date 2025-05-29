@@ -1,10 +1,3 @@
-//
-//  WelcomHeader.swift
-//  BabyStory
-//
-//  Created by Tai Phan Van on 29/5/25.
-//
-
 import SwiftUI
 
 struct WelcomeHeader: View {
@@ -43,5 +36,8 @@ struct WelcomeHeader: View {
 }
 
 #Preview {
-  WelcomeHeader(name: "Name", subtitle: "Subtitle goes here")
+    WelcomeHeader(
+        name: "Emma",
+        subtitle: "Ready for a magical story adventure?"
+    )
 }
