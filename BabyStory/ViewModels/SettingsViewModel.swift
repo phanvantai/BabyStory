@@ -27,8 +27,8 @@ class SettingsViewModel: ObservableObject {
   
   func loadSettings() {
     // Load settings using the new storage manager
-    narrationEnabled = StorageManager.shared.loadNarrationEnabled()
-    parentalLockEnabled = StorageManager.shared.loadParentalLockEnabled()
+//    narrationEnabled = StorageManager.shared.loadNarrationEnabled()
+//    parentalLockEnabled = StorageManager.shared.loadParentalLockEnabled()
   }
   
   func saveProfile(_ profile: UserProfile) {
@@ -83,50 +83,6 @@ class SettingsViewModel: ObservableObject {
       error = nil
     } catch {
       self.error = .dataSaveFailed
-    }
-  }
-  
-  // MARK: - Data Management
-  func exportData() -> Data? {
-    do {
-      return try StorageManager.shared.exportData()
-    } catch {
-      self.error = .dataExportFailed
-      return nil
-    }
-  }
-  
-  func importData(_ data: Data) {
-    do {
-      try StorageManager.shared.importData(data)
-      // Refresh all data after import
-      loadProfile()
-      loadSettings()
-      error = nil
-    } catch {
-      self.error = .dataImportFailed
-    }
-  }
-  
-  func clearAllData() {
-    do {
-      try StorageManager.shared.clearAllData()
-      // Reset local state
-      profile = nil
-      narrationEnabled = true
-      parentalLockEnabled = false
-      error = nil
-    } catch {
-      self.error = .dataSaveFailed
-    }
-  }
-  
-  func validateDataIntegrity() -> Bool {
-    do {
-      return try StorageManager.shared.validateDataIntegrity()
-    } catch {
-      self.error = error as? AppError ?? .dataCorruption
-      return false
     }
   }
 }

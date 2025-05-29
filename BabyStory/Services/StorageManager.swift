@@ -6,37 +6,38 @@ import Foundation
 class StorageManager {
     
     // MARK: - Properties
-    private let storage: StorageProtocol
+  private let settingService: SettingsServiceProtocol
+  private let storyService: StoryServiceProtocol
+  private let themeService: ThemeServiceProtocol
+  private let userProfileService: UserProfileServiceProtocol
     
     // MARK: - Singleton
     static let shared = StorageManager()
     
     // MARK: - Initialization
-    private init(storage: StorageProtocol = UserDefaultsStorage.shared) {
-        self.storage = storage
-    }
-    
-    // For testing or switching storage implementations
-    init(customStorage: StorageProtocol) {
-        self.storage = customStorage
+    private init() {
+      self.settingService = ServiceFactory.shared.createSettingsService()
+      self.storyService = ServiceFactory.shared.createStoryService()
+      self.themeService = ServiceFactory.shared.createThemeService()
+      self.userProfileService = ServiceFactory.shared.createUserProfileService()
     }
     
     // MARK: - Profile Management
     func saveProfile(_ profile: UserProfile) throws {
-        try storage.saveProfile(profile)
+      try userProfileService.saveProfile(profile)
     }
     
     func loadProfile() throws -> UserProfile? {
-        try storage.loadProfile()
+      try userProfileService.loadProfile()
     }
     
     // MARK: - Story Management
     func saveStories(_ stories: [Story]) throws {
-        try storage.saveStories(stories)
+      try storyService.saveStories(stories)
     }
     
     func loadStories() throws -> [Story] {
-        try storage.loadStories()
+      try storyService.loadStories()
     }
     
     func saveStory(_ story: Story) throws {
@@ -69,45 +70,45 @@ class StorageManager {
     
     // MARK: - Theme Management
     func saveTheme(_ theme: ThemeMode) {
-        storage.saveTheme(theme)
+      themeService.saveTheme(theme)
     }
     
     func loadTheme() -> ThemeMode {
-        storage.loadTheme()
+      themeService.loadTheme()
     }
     
     // MARK: - Settings Management
     func saveNarrationEnabled(_ enabled: Bool) throws {
-        try storage.saveSetting(enabled, forKey: StorageKeys.narrationEnabled)
+      try settingService.saveSetting(enabled, forKey: StorageKeys.narrationEnabled)
     }
     
     func loadNarrationEnabled() -> Bool {
         do {
-            return try storage.loadSetting(Bool.self, forKey: StorageKeys.narrationEnabled) ?? true
+          return try settingService.loadSetting(Bool.self, forKey: StorageKeys.narrationEnabled) ?? true
         } catch {
-            return true // Default value
+            return false // Default value
         }
     }
     
     func saveParentalLockEnabled(_ enabled: Bool) throws {
-        try storage.saveSetting(enabled, forKey: StorageKeys.parentalLockEnabled)
+      try settingService.saveSetting(enabled, forKey: StorageKeys.parentalLockEnabled)
     }
     
     func loadParentalLockEnabled() -> Bool {
         do {
-            return try storage.loadSetting(Bool.self, forKey: StorageKeys.parentalLockEnabled) ?? false
+          return try settingService.loadSetting(Bool.self, forKey: StorageKeys.parentalLockEnabled) ?? false
         } catch {
             return false // Default value
         }
     }
     
     func saveParentalPasscode(_ passcode: String) throws {
-        try storage.saveSetting(passcode, forKey: StorageKeys.parentalPasscode)
+      try settingService.saveSetting(passcode, forKey: StorageKeys.parentalPasscode)
     }
     
     func loadParentalPasscode() -> String? {
         do {
-            return try storage.loadSetting(String.self, forKey: StorageKeys.parentalPasscode)
+          return try settingService.loadSetting(String.self, forKey: StorageKeys.parentalPasscode)
         } catch {
             return nil
         }
@@ -115,49 +116,15 @@ class StorageManager {
     
     // Generic setting management
     func saveSetting<T: Codable>(_ value: T, forKey key: String) throws {
-        try storage.saveSetting(value, forKey: key)
+      try settingService.saveSetting(value, forKey: key)
     }
     
     func loadSetting<T: Codable>(_ type: T.Type, forKey key: String) throws -> T? {
-        try storage.loadSetting(type, forKey: key)
+      try settingService.loadSetting(type, forKey: key)
     }
     
     func removeSetting(forKey key: String) {
-        storage.removeSetting(forKey: key)
-    }
-    
-    // MARK: - Batch Operations
-    func clearAllData() throws {
-        try storage.clearAllData()
-    }
-    
-    func exportData() throws -> Data {
-        try storage.exportData()
-    }
-    
-    func importData(_ data: Data) throws {
-        try storage.importData(data)
-    }
-    
-    // MARK: - Data Migration
-    /// Migrate data from old UserDefaultsManager to new storage system
-    func migrateFromLegacyStorage() throws {
-        // This method can be used to migrate data if needed
-        // For now, since we're using the same UserDefaults keys, no migration is needed
-        print("Storage migration completed successfully")
-    }
-    
-    // MARK: - Validation
-    func validateDataIntegrity() throws -> Bool {
-        // Validate that stored data is not corrupted
-        do {
-            let _ = try loadProfile()
-            let _ = try loadStories()
-            let _ = loadTheme()
-            return true
-        } catch {
-            throw AppError.dataCorruption
-        }
+      settingService.removeSetting(forKey: key)
     }
 }
 
