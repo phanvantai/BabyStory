@@ -246,4 +246,20 @@ class OnboardingViewModel: ObservableObject {
         )
         UserDefaultsManager.shared.saveProfile(profile)
     }
+    
+    // Returns time-based story recommendations based on the selected story time
+    func getStoryRecommendations() -> [String] {
+        let hour = Calendar.current.component(.hour, from: storyTime)
+        
+        switch hour {
+        case 6...11:
+            return ["Morning Adventures", "Wake-up Stories", "Breakfast Tales", "Sunny Day Fun"]
+        case 12...17:
+            return ["Afternoon Play", "Learning Stories", "Outdoor Adventures", "Friend Tales"]
+        case 18...21:
+            return ["Bedtime Stories", "Calm Adventures", "Dream Journeys", "Goodnight Tales"]
+        default:
+            return ["Peaceful Dreams", "Quiet Stories", "Sleep Adventures", "Gentle Tales"]
+        }
+    }
 }

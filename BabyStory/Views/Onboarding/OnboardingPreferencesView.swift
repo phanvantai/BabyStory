@@ -38,7 +38,7 @@ struct OnboardingPreferencesView: View {
           
           AnimatedEntrance(delay: 0.5) {
             // Story recommendations based on selected time
-            StoryRecommendations(recommendations: getStoryRecommendations())
+            StoryRecommendations(recommendations: viewModel.getStoryRecommendations())
               .padding(.horizontal, 24)
           }
           
@@ -78,22 +78,6 @@ struct OnboardingPreferencesView: View {
         )
         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showTimePicker)
       }
-    }
-  }
-  
-  // Helper function to get time-based story recommendations
-  private func getStoryRecommendations() -> [String] {
-    let hour = Calendar.current.component(.hour, from: viewModel.storyTime)
-    
-    switch hour {
-      case 6...11:
-        return ["Morning Adventures", "Wake-up Stories", "Breakfast Tales", "Sunny Day Fun"]
-      case 12...17:
-        return ["Afternoon Play", "Learning Stories", "Outdoor Adventures", "Friend Tales"]
-      case 18...21:
-        return ["Bedtime Stories", "Calm Adventures", "Dream Journeys", "Goodnight Tales"]
-      default:
-        return ["Peaceful Dreams", "Quiet Stories", "Sleep Adventures", "Gentle Tales"]
     }
   }
 }
