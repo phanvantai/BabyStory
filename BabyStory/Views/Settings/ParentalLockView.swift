@@ -131,12 +131,12 @@ struct ParentalLockView: View {
           Button("Done") {
             dismiss()
           }
-          .buttonStyle(DoneButtonStyle())
+          .buttonStyle(DoneButtonStyle())          }
         }
       }
+      .navigationBarTitleDisplayMode(.inline)
     }
   }
-}
 
 #Preview {
   // Mock SettingsViewModel for preview

@@ -195,12 +195,15 @@ struct HomeView: View {
             showStory = true
           }
         }
+        .customBackButton(label: "Home")
       }
       .navigationDestination(isPresented: $showLibrary) {
         LibraryView(viewModel: libraryVM)
+          .customBackButton(label: "Home")
       }
       .navigationDestination(isPresented: $showProgress) {
         ReadingProgressView(profile: viewModel.profile)
+          .customBackButton(label: "Home")
       }
       .navigationDestination(isPresented: $showStory) {
         if let story = generatedStory {
@@ -208,8 +211,10 @@ struct HomeView: View {
             viewModel.saveStory(story)
             libraryVM.loadStories()
           }, showSave: true)
+          .customBackButton(label: "Back")
         } else {
           Text("No story generated.")
+            .customBackButton(label: "Home")
         }
       }
       .toolbar {

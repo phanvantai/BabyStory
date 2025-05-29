@@ -18,6 +18,7 @@ struct BabyStoryApp: App {
                 .environmentObject(themeManager)
                 .preferredColorScheme(themeManager.preferredColorScheme)
                 .id(refreshID) // Force refresh when theme changes
+                .withCustomNavigationBarAppearance() // Apply custom navigation bar appearance
                 .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ThemeChanged"))) { _ in
                     // Force a refresh of the entire app when the theme changes
                     refreshID = UUID()
