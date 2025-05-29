@@ -43,7 +43,7 @@ class ThemeManager: ObservableObject {
     
     @Published var currentTheme: ThemeMode {
         didSet {
-            UserDefaultsManager.shared.saveTheme(currentTheme)
+            StorageManager.shared.saveTheme(currentTheme)
             updateColorScheme()
         }
     }
@@ -51,8 +51,8 @@ class ThemeManager: ObservableObject {
     @Published var preferredColorScheme: ColorScheme?
     
     init() {
-        // Load saved theme from UserDefaultsManager
-        self.currentTheme = UserDefaultsManager.shared.loadTheme()
+        // Load saved theme from StorageManager
+        self.currentTheme = StorageManager.shared.loadTheme()
         updateColorScheme()
         
         // Register for system appearance changes

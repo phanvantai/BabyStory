@@ -2,15 +2,17 @@ import SwiftUI
 
 struct HomeView: View {
   @ObservedObject var viewModel: HomeViewModel
-  @StateObject private var storyGenVM = StoryGenerationViewModel()
-  @StateObject private var libraryVM = LibraryViewModel()
-  @StateObject private var settingsVM = SettingsViewModel()
   @State private var showCustomize = false
   @State private var showLibrary = false
   @State private var showProgress = false
   @State private var showStory = false
   @State private var showSettings = false
   @State private var generatedStory: Story? = nil
+  
+  // Lazy initialization of view models to improve performance
+  @StateObject private var storyGenVM = StoryGenerationViewModel()
+  @StateObject private var libraryVM = LibraryViewModel()
+  @StateObject private var settingsVM = SettingsViewModel()
   
   var body: some View {
     NavigationStack {

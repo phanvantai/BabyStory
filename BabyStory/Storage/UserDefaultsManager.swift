@@ -1,5 +1,9 @@
 import Foundation
 
+// MARK: - Legacy Storage Manager (Deprecated)
+// This class is deprecated. Use StorageManager.shared instead.
+// Will be removed in a future version.
+
 class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private let profileKey = "userProfile"
@@ -9,26 +13,40 @@ class UserDefaultsManager {
     
     private let defaults = UserDefaults.standard
     
-    func saveProfile(_ profile: UserProfile) {
-        if let data = try? JSONEncoder().encode(profile) {
+    func saveProfile(_ profile: UserProfile) throws {
+        do {
+            let data = try JSONEncoder().encode(profile)
             defaults.set(data, forKey: profileKey)
+        } catch {
+            throw AppError.profileSaveFailed
         }
     }
     
-    func loadProfile() -> UserProfile? {
+    func loadProfile() throws -> UserProfile? {
         guard let data = defaults.data(forKey: profileKey) else { return nil }
-        return try? JSONDecoder().decode(UserProfile.self, from: data)
-    }
-    
-    func saveStories(_ stories: [Story]) {
-        if let data = try? JSONEncoder().encode(stories) {
-            defaults.set(data, forKey: storiesKey)
+        do {
+            return try JSONDecoder().decode(UserProfile.self, from: data)
+        } catch {
+            throw AppError.dataCorruption
         }
     }
     
-    func loadStories() -> [Story] {
+    func saveStories(_ stories: [Story]) throws {
+        do {
+            let data = try JSONEncoder().encode(stories)
+            defaults.set(data, forKey: storiesKey)
+        } catch {
+            throw AppError.storySaveFailed
+        }
+    }
+    
+    func loadStories() throws -> [Story] {
         guard let data = defaults.data(forKey: storiesKey) else { return [] }
-        return (try? JSONDecoder().decode([Story].self, from: data)) ?? []
+        do {
+            return try JSONDecoder().decode([Story].self, from: data)
+        } catch {
+            throw AppError.dataCorruption
+        }
     }
     
     // MARK: - Theme Management
