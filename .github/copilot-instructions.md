@@ -4,7 +4,7 @@
 BabyStory is a SwiftUI iOS application that generates personalized bedtime stories for children. The app uses AI to create custom stories based on the child's profile, interests, and preferences.
 
 ## Technical Stack
-- **Platform**: iOS 18.2+
+- **Platform**: iOS 15.0+
 - **Framework**: SwiftUI
 - **Language**: Swift 5.0
 - **Architecture**: MVVM (Model-View-ViewModel)
