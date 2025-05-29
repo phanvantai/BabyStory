@@ -1,139 +1,94 @@
 import SwiftUI
 
 struct StoryView: View {
-    let story: Story
-    var onSave: (() -> Void)? = nil
-    var showSave: Bool = false
-    
-    var body: some View {
-        ZStack {
-            // Background
-            AppGradientBackground()
-            
-            // Floating decorative elements
-            FloatingStars(count: 8)
-            
-            ScrollView {
-                VStack(spacing: 32) {
-                    // Story illustration placeholder
-                    AnimatedEntrance(delay: 0.2) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 20)
-                                .fill(
-                                    LinearGradient(
-                                        gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]),
-                                        startPoint: .topLeading,
-                                        endPoint: .bottomTrailing
-                                    )
-                                )
-                                .frame(height: 200)
-                                .shadow(color: .black.opacity(0.1), radius: 12, x: 0, y: 6)
-                            
-                            VStack(spacing: 12) {
-                                Image(systemName: "book.pages.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 80, height: 80)
-                                    .foregroundColor(.white)
-                                
-                                Text("Story Illustration")
-                                    .font(.subheadline)
-                                    .foregroundColor(.white.opacity(0.8))
-                            }
-                        }
-                    }
-                    
-                    // Story title
-                    AnimatedEntrance(delay: 0.4) {
-                        GradientText(
-                            story.title,
-                            font: .system(size: 32, weight: .bold, design: .rounded)
-                        )
-                        .multilineTextAlignment(.center)
-                    }
-                    
-                    // Story content
-                    AnimatedEntrance(delay: 0.6) {
-                        AppCard {
-                            VStack(alignment: .leading, spacing: 20) {
-                                Text(story.content)
-                                    .font(.title3)
-                                    .lineSpacing(6)
-                                    .foregroundColor(.primary)
-                            }
-                            .padding(24)
-                        }
-                    }
-                    
-                    // Action buttons
-                    AnimatedEntrance(delay: 0.8) {
-                        VStack(spacing: 16) {
-                            Button(action: { /* Play narration (dummy) */ }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "play.circle.fill")
-                                        .font(.title2)
-                                    Text("Listen to Story")
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                }
-                            }
-                            .buttonStyle(PrimaryButtonStyle(colors: [Color.blue, Color.purple]))
-                            
-                            if showSave, let onSave = onSave {
-                                Button(action: onSave) {
-                                    HStack(spacing: 12) {
-                                        Image(systemName: "star.fill")
-                                            .font(.title3)
-                                        Text("Save to Library")
-                                            .font(.headline)
-                                            .fontWeight(.medium)
-                                    }
-                                }
-                                .buttonStyle(SecondaryButtonStyle())
-                            }
-                        }
-                    }
-                    
-                    Spacer(minLength: 50)
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 20)
-            }
+  let story: Story
+  var onSave: (() -> Void)? = nil
+  var showSave: Bool = false
+  var showListen: Bool = false
+  
+  var body: some View {
+    ZStack {
+      // Background
+      AppGradientBackground()
+      
+      // Floating decorative elements
+      FloatingStars(count: 8)
+      
+      ScrollView {
+        VStack(spacing: 32) {
+          // Story illustration placeholder
+          AnimatedEntrance(delay: 0.2) {
+            StoryIllustrationView()
+          }
+          
+          // Story title
+          AnimatedEntrance(delay: 0.4) {
+            StoryTitleView(title: story.title)
+          }
+          
+          // Story content
+          AnimatedEntrance(delay: 0.6) {
+            StoryContentView(content: story.content)
+          }
+          
+          // Action buttons
+          AnimatedEntrance(delay: 0.8) {
+            StoryActionButtonsView(
+              showListen: showListen,
+              showSave: showSave,
+              onSave: onSave
+            )
+          }
+          
+          Spacer(minLength: 50)
         }
-        .navigationBarTitleDisplayMode(.inline)
+        .padding(.horizontal, 24)
+        .padding(.top, 20)
+      }
     }
+    .navigationBarTitleDisplayMode(.inline)
+  }
 }
 
 // MARK: - Previews
 #Preview("Story View - Basic") {
-    NavigationStack {
-        StoryView(story: Story.mockStory)
-    }
+  NavigationStack {
+    StoryView(story: Story.mockStory)
+  }
 }
 
 #Preview("Story View - With Save") {
-    NavigationStack {
-        StoryView(
-            story: Story.mockLongStory,
-            onSave: { print("Save tapped") },
-            showSave: true
-        )
-    }
+  NavigationStack {
+    StoryView(
+      story: Story.mockLongStory,
+      onSave: { print("Save tapped") },
+      showSave: true
+    )
+  }
 }
 
 #Preview("Story View - Short Story") {
-    NavigationStack {
-        StoryView(story: Story.mockShortStory)
-    }
+  NavigationStack {
+    StoryView(story: Story.mockShortStory)
+  }
+}
+
+#Preview("Story View - Has Listen Button") {
+  NavigationStack {
+    StoryView(
+      story: Story.mockStory,
+      showListen: true
+    )
+  }
 }
 
 // MARK: - Mock Data for Previews
 extension Story {
-    static var mockStory: Story {
-        Story(
-            id: UUID(),
-            title: "The Magical Forest Adventure",
-            content: """
+  static var mockStory: Story {
+    Story(
+      id: UUID(),
+      title: "The Magical Forest Adventure",
+      content: """
             Once upon a time, in a magical forest filled with talking animals and glowing flowers, there lived a brave little rabbit named Luna. Luna had soft, silver fur that shimmered like moonlight and eyes as bright as stars.
             
             Every morning, Luna would hop through the enchanted woods, greeting her friends along the way. The wise old owl would hoot good morning from his tree, while the cheerful squirrels would chatter excitedly about their acorn treasures.
@@ -148,16 +103,16 @@ extension Story {
             
             From that day on, Luna and Spark became the very best of friends, and they had many more magical adventures together in their enchanted forest home.
             """,
-            date: Date(),
-            isFavorite: false
-        )
-    }
-    
-    static var mockLongStory: Story {
-        Story(
-            id: UUID(),
-            title: "Princess Elena and the Kingdom of Dreams",
-            content: """
+      date: Date(),
+      isFavorite: false
+    )
+  }
+  
+  static var mockLongStory: Story {
+    Story(
+      id: UUID(),
+      title: "Princess Elena and the Kingdom of Dreams",
+      content: """
             In a faraway kingdom where dreams came to life, there lived a kind princess named Elena. She had long, flowing hair that changed colors with her emotions - golden when she was happy, silver when she was thoughtful, and rainbow-colored when she was excited.
             
             Princess Elena had a very special gift: she could enter people's dreams and help make their wishes come true. Every night, she would put on her magical dream crown, which was made of stardust and moonbeams, and set off on her most important mission.
@@ -186,16 +141,16 @@ extension Story {
             
             The end.
             """,
-            date: Date().addingTimeInterval(-86400),
-            isFavorite: true
-        )
-    }
-    
-    static var mockShortStory: Story {
-        Story(
-            id: UUID(),
-            title: "The Little Star",
-            content: """
+      date: Date().addingTimeInterval(-86400),
+      isFavorite: true
+    )
+  }
+  
+  static var mockShortStory: Story {
+    Story(
+      id: UUID(),
+      title: "The Little Star",
+      content: """
             High up in the night sky lived a little star named Twinkle. She was smaller than all the other stars, but she had the biggest heart.
             
             Every night, Twinkle would shine as bright as she could to help light the way for children going to bed. She loved watching over them and making sure they felt safe and loved.
@@ -206,8 +161,8 @@ extension Story {
             
             And so, Twinkle continued to shine every night, knowing that she was making a difference in the world, one child at a time.
             """,
-            date: Date().addingTimeInterval(-172800),
-            isFavorite: false
-        )
-    }
+      date: Date().addingTimeInterval(-172800),
+      isFavorite: false
+    )
+  }
 }

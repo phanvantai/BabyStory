@@ -28,7 +28,7 @@ struct AppCardBackground: ViewModifier {
     content
       .background(
         RoundedRectangle(cornerRadius: 16)
-          .fill(backgroundColor ?? AppTheme.cardBackground(for: colorScheme).opacity(0.9))
+          .fill(backgroundColor ?? AppTheme.cardBackground(for: colorScheme).opacity(0.2))
           .stroke(borderColor ?? Color(UIColor.separator).opacity(0.3), lineWidth: 1)
           .shadow(color: shadowColor ?? Color.black.opacity(colorScheme == .dark ? 0.3 : 0.1), radius: 8, x: 0, y: 4)
       )

@@ -258,28 +258,3 @@ struct SettingsView: View {
   SettingsView(viewModel: SettingsViewModel())
     .environmentObject(ThemeManager.shared)
 }
-
-// Alternative preview with different themes
-struct SettingsView_Previews: PreviewProvider {
-  static var previews: some View {
-    Group {
-      // Light mode preview
-      SettingsView(viewModel: SettingsViewModel())
-        .environmentObject(previewThemeManager(theme: .light))
-        .previewDisplayName("Light Mode")
-      
-      // Dark mode preview
-      SettingsView(viewModel: SettingsViewModel())
-        .environmentObject(previewThemeManager(theme: .dark))
-        .preferredColorScheme(.dark)
-        .previewDisplayName("Dark Mode")
-    }
-  }
-  
-  // Helper function to create ThemeManager with specific theme
-  static func previewThemeManager(theme: ThemeMode) -> ThemeManager {
-    let manager = ThemeManager()
-    manager.currentTheme = theme
-    return manager
-  }
-}

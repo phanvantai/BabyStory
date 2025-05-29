@@ -29,8 +29,8 @@ struct CharactersInputView: View {
           .multilineTextAlignment(.center)
       }
     }
-    //        .padding(20)
-    //        .appCardStyle()
+    .padding(20)
+    .appCardStyle()
   }
 }
 

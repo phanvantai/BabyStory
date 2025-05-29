@@ -74,7 +74,7 @@ struct StoryLengthSelector: View {
                 .fill(
                   selectedLength == length ?
                   Color.orange.opacity(0.1) :
-                    AppTheme.cardBackground.opacity(0.8)
+                    AppTheme.cardBackground.opacity(0.3)
                 )
                 .stroke(
                   selectedLength == length ?
@@ -98,6 +98,8 @@ struct StoryLengthSelector: View {
         }
       }
     }
+    .padding(20)
+    .appCardStyle()
   }
   
   private func lengthIcon(for length: StoryLength) -> String {

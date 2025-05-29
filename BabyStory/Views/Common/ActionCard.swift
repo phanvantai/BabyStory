@@ -62,7 +62,7 @@ struct ActionCard: View {
     .buttonStyle(PlainButtonStyle())
     .background(
       RoundedRectangle(cornerRadius: 20)
-        .fill(AppTheme.cardBackground.opacity(0.9))
+        .fill(AppTheme.cardBackground.opacity(0.5))
         .stroke(AppTheme.defaultCardBorder, lineWidth: 1)
         .shadow(color: AppTheme.defaultCardShadow, radius: 8, x: 0, y: 4)
     )

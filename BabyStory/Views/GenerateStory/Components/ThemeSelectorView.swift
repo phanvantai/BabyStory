@@ -36,8 +36,8 @@ struct ThemeSelectorView: View {
           .padding(.top, 8)
       }
     }
-    //        .padding(20)
-    //        .appCardStyle()
+    .padding(20)
+    .appCardStyle()
   }
 }
 
@@ -54,7 +54,7 @@ struct ThemeItemView: View {
       Text(theme.rawValue)
         .font(.subheadline)
         .fontWeight(.medium)
-        .foregroundColor(isSelected ? .white : .primary)
+        .foregroundColor(isSelected ? .white.opacity(0.5) : .primary.opacity(0.5))
         .multilineTextAlignment(.center)
         .lineLimit(1)
     }
@@ -65,17 +65,17 @@ struct ThemeItemView: View {
       RoundedRectangle(cornerRadius: 12)
         .fill(isSelected ?
               LinearGradient(
-                gradient: Gradient(colors: [Color.purple, Color.pink]),
+                gradient: Gradient(colors: [Color.purple.opacity(0.7), Color.pink.opacity(0.7)]),
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
               ) :
                 LinearGradient(
-                  gradient: Gradient(colors: [AppTheme.cardBackground.opacity(0.8), AppTheme.cardBackground.opacity(0.8)]),
+                  gradient: Gradient(colors: [AppTheme.cardBackground.opacity(0.3), AppTheme.cardBackground.opacity(0.5)]),
                   startPoint: .topLeading,
                   endPoint: .bottomTrailing
                 )
              )
-        .stroke(isSelected ? Color.purple : AppTheme.defaultCardBorder, lineWidth: isSelected ? 2 : 1)
+        .stroke(isSelected ? Color.purple.opacity(0.5) : AppTheme.defaultCardBorder, lineWidth: isSelected ? 2 : 1)
         .shadow(color: isSelected ? Color.purple.opacity(0.3) : Color.black.opacity(0.1), radius: isSelected ? 8 : 4, x: 0, y: 2)
     )
   }
