@@ -66,6 +66,36 @@ struct SecondaryButtonStyle: ButtonStyle {
   }
 }
 
+// MARK: - Done Button Style
+struct DoneButtonStyle: ButtonStyle {
+  let gradient: [Color]
+  
+  init(gradient: [Color] = [.blue, .purple]) {
+    self.gradient = gradient
+  }
+  
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .font(.headline)
+      .fontWeight(.semibold)
+      .padding(.horizontal, 12)
+      .padding(.vertical, 6)
+      .background(
+        RoundedRectangle(cornerRadius: 16)
+          .fill(LinearGradient(
+            gradient: Gradient(colors: gradient),
+            startPoint: .topLeading,
+            endPoint: .bottomTrailing
+          ))
+          .opacity(configuration.isPressed ? 0.8 : 1.0)
+      )
+      .foregroundColor(.white)
+      .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+      .shadow(color: gradient.first?.opacity(0.3) ?? .clear, radius: 4, x: 0, y: 2)
+      .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
+  }
+}
+
 // MARK: - Custom text field style
 struct CustomTextFieldStyle: TextFieldStyle {
   @Environment(\.colorScheme) private var colorScheme

@@ -272,6 +272,8 @@ struct OnboardingPreferencesView: View {
                 }
                 .font(.subheadline)
                 .fontWeight(.medium)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
                 .foregroundColor(.secondary)
                 
                 Spacer()
@@ -286,9 +288,7 @@ struct OnboardingPreferencesView: View {
                 Button("Done") {
                   showTimePicker = false
                 }
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(.purple)
+                .buttonStyle(DoneButtonStyle(gradient: [.purple, .indigo]))
               }
               
               Divider()

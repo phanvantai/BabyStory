@@ -37,7 +37,7 @@ struct EditProfileView: View {
           Button("Done") {
             dismiss()
           }
-          .buttonStyle(SecondaryButtonStyle())
+          .buttonStyle(DoneButtonStyle())
         }
       }
     }

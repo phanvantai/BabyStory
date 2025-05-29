@@ -131,7 +131,7 @@ struct ParentalLockView: View {
           Button("Done") {
             dismiss()
           }
-          .buttonStyle(SecondaryButtonStyle())
+          .buttonStyle(DoneButtonStyle())
         }
       }
     }
