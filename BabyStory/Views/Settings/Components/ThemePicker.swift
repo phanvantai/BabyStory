@@ -10,6 +10,7 @@ import SwiftUI
 struct ThemePicker: View {
   @EnvironmentObject var themeManager: ThemeManager
   @Environment(\.colorScheme) private var colorScheme
+  var onThemeChanged: (() -> Void)? = nil
   
   var body: some View {
     VStack(spacing: 16) {
@@ -28,6 +29,7 @@ struct ThemePicker: View {
           Button(action: {
             guard theme != themeManager.currentTheme else { return }
             themeManager.currentTheme = theme
+            onThemeChanged?()
           }) {
             HStack(spacing: 16) {
               // Theme icon with background

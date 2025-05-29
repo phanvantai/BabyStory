@@ -4,6 +4,7 @@ struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
   @EnvironmentObject var themeManager: ThemeManager
   @Environment(\.colorScheme) private var colorScheme
+  @Environment(\.dismiss) private var dismiss
   @State private var showEditProfile = false
   @State private var showParentalLock = false
   
@@ -94,7 +95,9 @@ struct SettingsView: View {
                 
                 VStack(spacing: 16) {
                   // Theme Picker
-                  ThemePicker()
+                  ThemePicker(onThemeChanged: {
+                    dismiss()
+                  })
                   
                   // Voice Narration Toggle (temporarily hidden)
                   if showVoiceNarration {
