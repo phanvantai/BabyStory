@@ -67,19 +67,7 @@ struct CustomizeStoryView: View {
                                 Spacer()
                             }
                             
-                            VStack(spacing: 12) {
-                                Picker("Length", selection: $viewModel.options.length) {
-                                    ForEach(StoryLength.allCases) { length in
-                                        Text(length.description).tag(length)
-                                    }
-                                }
-                                .pickerStyle(.segmented)
-                                
-                                Text(viewModel.options.length.description)
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.center)
-                            }
+                            StoryLengthSelector(selectedLength: $viewModel.options.length)
                         }
                         .padding(20)
                         .appCardStyle()

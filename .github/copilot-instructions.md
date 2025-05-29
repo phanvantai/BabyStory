@@ -4,38 +4,12 @@
 BabyStory is a SwiftUI iOS application that generates personalized bedtime stories for children. The app uses AI to create custom stories based on the child's profile, interests, and preferences.
 
 ## Technical Stack
-- **Platform**: iOS 15.0+
+- **Platform**: iOS 17.0+
 - **Framework**: SwiftUI
 - **Language**: Swift 5.0
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **Data Persistence**: UserDefaults
 - **Target Devices**: iPhone and iPad
-
-## Project Structure
-```
-BabyStory/
-├── BabyStoryApp.swift          # Main app entry point
-├── AppView.swift               # Root view with onboarding logic
-├── ContentView.swift           # Default SwiftUI template (unused)
-├── Models/                     # Data models
-│   ├── Story.swift            # Story data structure
-│   ├── StoryOptions.swift     # Story customization options
-│   └── UserProfile.swift     # Child profile data
-├── ViewModels/                # MVVM view models
-│   ├── HomeViewModel.swift
-│   ├── LibraryViewModel.swift
-│   ├── OnboardingViewModel.swift
-│   ├── SettingsViewModel.swift
-│   └── StoryGenerationViewModel.swift
-├── Views/                     # SwiftUI views organized by feature
-│   ├── Home/
-│   ├── Library/
-│   ├── Onboarding/
-│   ├── Settings/
-│   └── Story/
-└── Storage/
-    └── UserDefaultsManager.swift  # Data persistence layer
-```
 
 ## Key Features
 1. **Onboarding Flow**: Multi-step setup for child profile and preferences
@@ -71,6 +45,10 @@ BabyStory/
 - Models: Descriptive names (e.g., `Story.swift`, `UserProfile.swift`)
 - Organize files in logical folders by feature
 
+### Component Organization Rules
+- **Feature-specific components**: Components used only within a single feature should be placed in a `Components/` subfolder within that feature's view folder (e.g., `Views/Onboarding/Components/ProfileSummaryRow.swift`)
+- **Reusable components**: Components that can be used across multiple features should be placed in `Views/Common/` folder (e.g., `Views/Common/ActionCard.swift`)
+
 ## Development Guidelines
 
 ### When Adding New Features:
@@ -79,6 +57,8 @@ BabyStory/
 3. Create SwiftUI views following existing patterns
 4. Update `UserDefaultsManager` if persistence is needed
 5. Follow the established navigation patterns
+6. Place feature-specific components in `Views/[Feature]/Components/` folder
+7. Only add components to `Views/Common/` if they are truly reusable across multiple features
 
 ### When Modifying Existing Code:
 - Maintain consistency with existing code style
