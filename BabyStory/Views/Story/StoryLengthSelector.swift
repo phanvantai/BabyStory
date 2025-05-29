@@ -63,12 +63,12 @@ struct StoryLengthSelector: View {
                             .fill(
                                 selectedLength == length ?
                                 Color.orange.opacity(0.1) :
-                                Color.white.opacity(0.8)
+                                AppTheme.cardBackground.opacity(0.8)
                             )
                             .stroke(
                                 selectedLength == length ?
                                 Color.orange.opacity(0.5) :
-                                Color.gray.opacity(0.2),
+                                AppTheme.defaultCardBorder,
                                 lineWidth: selectedLength == length ? 2 : 1
                             )
                     )

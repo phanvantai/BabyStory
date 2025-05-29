@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct AppCardBackground: ViewModifier {
-  let backgroundColor: Color
-  let borderColor: Color
-  let shadowColor: Color
+  let backgroundColor: Color?
+  let borderColor: Color?
+  let shadowColor: Color?
+  
+  @Environment(\.colorScheme) private var colorScheme
   
   init(
-    backgroundColor: Color = Color.white.opacity(0.9),
-    borderColor: Color = Color.gray.opacity(0.2),
-    shadowColor: Color = Color.black.opacity(0.1)
+    backgroundColor: Color? = nil,
+    borderColor: Color? = nil,
+    shadowColor: Color? = nil
   ) {
     self.backgroundColor = backgroundColor
     self.borderColor = borderColor
@@ -26,18 +28,18 @@ struct AppCardBackground: ViewModifier {
     content
       .background(
         RoundedRectangle(cornerRadius: 16)
-          .fill(backgroundColor)
-          .stroke(borderColor, lineWidth: 1)
-          .shadow(color: shadowColor, radius: 8, x: 0, y: 4)
+          .fill(backgroundColor ?? AppTheme.cardBackground(for: colorScheme).opacity(0.9))
+          .stroke(borderColor ?? Color(UIColor.separator).opacity(0.3), lineWidth: 1)
+          .shadow(color: shadowColor ?? Color.black.opacity(colorScheme == .dark ? 0.3 : 0.1), radius: 8, x: 0, y: 4)
       )
   }
 }
 
 extension View {
   func appCardStyle(
-    backgroundColor: Color = Color.white.opacity(0.9),
-    borderColor: Color = Color.gray.opacity(0.2),
-    shadowColor: Color = Color.black.opacity(0.1)
+    backgroundColor: Color? = nil,
+    borderColor: Color? = nil,
+    shadowColor: Color? = nil
   ) -> some View {
     self.modifier(AppCardBackground(
       backgroundColor: backgroundColor,

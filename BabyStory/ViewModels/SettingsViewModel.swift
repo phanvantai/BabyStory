@@ -8,10 +8,15 @@ class SettingsViewModel: ObservableObject {
     
     init() {
         loadProfile()
+        loadSettings()
     }
     
     func loadProfile() {
         profile = UserDefaultsManager.shared.loadProfile()
+    }
+    
+    func loadSettings() {
+        // Load other settings here if needed
     }
     
     func saveProfile(_ profile: UserProfile) {

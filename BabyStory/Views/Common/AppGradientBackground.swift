@@ -8,16 +8,13 @@
 import SwiftUI
 
 struct AppGradientBackground: View {
-  let colors: [Color]
+  let colors: [Color]?
   let startPoint: UnitPoint
   let endPoint: UnitPoint
+  @Environment(\.colorScheme) private var colorScheme
   
   init(
-    colors: [Color] = [
-      Color.purple.opacity(0.3),
-      Color.blue.opacity(0.4),
-      Color.cyan.opacity(0.3)
-    ],
+    colors: [Color]? = nil,
     startPoint: UnitPoint = .topLeading,
     endPoint: UnitPoint = .bottomTrailing
   ) {
@@ -28,11 +25,20 @@ struct AppGradientBackground: View {
   
   var body: some View {
     LinearGradient(
-      gradient: Gradient(colors: colors),
+      gradient: Gradient(colors: effectiveColors),
       startPoint: startPoint,
       endPoint: endPoint
     )
     .ignoresSafeArea()
+  }
+  
+  private var effectiveColors: [Color] {
+    if let colors = colors {
+      return colors
+    }
+    
+    // Use theme-aware colors based on color scheme
+    return colorScheme == .dark ? AppTheme.appGradientColorsDark : AppTheme.appGradientColors
   }
 }
 

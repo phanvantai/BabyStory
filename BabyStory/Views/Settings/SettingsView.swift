@@ -2,6 +2,8 @@ import SwiftUI
 
 struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
+  @EnvironmentObject var themeManager: ThemeManager
+  @Environment(\.colorScheme) private var colorScheme
   @State private var showEditProfile = false
   @State private var showParentalLock = false
   
@@ -83,20 +85,29 @@ struct SettingsView: View {
                   Spacer()
                 }
                 
-                HStack {
-                  VStack(alignment: .leading, spacing: 4) {
-                    Text("Voice Narration")
-                      .font(.body)
-                      .fontWeight(.medium)
-                    Text("Enable story read-aloud")
-                      .font(.caption)
-                      .foregroundColor(.secondary)
+                VStack(spacing: 16) {
+                  // Theme Picker
+                  ThemePicker()
+                  
+                  Divider()
+                    .background(Color(UIColor.separator))
+                  
+                  // Voice Narration Toggle
+                  HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                      Text("Voice Narration")
+                        .font(.body)
+                        .fontWeight(.medium)
+                      Text("Enable story read-aloud")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    Spacer()
+                    Toggle("", isOn: $viewModel.narrationEnabled)
+                      .toggleStyle(SwitchToggleStyle(tint: .green))
                   }
-                  Spacer()
-                  Toggle("", isOn: $viewModel.narrationEnabled)
-                    .toggleStyle(SwitchToggleStyle(tint: .green))
+                  .padding(.vertical, 8)
                 }
-                .padding(.vertical, 8)
               }
               .padding(20)
               .appCardStyle()
@@ -189,6 +200,8 @@ struct SettingsView: View {
       .sheet(isPresented: $showParentalLock) {
         ParentalLockView(viewModel: viewModel)
       }
+      // Use preferredColorScheme from ThemeManager
+      .preferredColorScheme(themeManager.preferredColorScheme)
     }
   }
 }

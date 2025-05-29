@@ -62,9 +62,9 @@ struct ActionCard: View {
     .buttonStyle(PlainButtonStyle())
     .background(
       RoundedRectangle(cornerRadius: 20)
-        .fill(Color.white.opacity(0.9))
-        .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-        .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+        .fill(AppTheme.cardBackground.opacity(0.9))
+        .stroke(AppTheme.defaultCardBorder, lineWidth: 1)
+        .shadow(color: AppTheme.defaultCardShadow, radius: 8, x: 0, y: 4)
     )
     .scaleEffect(isPressed ? 0.95 : 1.0)
     .animation(.easeInOut(duration: 0.1), value: isPressed)

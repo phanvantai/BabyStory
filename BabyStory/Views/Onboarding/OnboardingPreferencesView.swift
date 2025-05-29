@@ -129,7 +129,7 @@ struct OnboardingPreferencesView: View {
                   .padding(.vertical, 20)
                   .background(
                     RoundedRectangle(cornerRadius: 16)
-                      .fill(Color.white.opacity(0.9))
+                      .fill(AppTheme.cardBackground.opacity(0.9))
                       .stroke(Color.purple.opacity(0.3), lineWidth: 2)
                       .shadow(color: .purple.opacity(0.1), radius: 8, x: 0, y: 4)
                   )
@@ -308,8 +308,8 @@ struct OnboardingPreferencesView: View {
           .padding(24)
           .background(
             RoundedRectangle(cornerRadius: 20)
-              .fill(Color.white)
-              .shadow(color: .black.opacity(0.15), radius: 20, x: 0, y: -5)
+              .fill(AppTheme.cardBackground)
+              .shadow(color: AppTheme.defaultCardShadow.opacity(0.15), radius: 20, x: 0, y: -5)
           )
           .padding(.horizontal, 20)
           .padding(.bottom, 40)

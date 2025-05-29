@@ -9,10 +9,10 @@ import SwiftUI
 
 // MARK: - Custom Button Styles
 struct PrimaryButtonStyle: ButtonStyle {
-  let colors: [Color]
+  let colors: [Color]?
   let isEnabled: Bool
   
-  init(colors: [Color] = [Color.purple, Color.pink], isEnabled: Bool = true) {
+  init(colors: [Color]? = nil, isEnabled: Bool = true) {
     self.colors = colors
     self.isEnabled = isEnabled
   }
@@ -26,23 +26,25 @@ struct PrimaryButtonStyle: ButtonStyle {
       .frame(height: 56)
       .background(
         LinearGradient(
-          gradient: Gradient(colors: isEnabled ? colors : [Color.gray, Color.gray.opacity(0.8)]),
+          gradient: Gradient(colors: isEnabled ? (colors ?? AppTheme.primaryButton) : [Color.gray, Color.gray.opacity(0.8)]),
           startPoint: .leading,
           endPoint: .trailing
         )
       )
       .cornerRadius(28)
-      .shadow(color: isEnabled ? colors.first?.opacity(0.3) ?? .clear : .clear, radius: 10, x: 0, y: 5)
+      .shadow(color: isEnabled ? colors?.first?.opacity(0.3) ?? .clear : .clear, radius: 10, x: 0, y: 5)
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
       .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
   }
 }
 
 struct SecondaryButtonStyle: ButtonStyle {
-  let backgroundColor: Color
-  let borderColor: Color
+  let backgroundColor: Color?
+  let borderColor: Color?
   
-  init(backgroundColor: Color = Color.white.opacity(0.9), borderColor: Color = Color.purple.opacity(0.3)) {
+  @Environment(\.colorScheme) private var colorScheme
+  
+  init(backgroundColor: Color? = nil, borderColor: Color? = nil) {
     self.backgroundColor = backgroundColor
     self.borderColor = borderColor
   }
@@ -56,8 +58,8 @@ struct SecondaryButtonStyle: ButtonStyle {
       .frame(height: 48)
       .background(
         RoundedRectangle(cornerRadius: 24)
-          .fill(backgroundColor)
-          .stroke(borderColor, lineWidth: 2)
+          .fill(backgroundColor ?? Color(UIColor.systemBackground).opacity(0.9))
+          .stroke(borderColor ?? Color.purple.opacity(0.3), lineWidth: 2)
       )
       .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
       .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
@@ -66,14 +68,16 @@ struct SecondaryButtonStyle: ButtonStyle {
 
 // MARK: - Custom text field style
 struct CustomTextFieldStyle: TextFieldStyle {
+  @Environment(\.colorScheme) private var colorScheme
+  
   func _body(configuration: TextField<Self._Label>) -> some View {
     configuration
       .padding(.horizontal, 16)
       .padding(.vertical, 12)
       .background(
         RoundedRectangle(cornerRadius: 12)
-          .fill(Color.white.opacity(0.8))
-          .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+          .fill(Color(UIColor.systemBackground).opacity(0.8))
+          .stroke(Color(UIColor.separator).opacity(0.3), lineWidth: 1)
       )
   }
 }

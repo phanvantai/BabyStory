@@ -117,8 +117,8 @@ struct ParentalLockView: View {
             }
             .padding(16)
             .appCardStyle(
-              backgroundColor: Color.gray.opacity(0.1),
-              borderColor: Color.gray.opacity(0.2)
+              backgroundColor: AppTheme.cardBackground.opacity(0.1),
+              borderColor: AppTheme.defaultCardBorder
             )
             .padding(.horizontal, 24)
           }

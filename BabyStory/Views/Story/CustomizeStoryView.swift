@@ -116,12 +116,12 @@ struct CustomizeStoryView: View {
                                                         endPoint: .bottomTrailing
                                                       ) :
                                                       LinearGradient(
-                                                        gradient: Gradient(colors: [Color.white.opacity(0.8), Color.white.opacity(0.8)]),
+                                                        gradient: Gradient(colors: [AppTheme.cardBackground.opacity(0.8), AppTheme.cardBackground.opacity(0.8)]),
                                                         startPoint: .topLeading,
                                                         endPoint: .bottomTrailing
                                                       )
                                                 )
-                                                .stroke(selectedTheme == theme ? Color.purple : Color.gray.opacity(0.3), lineWidth: selectedTheme == theme ? 2 : 1)
+                                                .stroke(selectedTheme == theme ? Color.purple : AppTheme.defaultCardBorder, lineWidth: selectedTheme == theme ? 2 : 1)
                                                 .shadow(color: selectedTheme == theme ? Color.purple.opacity(0.3) : Color.black.opacity(0.1), radius: selectedTheme == theme ? 8 : 4, x: 0, y: 2)
                                         )
                                     }
