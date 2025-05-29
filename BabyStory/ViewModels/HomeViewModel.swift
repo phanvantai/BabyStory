@@ -17,4 +17,35 @@ class HomeViewModel: ObservableObject {
         stories.append(story)
         UserDefaultsManager.shared.saveStories(stories)
     }
+    
+    // MARK: - Story Generation Methods
+    @MainActor
+    func generateTodaysStory(
+        using storyGenVM: StoryGenerationViewModel,
+        completion: @escaping (Story?) -> Void
+    ) {
+        Task {
+            if let profile = self.profile {
+                await storyGenVM.generateStory(profile: profile, options: nil)
+                completion(storyGenVM.generatedStory)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    @MainActor
+    func generateCustomStory(
+        using storyGenVM: StoryGenerationViewModel,
+        completion: @escaping (Story?) -> Void
+    ) {
+        Task {
+            if let profile = self.profile {
+                await storyGenVM.generateStory(profile: profile, options: storyGenVM.options)
+                completion(storyGenVM.generatedStory)
+            } else {
+                completion(nil)
+            }
+        }
+    }
 }
