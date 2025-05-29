@@ -38,13 +38,13 @@ protocol StoryServiceProtocol {
   /// - Parameter searchTerm: Text to search for in story titles and content
   /// - Returns: Array of matching stories
   /// - Throws: Storage error if search operation fails
-//  func searchStories(containing searchTerm: String) throws -> [Story]
+  //  func searchStories(containing searchTerm: String) throws -> [Story]
   
   /// Get stories by category or theme
   /// - Parameter theme: The theme to filter by
   /// - Returns: Array of stories matching the theme
   /// - Throws: Storage error if load operation fails
-//  func getStories(byTheme theme: String) throws -> [Story]
+  //  func getStories(byTheme theme: String) throws -> [Story]
   
   /// Get the total number of saved stories
   /// - Returns: Count of saved stories

@@ -21,8 +21,8 @@ class UserDefaultsStoryService: StoryServiceProtocol {
   }
   
   func loadStories() throws -> [Story] {
-    guard let data = defaults.data(forKey: StorageKeys.savedStories) else { 
-      return [] 
+    guard let data = defaults.data(forKey: StorageKeys.savedStories) else {
+      return []
     }
     do {
       return try decoder.decode([Story].self, from: data)

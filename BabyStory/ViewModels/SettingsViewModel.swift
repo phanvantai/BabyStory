@@ -27,8 +27,8 @@ class SettingsViewModel: ObservableObject {
   
   func loadSettings() {
     // Load settings using the new storage manager
-//    narrationEnabled = StorageManager.shared.loadNarrationEnabled()
-//    parentalLockEnabled = StorageManager.shared.loadParentalLockEnabled()
+    //    narrationEnabled = StorageManager.shared.loadNarrationEnabled()
+    //    parentalLockEnabled = StorageManager.shared.loadParentalLockEnabled()
   }
   
   func saveProfile(_ profile: UserProfile) {
