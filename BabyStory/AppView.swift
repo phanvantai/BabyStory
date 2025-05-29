@@ -7,6 +7,7 @@ struct AppView: View {
     @StateObject private var homeVM = HomeViewModel()
     @StateObject private var errorManager = ErrorManager()
     @EnvironmentObject var themeManager: ThemeManager
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         Group {
@@ -23,6 +24,19 @@ struct AppView: View {
         }
         .onAppear {
             loadInitialData()
+        }
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            // Handle scene transitions more gracefully
+            if newPhase == .active && oldPhase == .background {
+                // App became active from background - refresh data if needed
+                Task {
+                    await MainActor.run {
+                        if !needsOnboarding {
+                            homeVM.refresh()
+                        }
+                    }
+                }
+            }
         }
         .alert("Error", isPresented: $errorManager.showError) {
             Button("OK") {
@@ -44,17 +58,24 @@ struct AppView: View {
     
     private func loadInitialData() {
         Task {
+            // Add a small delay to avoid conflicts with app snapshot operations
+            try? await Task.sleep(nanoseconds: 50_000_000) // 0.05 second delay
+            
             do {
                 let profile = try StorageManager.shared.loadProfile()
                 await MainActor.run {
-                    needsOnboarding = profile == nil
-                    isLoading = false
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        needsOnboarding = profile == nil
+                        isLoading = false
+                    }
                 }
             } catch {
                 await MainActor.run {
-                    errorManager.handleError(.dataCorruption)
-                    needsOnboarding = true
-                    isLoading = false
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        errorManager.handleError(.dataCorruption)
+                        needsOnboarding = true
+                        isLoading = false
+                    }
                 }
             }
         }

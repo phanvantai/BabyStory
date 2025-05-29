@@ -19,7 +19,7 @@ struct CharactersInputView: View {
       VStack(spacing: 12) {
         TextField("Add characters (e.g., brave princess, friendly dragon)", text: $charactersText)
           .textFieldStyle(CustomTextFieldStyle())
-          .onChange(of: charactersText) { newValue in
+          .onChange(of: charactersText) { oldValue, newValue in
             onTextChanged(newValue)
           }
         

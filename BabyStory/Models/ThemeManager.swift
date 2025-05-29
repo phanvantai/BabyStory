@@ -43,6 +43,8 @@ class ThemeManager: ObservableObject {
   
   @Published var currentTheme: ThemeMode {
     didSet {
+      // Only update if theme actually changed
+      guard oldValue != currentTheme else { return }
       StorageManager.shared.saveTheme(currentTheme) // Save theme to persistent storage
       updateColorScheme()
     }
@@ -62,37 +64,47 @@ class ThemeManager: ObservableObject {
       name: UIApplication.didBecomeActiveNotification,
       object: nil
     )
+    
+    // Also listen for user interface style changes (better for system theme detection)
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(systemAppearanceChanged),
+      name: Notification.Name("UIUserInterfaceStyleDidChangeNotification"),
+      object: nil
+    )
+  }
+  
+  deinit {
+    // Clean up notification observer
+    NotificationCenter.default.removeObserver(self)
   }
   
   @objc private func systemAppearanceChanged() {
-    // When the app becomes active, update the color scheme
-    // This catches system theme changes while the app is in background
-    if currentTheme == .system {
+    // When the app becomes active, update the color scheme only if using system theme
+    // Add a small delay to avoid conflicts with snapshot operations
+    guard currentTheme == .system else { return }
+    
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 second delay
       updateColorScheme()
     }
   }
   
   private func updateColorScheme() {
-    DispatchQueue.main.async {
-      // Update color scheme immediately without animation
-      switch self.currentTheme {
-      case .system:
-        // For system theme, we're setting preferredColorScheme to nil
-        // This tells SwiftUI to use the system's color scheme
-        self.preferredColorScheme = nil
-        
-        // Post a notification that can be observed at the app level to refresh
-        NotificationCenter.default.post(name: NSNotification.Name("ThemeChanged"), object: nil)
-      case .light:
-        self.preferredColorScheme = .light
-        
-        // Post a notification that can be observed at the app level to refresh
-        NotificationCenter.default.post(name: NSNotification.Name("ThemeChanged"), object: nil)
-      case .dark:
-        self.preferredColorScheme = .dark
-        
-        // Post a notification that can be observed at the app level to refresh
-        NotificationCenter.default.post(name: NSNotification.Name("ThemeChanged"), object: nil)
+    // Use main actor to ensure UI updates are on main thread
+    Task { @MainActor in
+      // Update color scheme with animation to reduce jarring transitions
+      withAnimation(.easeInOut(duration: 0.3)) {
+        switch self.currentTheme {
+        case .system:
+          // For system theme, we're setting preferredColorScheme to nil
+          // This tells SwiftUI to use the system's color scheme
+          self.preferredColorScheme = nil
+        case .light:
+          self.preferredColorScheme = .light
+        case .dark:
+          self.preferredColorScheme = .dark
+        }
       }
     }
   }

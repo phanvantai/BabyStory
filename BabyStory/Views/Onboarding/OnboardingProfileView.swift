@@ -81,8 +81,7 @@ struct OnboardingProfileView: View {
       isAnimating = true
       showContent = true
     }
-    // Use preferredColorScheme from ThemeManager
-    .preferredColorScheme(themeManager.preferredColorScheme)
+    // Theme is handled at app level in BabyStoryApp.swift
   }
   
 }
