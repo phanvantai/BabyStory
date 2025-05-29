@@ -11,6 +11,33 @@ class OnboardingViewModel: ObservableObject {
     @Published var parentNames: [String] = []
     @Published var step: Int = 0
     
+    init() {
+        // Initialize with default values based on the default baby stage
+        initializeForCurrentBabyStage()
+    }
+    
+    // Initialization helper method
+    private func initializeForCurrentBabyStage() {
+        // Initialize parent names if pregnancy and empty
+        if isPregnancy && parentNames.isEmpty {
+            addParentName()
+        }
+        
+        // Initialize age based on baby stage if it's nil
+        if age == nil {
+            switch babyStage {
+            case .toddler:
+                age = 1  // Default toddler age
+            case .preschooler:
+                age = 3  // Default preschooler age
+            case .newborn, .infant:
+                age = 0  // Fixed at 0 for newborn and infant
+            case .pregnancy:
+                break  // No age for pregnancy
+            }
+        }
+    }
+    
     // Computed properties for UI state
     var isPregnancy: Bool {
         return babyStage == .pregnancy
@@ -169,9 +196,9 @@ class OnboardingViewModel: ObservableObject {
             case .newborn, .infant:
                 age = 0  // Fixed at 0 for both newborn and infant
             case .toddler:
-                age = max(1, min(age ?? 2, 3))  // Clamp existing age to 1-3, default to 2
+                age = max(1, min(age ?? 1, 3))  // Clamp existing age to 1-3, default to 1
             case .preschooler:
-                age = max(3, min(age ?? 4, 5))  // Clamp existing age to 3-5, default to 4
+                age = max(3, min(age ?? 3, 5))  // Clamp existing age to 3-5, default to 3
             case .pregnancy:
                 break
             }
