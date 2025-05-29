@@ -7,6 +7,13 @@ struct SettingsView: View {
   @State private var showEditProfile = false
   @State private var showParentalLock = false
   
+  // App info from service
+  private let appInfo = AppInfoService.shared
+  
+  // Feature flags for future implementation
+  private let showVoiceNarration = false // TODO: Enable when implementing voice narration
+  private let showParentalControls = false // TODO: Enable when implementing parental controls
+  
   var body: some View {
     NavigationStack {
       ZStack {
@@ -89,24 +96,26 @@ struct SettingsView: View {
                   // Theme Picker
                   ThemePicker()
                   
-                  Divider()
-                    .background(Color(UIColor.separator))
-                  
-                  // Voice Narration Toggle
-                  HStack {
-                    VStack(alignment: .leading, spacing: 4) {
-                      Text("Voice Narration")
-                        .font(.body)
-                        .fontWeight(.medium)
-                      Text("Enable story read-aloud")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                  // Voice Narration Toggle (temporarily hidden)
+                  if showVoiceNarration {
+                    Divider()
+                      .background(Color(UIColor.separator))
+                    
+                    HStack {
+                      VStack(alignment: .leading, spacing: 4) {
+                        Text("Voice Narration")
+                          .font(.body)
+                          .fontWeight(.medium)
+                        Text("Enable story read-aloud")
+                          .font(.caption)
+                          .foregroundColor(.secondary)
+                      }
+                      Spacer()
+                      Toggle("", isOn: $viewModel.narrationEnabled)
+                        .toggleStyle(SwitchToggleStyle(tint: .green))
                     }
-                    Spacer()
-                    Toggle("", isOn: $viewModel.narrationEnabled)
-                      .toggleStyle(SwitchToggleStyle(tint: .green))
+                    .padding(.vertical, 8)
                   }
-                  .padding(.vertical, 8)
                 }
               }
               .padding(20)
@@ -114,33 +123,72 @@ struct SettingsView: View {
               .padding(.horizontal, 24)
             }
             
-            // Parental Controls Section
-            AnimatedEntrance(delay: 0.7) {
+            // Parental Controls Section (temporarily hidden)
+            if showParentalControls {
+              AnimatedEntrance(delay: 0.7) {
+                VStack(spacing: 16) {
+                  HStack {
+                    Image(systemName: "lock.shield.fill")
+                      .foregroundColor(.orange)
+                      .font(.title3)
+                    Text("Parental Controls")
+                      .font(.headline)
+                      .fontWeight(.semibold)
+                    Spacer()
+                  }
+                  
+                  Button(action: { showParentalLock = true }) {
+                    HStack {
+                      VStack(alignment: .leading, spacing: 4) {
+                        Text("Parental Lock")
+                          .font(.body)
+                          .fontWeight(.medium)
+                        Text("Manage access and restrictions")
+                          .font(.caption)
+                          .foregroundColor(.secondary)
+                      }
+                      Spacer()
+                      Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    .padding(.vertical, 12)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                }
+                .padding(20)
+                .appCardStyle()
+                .padding(.horizontal, 24)
+              }
+            }
+            
+            // Support Section
+            AnimatedEntrance(delay: 0.8) {
               VStack(spacing: 16) {
                 HStack {
-                  Image(systemName: "lock.shield.fill")
-                    .foregroundColor(.orange)
+                  Image(systemName: "questionmark.circle.fill")
+                    .foregroundColor(.teal)
                     .font(.title3)
-                  Text("Parental Controls")
+                  Text("Support")
                     .font(.headline)
                     .fontWeight(.semibold)
                   Spacer()
                 }
                 
-                Button(action: { showParentalLock = true }) {
+                Button(action: { viewModel.openSupportWebsite() }) {
                   HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                      Text("Parental Lock")
+                      Text("Get Help")
                         .font(.body)
                         .fontWeight(.medium)
-                      Text("Manage access and restrictions")
+                      Text("Visit our support website")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     }
                     Spacer()
-                    Image(systemName: "chevron.right")
-                      .font(.caption)
-                      .foregroundColor(.secondary)
+                    Image(systemName: "arrow.up.right.square")
+                      .font(.body)
+                      .foregroundColor(.teal)
                   }
                   .padding(.vertical, 12)
                 }
@@ -166,19 +214,17 @@ struct SettingsView: View {
                 
                 VStack(spacing: 8) {
                   HStack {
-                    Text("Version")
+                    Text(appInfo.appName)
                       .font(.body)
+                      .fontWeight(.medium)
                     Spacer()
-                    Text("1.0.0")
-                      .font(.body)
-                      .foregroundColor(.secondary)
                   }
                   
                   HStack {
-                    Text("Build")
+                    Text("Version")
                       .font(.body)
                     Spacer()
-                    Text("1")
+                    Text(appInfo.appVersion)
                       .font(.body)
                       .foregroundColor(.secondary)
                   }
@@ -197,11 +243,43 @@ struct SettingsView: View {
       .sheet(isPresented: $showEditProfile) {
         EditProfileView()
       }
+      // Sheet for parental lock (accessible when feature is enabled)
       .sheet(isPresented: $showParentalLock) {
         ParentalLockView(viewModel: viewModel)
       }
       // Use preferredColorScheme from ThemeManager
       .preferredColorScheme(themeManager.preferredColorScheme)
     }
+  }
+}
+
+// MARK: - Previews
+#Preview {
+  SettingsView(viewModel: SettingsViewModel())
+    .environmentObject(ThemeManager.shared)
+}
+
+// Alternative preview with different themes
+struct SettingsView_Previews: PreviewProvider {
+  static var previews: some View {
+    Group {
+      // Light mode preview
+      SettingsView(viewModel: SettingsViewModel())
+        .environmentObject(previewThemeManager(theme: .light))
+        .previewDisplayName("Light Mode")
+      
+      // Dark mode preview
+      SettingsView(viewModel: SettingsViewModel())
+        .environmentObject(previewThemeManager(theme: .dark))
+        .preferredColorScheme(.dark)
+        .previewDisplayName("Dark Mode")
+    }
+  }
+  
+  // Helper function to create ThemeManager with specific theme
+  static func previewThemeManager(theme: ThemeMode) -> ThemeManager {
+    let manager = ThemeManager()
+    manager.currentTheme = theme
+    return manager
   }
 }
