@@ -1,85 +1,5 @@
 import Foundation
 
-enum Gender: String, Codable, CaseIterable {
-  case male = "male"
-  case female = "female"
-  case other = "other"
-  case notSpecified = "not_specified"
-  
-  var displayName: String {
-    switch self {
-    case .male:
-      return "Boy"
-    case .female:
-      return "Girl"
-    case .other:
-      return "Other"
-    case .notSpecified:
-      return "Not Specified"
-    }
-  }
-  
-  var pronoun: String {
-    switch self {
-    case .male:
-      return "he"
-    case .female:
-      return "she"
-    case .other, .notSpecified:
-      return "they"
-    }
-  }
-  
-  var possessivePronoun: String {
-    switch self {
-    case .male:
-      return "his"
-    case .female:
-      return "her"
-    case .other, .notSpecified:
-      return "their"
-    }
-  }
-}
-
-enum BabyStage: String, Codable, CaseIterable {
-  case pregnancy = "pregnancy"
-  case newborn = "newborn"
-  case infant = "infant"
-  case toddler = "toddler"
-  case preschooler = "preschooler"
-  
-  var displayName: String {
-    switch self {
-    case .pregnancy:
-      return "During Pregnancy"
-    case .newborn:
-      return "Newborn (0-3 months)"
-    case .infant:
-      return "Infant (3-12 months)"
-    case .toddler:
-      return "Toddler (1-3 years)"
-    case .preschooler:
-      return "Preschooler (3-5 years)"
-    }
-  }
-  
-  var description: String {
-    switch self {
-    case .pregnancy:
-      return "Create bonding stories for your unborn baby"
-    case .newborn:
-      return "Gentle, soothing stories for newborns"
-    case .infant:
-      return "Simple stories with sounds and textures"
-    case .toddler:
-      return "Interactive stories with basic lessons"
-    case .preschooler:
-      return "Adventure stories with moral lessons"
-    }
-  }
-}
-
 struct UserProfile: Codable, Equatable {
   var name: String
   var babyStage: BabyStage
@@ -193,17 +113,6 @@ struct UserProfile: Codable, Equatable {
     self.dateOfBirth = dateOfBirth
     self.lastUpdate = lastUpdate
     self.gender = gender
-  }
-  
-  // Method to update profile with current data
-  mutating func updateProfile() {
-    // Update baby stage based on date of birth if available
-    if dateOfBirth != nil {
-      self.babyStage = currentBabyStage
-    }
-    
-    // Update last update timestamp
-    self.lastUpdate = Date()
   }
   
   // Method to check if the baby has grown to a new stage
