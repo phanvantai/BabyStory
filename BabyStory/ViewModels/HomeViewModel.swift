@@ -5,6 +5,10 @@ class HomeViewModel: ObservableObject {
   @Published var stories: [Story] = []
   @Published var error: AppError?
   
+  // Auto-update properties
+  @Published var autoUpdateNotificationManager = AutoUpdateNotificationManager()
+  private let autoUpdateService = AutoProfileUpdateService()
+  
   init() {
     refresh()
   }
@@ -19,9 +23,9 @@ class HomeViewModel: ObservableObject {
       // Log current app state
       Logger.info("Home refresh completed - Stories count: \(stories.count)", category: .userProfile)
       
-      // Check if profile needs updating
-      if let profile = profile, profile.needsUpdate {
-        Logger.warning("User profile needs updating (last updated: \(profile.lastUpdate))", category: .userProfile)
+      // Check for auto-updates
+      Task {
+        await checkAndPerformAutoUpdates()
       }
       
     } catch {
@@ -120,6 +124,45 @@ class HomeViewModel: ObservableObject {
     } catch {
       self.error = error as? AppError ?? .dataCorruption
       return []
+    }
+  }
+  
+  // MARK: - Auto-Update Methods
+  
+  /// Checks and performs automatic profile updates
+  @MainActor
+  private func checkAndPerformAutoUpdates() async {
+    guard autoUpdateService.needsAutoUpdate() else {
+      Logger.debug("No auto-updates needed", category: .autoUpdate)
+      return
+    }
+    
+    Logger.info("Performing automatic profile updates", category: .autoUpdate)
+    let result = await autoUpdateService.performAutoUpdate()
+    
+    if result.isSuccess && result.hasUpdates {
+      // Refresh profile with updates
+      do {
+        profile = try StorageManager.shared.loadProfile()
+        
+        // Process notifications
+        autoUpdateNotificationManager.processUpdateResult(result)
+        
+        Logger.info("Auto-update completed successfully", category: .autoUpdate)
+      } catch {
+        Logger.error("Failed to reload profile after auto-update: \(error.localizedDescription)", category: .autoUpdate)
+        self.error = error as? AppError ?? .dataCorruption
+      }
+    } else if let error = result.error {
+      Logger.error("Auto-update failed: \(error.localizedDescription)", category: .autoUpdate)
+      // Don't show error to user for auto-updates, just log it
+    }
+  }
+  
+  /// Manually triggers auto-update check (for testing or manual refresh)
+  func triggerAutoUpdate() {
+    Task {
+      await checkAndPerformAutoUpdates()
     }
   }
 }

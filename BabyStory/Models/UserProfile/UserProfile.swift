@@ -16,7 +16,7 @@ struct UserProfile: Codable, Equatable {
     return babyStage == .pregnancy
   }
   
-  // Computed property for current age based on date of birth
+  // Computed property for current age in months based on date of birth
   var currentAge: Int? {
     guard let dateOfBirth = dateOfBirth else { return nil }
     
@@ -24,15 +24,39 @@ struct UserProfile: Codable, Equatable {
     let ageComponents = calendar.dateComponents([.year, .month], from: dateOfBirth, to: Date())
     
     if let years = ageComponents.year, let months = ageComponents.month {
-      // Return age in months for children under 2, years for older children
-      if years < 2 {
-        return years * 12 + months
-      } else {
-        return years
-      }
+      // Always return age in months for consistency
+      return years * 12 + months
     }
     
     return nil // Return nil if calculation fails
+  }
+  
+  // Computed property for current age in years (for display purposes)
+  var currentAgeInYears: Int? {
+    guard let dateOfBirth = dateOfBirth else { return nil }
+    
+    let calendar = Calendar.current
+    let ageComponents = calendar.dateComponents([.year], from: dateOfBirth, to: Date())
+    
+    return ageComponents.year
+  }
+  
+  // Computed property for age display string
+  var ageDisplayString: String? {
+    guard let ageInMonths = currentAge else { return nil }
+    
+    if ageInMonths < 12 {
+      return "\(ageInMonths) month\(ageInMonths == 1 ? "" : "s")"
+    } else {
+      let years = ageInMonths / 12
+      let months = ageInMonths % 12
+      
+      if months == 0 {
+        return "\(years) year\(years == 1 ? "" : "s")"
+      } else {
+        return "\(years) year\(years == 1 ? "" : "s") \(months) month\(months == 1 ? "" : "s")"
+      }
+    }
   }
   
   // Computed property for automatically determined baby stage based on date of birth
@@ -178,5 +202,108 @@ extension UserProfile {
   /// Returns the number of days since the last profile update
   var daysSinceLastUpdate: Int {
     Calendar.current.dateComponents([.day], from: lastUpdate, to: Date()).day ?? 0
+  }
+  
+  // MARK: - Auto-Update Helper Methods
+  
+  /// Checks if the profile should be automatically updated
+  var shouldAutoUpdate: Bool {
+    return hasGrownToNewStage() || needsUpdate
+  }
+  
+  /// Returns age-appropriate interests for the current baby stage
+  func getAgeAppropriateInterests() -> [String] {
+    let currentStage = dateOfBirth != nil ? currentBabyStage : babyStage
+    
+    switch currentStage {
+    case .pregnancy:
+      return [
+        "Classical Music",
+        "Nature Sounds", 
+        "Gentle Stories",
+        "Parent Bonding",
+        "Relaxation",
+        "Love & Care"
+      ]
+    case .newborn:
+      return [
+        "Lullabies",
+        "Gentle Sounds",
+        "Soft Colors", 
+        "Comfort",
+        "Sleep",
+        "Feeding Time"
+      ]
+    case .infant:
+      return [
+        "Peek-a-boo",
+        "Simple Sounds",
+        "Textures",
+        "Movement", 
+        "Smiles",
+        "Discovery"
+      ]
+    case .toddler:
+      return [
+        "Animals",
+        "Colors",
+        "Numbers",
+        "Vehicles",
+        "Nature",
+        "Family",
+        "Friends", 
+        "Playing"
+      ]
+    case .preschooler:
+      return [
+        "Adventure",
+        "Magic",
+        "Friendship",
+        "Learning",
+        "Imagination",
+        "Problem Solving",
+        "Emotions",
+        "School"
+      ]
+    }
+  }
+  
+  /// Filters current interests to keep only age-appropriate ones
+  func getFilteredInterests() -> [String] {
+    let ageAppropriate = getAgeAppropriateInterests()
+    return interests.filter { ageAppropriate.contains($0) }
+  }
+  
+  /// Creates an auto-updated version of this profile
+  func createAutoUpdatedProfile() -> UserProfile {
+    var updated = self
+    
+    // Update stage if needed
+    if hasGrownToNewStage() {
+      updated.babyStage = currentBabyStage
+    }
+    
+    // Update interests to be age-appropriate
+    let filteredInterests = getFilteredInterests()
+    let ageAppropriate = getAgeAppropriateInterests()
+    
+    // Keep filtered interests and add suggestions if needed
+    var newInterests = filteredInterests
+    var suggestions = ageAppropriate.filter { !newInterests.contains($0) }
+    
+    // Add up to 3 suggested interests if we have fewer than 3
+    while newInterests.count < 3 && !suggestions.isEmpty {
+      if let suggestion = suggestions.first {
+        newInterests.append(suggestion)
+        suggestions.removeFirst()
+      } else {
+        break
+      }
+    }
+    
+    updated.interests = newInterests
+    updated.lastUpdate = Date()
+    
+    return updated
   }
 }

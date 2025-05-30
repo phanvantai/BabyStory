@@ -72,8 +72,6 @@ struct GenderSelector: View {
       return "person.fill"
     case .female:
       return "person.fill"
-    case .other:
-      return "person.2.fill"
     case .notSpecified:
       return "questionmark.circle.fill"
     }

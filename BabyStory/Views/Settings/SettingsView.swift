@@ -99,6 +99,29 @@ struct SettingsView: View {
                     dismiss()
                   })
                   
+                  // Auto-Update Settings Navigation
+                  Divider()
+                    .background(Color(UIColor.separator))
+                  
+                  NavigationLink(destination: AutoUpdateSettingsView(viewModel: AutoUpdateSettingsViewModel())) {
+                    HStack {
+                      VStack(alignment: .leading, spacing: 4) {
+                        Text("Auto-Update Profile")
+                          .font(.body)
+                          .fontWeight(.medium)
+                        Text("Manage automatic profile updates as your child grows")
+                          .font(.caption)
+                          .foregroundColor(.secondary)
+                      }
+                      Spacer()
+                      Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+                    .padding(.vertical, 8)
+                  }
+                  .buttonStyle(PlainButtonStyle())
+                  
                   // Voice Narration Toggle (temporarily hidden)
                   if showVoiceNarration {
                     Divider()
