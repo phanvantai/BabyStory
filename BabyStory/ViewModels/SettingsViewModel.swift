@@ -17,10 +17,18 @@ class SettingsViewModel: ObservableObject {
   }
   
   func loadProfile() {
+    Logger.info("Loading profile in settings", category: .settings)
     do {
       profile = try StorageManager.shared.loadProfile()
       error = nil
+      
+      if let profile = profile {
+        Logger.info("Settings profile loaded for: \(profile.name)", category: .settings)
+      } else {
+        Logger.warning("No profile found in settings", category: .settings)
+      }
     } catch {
+      Logger.error("Failed to load profile in settings: \(error.localizedDescription)", category: .settings)
       self.error = error as? AppError ?? .dataCorruption
     }
   }

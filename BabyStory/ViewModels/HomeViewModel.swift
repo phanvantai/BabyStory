@@ -10,11 +10,22 @@ class HomeViewModel: ObservableObject {
   }
   
   func refresh() {
+    Logger.info("Refreshing home view data", category: .userProfile)
     do {
       profile = try StorageManager.shared.loadProfile()
       stories = try StorageManager.shared.loadStories()
       error = nil
+      
+      // Log current app state
+      Logger.info("Home refresh completed - Stories count: \(stories.count)", category: .userProfile)
+      
+      // Check if profile needs updating
+      if let profile = profile, profile.needsUpdate {
+        Logger.warning("User profile needs updating (last updated: \(profile.lastUpdate))", category: .userProfile)
+      }
+      
     } catch {
+      Logger.error("Failed to refresh home data: \(error.localizedDescription)", category: .userProfile)
       self.error = error as? AppError ?? .dataCorruption
     }
   }
@@ -76,6 +87,11 @@ class HomeViewModel: ObservableObject {
         }
       }
     }
+  }
+  
+  /// Log current profile information for debugging
+  func logCurrentProfileInfo() {
+    StorageManager.shared.logCurrentAppState()
   }
   
   // MARK: - Enhanced Storage Methods

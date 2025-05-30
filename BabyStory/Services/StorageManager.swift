@@ -24,11 +24,15 @@ class StorageManager {
   
   // MARK: - Profile Management
   func saveProfile(_ profile: UserProfile) throws {
+    Logger.logUserProfile(profile, action: "Saving")
     try userProfileService.saveProfile(profile)
+    Logger.info("User profile saved successfully", category: .storage)
   }
   
   func loadProfile() throws -> UserProfile? {
-    try userProfileService.loadProfile()
+    let profile = try userProfileService.loadProfile()
+    Logger.logUserProfile(profile, action: "Loaded")
+    return profile
   }
   
   // MARK: - Story Management
@@ -140,6 +144,40 @@ extension StorageManager {
     } catch {
       return false
     }
+  }
+  
+  /// Log comprehensive profile information and app state
+  func logCurrentAppState() {
+    Logger.info("=== CURRENT APP STATE ===", category: .userProfile)
+    
+    do {
+      if let profile = try loadProfile() {
+        Logger.logUserProfile(profile, action: "Current Profile")
+        
+        // Log additional profile analysis
+        if profile.hasGrownToNewStage() {
+          Logger.warning("Profile indicates child has grown to new stage: \(profile.currentBabyStage.displayName)", category: .userProfile)
+        }
+        
+        if profile.needsUpdate {
+          Logger.warning("Profile needs updating - last updated \(profile.daysSinceLastUpdate) days ago", category: .userProfile)
+        }
+        
+      } else {
+        Logger.warning("No user profile found", category: .userProfile)
+      }
+      
+      let stories = try loadStories()
+      Logger.info("Stories: \(stories.count) total, \(stories.filter { $0.isFavorite }.count) favorites", category: .userProfile)
+      
+      let todayStories = try getStoriesCreatedToday()
+      Logger.info("Stories created today: \(todayStories.count)", category: .userProfile)
+      
+    } catch {
+      Logger.error("Failed to load app state: \(error.localizedDescription)", category: .userProfile)
+    }
+    
+    Logger.info("=== END APP STATE ===", category: .userProfile)
   }
   
   /// Get total number of saved stories

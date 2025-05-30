@@ -45,9 +45,12 @@ struct OnboardingProfileView: View {
             placeholder: viewModel.isPregnancy ? "What will you call your baby?" : "Enter your child's name"
           )
           
-          // Age input (if not pregnancy)
-          if viewModel.shouldShowAge {
-            AgeSelector(viewModel: viewModel)
+          // Gender selection
+          GenderSelector(viewModel: viewModel)
+          
+          // Date of birth input (if not pregnancy)
+          if viewModel.shouldShowDateOfBirth {
+            DateOfBirthPicker(viewModel: viewModel)
           }
           
           // Due date (if pregnancy)
@@ -83,7 +86,6 @@ struct OnboardingProfileView: View {
     }
     // Theme is handled at app level in BabyStoryApp.swift
   }
-  
 }
 
 #Preview {

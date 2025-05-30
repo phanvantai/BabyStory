@@ -14,7 +14,6 @@ struct TodaysAdventureCard: View {
                 Text("Today's Adventure")
                     .font(.title2)
                     .fontWeight(.bold)
-                Spacer()
             }
             
             Button(action: {

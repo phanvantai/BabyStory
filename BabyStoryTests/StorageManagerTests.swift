@@ -14,10 +14,10 @@ class StorageManagerTests: XCTestCase {
         // Create test data
         testProfile = UserProfile(
             name: "Test Baby",
-            age: 2,
             babyStage: .toddler,
             interests: ["Animals", "Colors"],
-            storyTime: Date()
+            storyTime: Date(),
+            dateOfBirth: Calendar.current.date(byAdding: .year, value: -2, to: Date())
         )
         
         testStories = [
@@ -58,7 +58,6 @@ class StorageManagerTests: XCTestCase {
         let loadedProfile = try storageManager.loadProfile()
         XCTAssertNotNil(loadedProfile)
         XCTAssertEqual(loadedProfile?.name, testProfile.name)
-        XCTAssertEqual(loadedProfile?.age, testProfile.age)
         XCTAssertEqual(loadedProfile?.babyStage, testProfile.babyStage)
     }
     

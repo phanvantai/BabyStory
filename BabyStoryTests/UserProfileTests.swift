@@ -6,17 +6,17 @@ final class UserProfileTests: XCTestCase {
     func testUserProfileCreation() {
         let profile = UserProfile(
             name: "Emma",
-            age: 3,
             babyStage: .toddler,
             interests: ["Animals", "Colors"],
-            storyTime: Date()
+            storyTime: Date(),
+            dateOfBirth: Calendar.current.date(byAdding: .year, value: -3, to: Date())
         )
         
         XCTAssertEqual(profile.name, "Emma")
-        XCTAssertEqual(profile.age, 3)
         XCTAssertEqual(profile.babyStage, .toddler)
         XCTAssertEqual(profile.interests.count, 2)
         XCTAssertFalse(profile.isPregnancy)
+        XCTAssertNotNil(profile.currentAge)
     }
     
     func testPregnancyProfile() {
@@ -29,7 +29,7 @@ final class UserProfileTests: XCTestCase {
         )
         
         XCTAssertTrue(profile.isPregnancy)
-        XCTAssertNil(profile.age)
+        XCTAssertNil(profile.currentAge)
         XCTAssertEqual(profile.parentNames.count, 2)
         XCTAssertEqual(profile.displayName, "Baby Future Baby")
     }

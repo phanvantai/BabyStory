@@ -22,10 +22,10 @@ final class UserDefaultsManagerTests: XCTestCase {
     func testProfileSaveAndLoad() throws {
         let profile = UserProfile(
             name: "Test Baby",
-            age: 2,
             babyStage: .toddler,
             interests: ["Animals", "Colors"],
-            storyTime: Date()
+            storyTime: Date(),
+            dateOfBirth: Calendar.current.date(byAdding: .year, value: -2, to: Date())
         )
         
         // Test saving
@@ -35,7 +35,6 @@ final class UserDefaultsManagerTests: XCTestCase {
         let loadedProfile = try manager.loadProfile()
         XCTAssertNotNil(loadedProfile)
         XCTAssertEqual(loadedProfile?.name, "Test Baby")
-        XCTAssertEqual(loadedProfile?.age, 2)
         XCTAssertEqual(loadedProfile?.babyStage, .toddler)
         XCTAssertEqual(loadedProfile?.interests.count, 2)
     }

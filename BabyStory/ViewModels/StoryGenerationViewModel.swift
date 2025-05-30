@@ -8,6 +8,9 @@ class StoryGenerationViewModel: ObservableObject {
   @Published var error: AppError?
   
   func generateStory(profile: UserProfile, options: StoryOptions?) async {
+    Logger.info("Starting story generation", category: .storyGeneration)
+    Logger.logUserProfile(profile, action: "Using for story generation")
+    
     await MainActor.run {
       self.isLoading = true
       self.isGenerating = true
@@ -19,15 +22,19 @@ class StoryGenerationViewModel: ObservableObject {
       try await Task.sleep(nanoseconds: 2_000_000_000) // 2 seconds
       
       let storyOptions = options ?? self.options
+      Logger.info("Generating story with theme: \(storyOptions.theme), length: \(storyOptions.length), characters: \(storyOptions.characters.joined(separator: ", "))", category: .storyGeneration)
+      
       let story = try createPersonalizedStory(for: profile, with: storyOptions)
       
       await MainActor.run {
         self.generatedStory = story
         self.isLoading = false
         self.isGenerating = false
+        Logger.info("Story generation completed successfully - Title: '\(story.title)'", category: .storyGeneration)
       }
     } catch {
       await MainActor.run {
+        Logger.error("Story generation failed: \(error.localizedDescription)", category: .storyGeneration)
         self.error = .storyGenerationFailed
         self.isLoading = false
         self.isGenerating = false

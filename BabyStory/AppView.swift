@@ -28,6 +28,7 @@ struct AppView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             // Handle scene transitions more gracefully
             if newPhase == .active && oldPhase == .background {
+                Logger.info("App became active from background - refreshing data", category: .general)
                 // App became active from background - refresh data if needed
                 Task {
                     await MainActor.run {
@@ -57,6 +58,7 @@ struct AppView: View {
     }
     
     private func loadInitialData() {
+        Logger.info("App starting - Loading initial data", category: .general)
         Task {
             // Add a small delay to avoid conflicts with app snapshot operations
             try? await Task.sleep(nanoseconds: 50_000_000) // 0.05 second delay
@@ -68,8 +70,15 @@ struct AppView: View {
                         needsOnboarding = profile == nil
                         isLoading = false
                     }
+                    
+                    if profile == nil {
+                        Logger.info("No user profile found - showing onboarding", category: .general)
+                    } else {
+                        Logger.info("User profile exists - proceeding to home view", category: .general)
+                    }
                 }
             } catch {
+                Logger.error("Failed to load initial data: \(error.localizedDescription)", category: .general)
                 await MainActor.run {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         errorManager.handleError(.dataCorruption)

@@ -3,12 +3,13 @@ import SwiftUI
 
 class OnboardingViewModel: ObservableObject {
   @Published var name: String = ""
-  @Published var age: Int? = nil
   @Published var babyStage: BabyStage = .toddler
   @Published var interests: [String] = []
   @Published var storyTime: Date = Date()
   @Published var dueDate: Date = Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
   @Published var parentNames: [String] = []
+  @Published var dateOfBirth: Date? = nil
+  @Published var gender: Gender = .notSpecified
   @Published var step: Int = 0
   @Published var error: AppError?
   
@@ -24,18 +25,9 @@ class OnboardingViewModel: ObservableObject {
       addParentName()
     }
     
-    // Initialize age based on baby stage if it's nil
-    if age == nil {
-      switch babyStage {
-      case .toddler:
-        age = 1  // Default toddler age
-      case .preschooler:
-        age = 3  // Default preschooler age
-      case .newborn, .infant:
-        age = 0  // Fixed at 0 for newborn and infant
-      case .pregnancy:
-        break  // No age for pregnancy
-      }
+    // Set default date of birth based on baby stage if it's not pregnancy
+    if babyStage != .pregnancy {
+      setDefaultDateOfBirth()
     }
   }
   
@@ -44,7 +36,7 @@ class OnboardingViewModel: ObservableObject {
     return babyStage == .pregnancy
   }
   
-  var shouldShowAge: Bool {
+  var shouldShowDateOfBirth: Bool {
     return !isPregnancy
   }
   
@@ -56,39 +48,47 @@ class OnboardingViewModel: ObservableObject {
     return isPregnancy
   }
   
-  // Age control properties
-  var canEditAge: Bool {
-    return babyStage == .toddler || babyStage == .preschooler
+  // Date of birth range
+  var dateOfBirthRange: ClosedRange<Date> {
+    let calendar = Calendar.current
+    let maxDate = Date() // Today
+    let minDate = calendar.date(byAdding: .year, value: -6, to: Date()) ?? Date()
+    return minDate...maxDate
   }
   
-  var ageRange: ClosedRange<Int> {
-    switch babyStage {
-    case .newborn, .infant:
-      return 0...0  // Fixed at 0
-    case .toddler:
-      return 1...3
-    case .preschooler:
-      return 3...5
-    case .pregnancy:
-      return 0...0  // Not applicable
+  // Computed age from date of birth for display
+  var currentAge: Int? {
+    guard let dateOfBirth = dateOfBirth else { return nil }
+    
+    let calendar = Calendar.current
+    let ageComponents = calendar.dateComponents([.year, .month], from: dateOfBirth, to: Date())
+    
+    if let years = ageComponents.year, let months = ageComponents.month {
+      if years < 2 {
+        return years * 12 + months // Return months for babies under 2
+      } else {
+        return years // Return years for older children
+      }
     }
+    return nil
   }
   
   var ageDisplayText: String {
-    guard let age = age else { return "Not set" }
+    guard let dateOfBirth = dateOfBirth else { return "Not set" }
     
-    switch babyStage {
-    case .newborn:
-      return "Newborn (0-3 months)"
-    case .infant:
-      return "Infant (3-12 months)"
-    case .toddler:
-      return "\(age) year\(age == 1 ? "" : "s") old"
-    case .preschooler:
-      return "\(age) years old"
-    case .pregnancy:
-      return "Not applicable"
+    let calendar = Calendar.current
+    let ageComponents = calendar.dateComponents([.year, .month], from: dateOfBirth, to: Date())
+    
+    if let years = ageComponents.year, let months = ageComponents.month {
+      if years < 2 {
+        let totalMonths = years * 12 + months
+        return totalMonths == 1 ? "1 month old" : "\(totalMonths) months old"
+      } else {
+        return years == 1 ? "1 year old" : "\(years) years old"
+      }
     }
+    
+    return "Unknown age"
   }
   
   // Available interests based on baby stage
@@ -151,11 +151,11 @@ class OnboardingViewModel: ObservableObject {
     return !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
   
-  var isValidAge: Bool {
+  var isValidDateOfBirth: Bool {
     if isPregnancy {
-      return true // Age not required for pregnancy
+      return true // Date of birth not required for pregnancy
     }
-    return age != nil && age! >= 0 && age! <= 10
+    return dateOfBirth != nil
   }
   
   var isValidParentNames: Bool {
@@ -166,7 +166,7 @@ class OnboardingViewModel: ObservableObject {
   }
   
   var canProceed: Bool {
-    return isValidName && isValidAge && isValidParentNames
+    return isValidName && isValidDateOfBirth && isValidParentNames
   }
   
   // Helper methods
@@ -185,24 +185,15 @@ class OnboardingViewModel: ObservableObject {
   func updateBabyStage(_ newStage: BabyStage) {
     babyStage = newStage
     
-    // Clear age if switching to pregnancy
+    // Clear date of birth if switching to pregnancy
     if newStage == .pregnancy {
-      age = nil
+      dateOfBirth = nil
       if parentNames.isEmpty {
         parentNames = [""] // Start with one empty parent name
       }
     } else {
-      // Set fixed or default age based on stage
-      switch newStage {
-      case .newborn, .infant:
-        age = 0  // Fixed at 0 for both newborn and infant
-      case .toddler:
-        age = max(1, min(age ?? 1, 3))  // Clamp existing age to 1-3, default to 1
-      case .preschooler:
-        age = max(3, min(age ?? 3, 5))  // Clamp existing age to 3-5, default to 3
-      case .pregnancy:
-        break
-      }
+      // Set default date of birth based on stage
+      setDefaultDateOfBirth()
       parentNames.removeAll()
     }
     
@@ -210,22 +201,28 @@ class OnboardingViewModel: ObservableObject {
     interests.removeAll()
   }
   
-  // Age adjustment methods with range validation
-  func increaseAge() {
-    guard canEditAge, let currentAge = age else { return }
-    let maxAge = ageRange.upperBound
-    if currentAge < maxAge {
-      age = currentAge + 1
+  private func setDefaultDateOfBirth() {
+    let calendar = Calendar.current
+    
+    switch babyStage {
+    case .newborn:
+      // 1 month old
+      dateOfBirth = calendar.date(byAdding: .month, value: -1, to: Date())
+    case .infant:
+      // 6 months old
+      dateOfBirth = calendar.date(byAdding: .month, value: -6, to: Date())
+    case .toddler:
+      // 2 years old
+      dateOfBirth = calendar.date(byAdding: .year, value: -2, to: Date())
+    case .preschooler:
+      // 4 years old
+      dateOfBirth = calendar.date(byAdding: .year, value: -4, to: Date())
+    case .pregnancy:
+      dateOfBirth = nil
     }
   }
   
-  func decreaseAge() {
-    guard canEditAge, let currentAge = age else { return }
-    let minAge = ageRange.lowerBound
-    if currentAge > minAge {
-      age = currentAge - 1
-    }
-  }
+  // Age adjustment methods removed - now using date picker for date of birth
   
   func toggleInterest(_ interest: String) {
     if interests.contains(interest) {
@@ -236,19 +233,24 @@ class OnboardingViewModel: ObservableObject {
   }
   
   func saveProfile() {
+    Logger.info("Starting profile save from onboarding", category: .onboarding)
     do {
       let profile = UserProfile(
         name: name,
-        age: age,
         babyStage: babyStage,
         interests: interests,
         storyTime: storyTime,
         dueDate: isPregnancy ? dueDate : nil,
-        parentNames: isPregnancy ? parentNames.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } : []
+        parentNames: isPregnancy ? parentNames.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } : [],
+        dateOfBirth: isPregnancy ? nil : dateOfBirth,
+        lastUpdate: Date(),
+        gender: gender
       )
       try StorageManager.shared.saveProfile(profile)
       error = nil
+      Logger.info("Onboarding profile save completed successfully", category: .onboarding)
     } catch {
+      Logger.error("Failed to save profile from onboarding: \(error.localizedDescription)", category: .onboarding)
       self.error = .profileSaveFailed
     }
   }
