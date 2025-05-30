@@ -100,4 +100,62 @@ struct StoryOptions: Codable, Equatable {
   var effectiveTheme: String {
     return customTheme?.isEmpty == false ? customTheme! : theme
   }
+  
+  /// Validates the story options
+  func validate() -> [AppError] {
+    var errors: [AppError] = []
+    
+    // Theme validation
+    if theme.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      errors.append(.invalidProfile)
+    }
+    
+    // Custom theme validation
+    if let customTheme = customTheme, 
+       !customTheme.isEmpty && 
+       customTheme.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      errors.append(.invalidProfile)
+    }
+    
+    // Characters validation
+    let validCharacters = characters.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    if validCharacters.count != characters.count {
+      errors.append(.invalidProfile)
+    }
+    
+    // Limit characters to reasonable number
+    if characters.count > 5 {
+      errors.append(.invalidProfile)
+    }
+    
+    return errors
+  }
+  
+  /// Returns true if the options are valid
+  var isValid: Bool {
+    return validate().isEmpty
+  }
+  
+  /// Returns a cleaned version of the story options
+  func cleaned() -> StoryOptions {
+    var cleaned = self
+    
+    // Clean theme
+    cleaned.theme = theme.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    // Clean custom theme
+    if let customTheme = customTheme {
+      let trimmed = customTheme.trimmingCharacters(in: .whitespacesAndNewlines)
+      cleaned.customTheme = trimmed.isEmpty ? nil : trimmed
+    }
+    
+    // Clean characters
+    cleaned.characters = characters
+      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+      .filter { !$0.isEmpty }
+      .prefix(5) // Limit to 5 characters
+      .map { String($0) }
+    
+    return cleaned
+  }
 }

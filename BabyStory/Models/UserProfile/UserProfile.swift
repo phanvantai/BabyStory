@@ -319,3 +319,72 @@ extension UserProfile {
     return updated
   }
 }
+
+// MARK: - Validation
+extension UserProfile {
+  /// Validates the user profile and returns any validation errors
+  func validate() -> [AppError] {
+    var errors: [AppError] = []
+    
+    // Name validation
+    if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      errors.append(.invalidProfile)
+    }
+    
+    // Date validation for pregnancy
+    if babyStage == .pregnancy {
+      if let dueDate = dueDate {
+        // Due date should be in the future or recent past (within 1 month)
+        let oneMonthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date()
+        if dueDate < oneMonthAgo {
+          errors.append(.invalidProfile)
+        }
+      }
+      
+      // Parent names should be provided for pregnancy
+      if parentNames.isEmpty {
+        errors.append(.invalidProfile)
+      }
+    } else {
+      // Non-pregnancy profiles should have date of birth
+      if dateOfBirth == nil {
+        errors.append(.invalidProfile)
+      } else if let dateOfBirth = dateOfBirth {
+        // Date of birth should not be in the future
+        if dateOfBirth > Date() {
+          errors.append(.invalidProfile)
+        }
+        
+        // Date of birth should be reasonable (not more than 10 years ago for this app)
+        let tenYearsAgo = Calendar.current.date(byAdding: .year, value: -10, to: Date()) ?? Date()
+        if dateOfBirth < tenYearsAgo {
+          errors.append(.invalidProfile)
+        }
+      }
+    }
+    
+    // Story time validation (should be within 24 hours)
+    let components = Calendar.current.dateComponents([.hour, .minute], from: storyTime)
+    if let hour = components.hour, let minute = components.minute {
+      if hour < 0 || hour > 23 || minute < 0 || minute > 59 {
+        errors.append(.invalidProfile)
+      }
+    }
+    
+    return errors
+  }
+  
+  /// Returns true if the profile is valid
+  var isValid: Bool {
+    return validate().isEmpty
+  }
+  
+  /// Returns a user-friendly validation message
+  var validationMessage: String? {
+    let errors = validate()
+    guard !errors.isEmpty else { return nil }
+    
+    // Return the first error's description
+    return errors.first?.errorDescription
+  }
+}

@@ -12,6 +12,13 @@ enum AppError: LocalizedError, Equatable {
   case dataExportFailed
   case dataImportFailed
   
+  // Enhanced validation errors
+  case invalidName
+  case invalidDate
+  case invalidStoryOptions
+  case invalidCharacterCount
+  case profileIncomplete
+  
   var errorDescription: String? {
     switch self {
     case .storyGenerationFailed:
@@ -32,6 +39,16 @@ enum AppError: LocalizedError, Equatable {
       return "Failed to export data. Please try again."
     case .dataImportFailed:
       return "Failed to import data. Please check the file and try again."
+    case .invalidName:
+      return "Please enter a valid name."
+    case .invalidDate:
+      return "Please select a valid date."
+    case .invalidStoryOptions:
+      return "Story options are invalid. Please check your selections."
+    case .invalidCharacterCount:
+      return "Too many characters selected. Please choose up to 5 characters."
+    case .profileIncomplete:
+      return "Please complete all required profile fields."
     }
   }
   
@@ -41,7 +58,7 @@ enum AppError: LocalizedError, Equatable {
       return "Check your internet connection and try generating the story again."
     case .profileSaveFailed, .storySaveFailed, .dataSaveFailed:
       return "Please try saving again. If the problem persists, restart the app."
-    case .invalidProfile:
+    case .invalidProfile, .profileIncomplete:
       return "Please complete all required profile fields."
     case .networkUnavailable:
       return "Connect to the internet and try again."
@@ -51,6 +68,14 @@ enum AppError: LocalizedError, Equatable {
       return "Make sure you have enough storage space and try again."
     case .dataImportFailed:
       return "Ensure the file is not corrupted and was exported from BabyStory."
+    case .invalidName:
+      return "Enter a name with at least 1 character."
+    case .invalidDate:
+      return "Choose a date that makes sense for your child's age."
+    case .invalidStoryOptions:
+      return "Review your story preferences and try again."
+    case .invalidCharacterCount:
+      return "Select fewer characters for your story."
     }
   }
 }
