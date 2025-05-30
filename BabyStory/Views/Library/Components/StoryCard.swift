@@ -108,7 +108,10 @@ extension Story {
       title: "The Magical Forest",
       content: "A wonderful adventure awaits in the enchanted woods...",
       date: Date().addingTimeInterval(-86400), // 1 day ago
-      isFavorite: false
+      isFavorite: false,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
   
@@ -118,7 +121,10 @@ extension Story {
       title: "Princess Luna's Quest",
       content: "Join Princess Luna on her brave journey to save the kingdom...",
       date: Date().addingTimeInterval(-172800), // 2 days ago
-      isFavorite: true
+      isFavorite: true,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
   
@@ -128,7 +134,10 @@ extension Story {
       title: "The Amazing Adventures of Captain Whiskers and the Treasure Island Mystery",
       content: "A thrilling tale of pirates, treasure, and friendship...",
       date: Date().addingTimeInterval(-259200), // 3 days ago
-      isFavorite: false
+      isFavorite: false,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
   
@@ -138,7 +147,10 @@ extension Story {
       title: "The Robot Friend",
       content: "When technology meets friendship, magic happens...",
       date: Date(), // Today
-      isFavorite: true
+      isFavorite: true,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
 }

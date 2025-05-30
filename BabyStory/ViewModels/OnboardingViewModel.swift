@@ -289,7 +289,7 @@ class OnboardingViewModel: ObservableObject {
   func handleNotificationPermissionGranted() {
     Task {
       let notificationService = ServiceFactory.shared.createDueDateNotificationService()
-      await notificationService.requestNotificationPermission()
+      _ = await notificationService.requestNotificationPermission()
     }
     showNotificationPermissionPrompt = false
   }

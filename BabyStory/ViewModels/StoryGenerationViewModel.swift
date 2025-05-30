@@ -64,22 +64,25 @@ class StoryBuilder {
   }
   
   func generateStory() throws -> Story {
+    // TODO: Implement the actual story generation logic
     // Validate that we have minimum required data
     guard !profile.name.isEmpty,
           !profile.interests.isEmpty else {
       throw AppError.invalidProfile
     }
     
-    let title = generateTitle()
-    let content = generateContent()
+    let _ = generateTitle()
+    let _ = generateContent()
     
-    return Story(
-      id: UUID(),
-      title: title,
-      content: content,
-      date: Date(),
-      isFavorite: false
-    )
+    throw AppError.storyGenerationFailed
+    
+//    return Story(
+//      id: UUID(),
+//      title: title,
+//      content: content,
+//      date: Date(),
+//      isFavorite: false
+//    )
   }
   
   private func generateTitle() -> String {

@@ -104,7 +104,10 @@ extension Story {
             From that day on, Luna and Spark became the very best of friends, and they had many more magical adventures together in their enchanted forest home.
             """,
       date: Date(),
-      isFavorite: false
+      isFavorite: false,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
   
@@ -142,7 +145,10 @@ extension Story {
             The end.
             """,
       date: Date().addingTimeInterval(-86400),
-      isFavorite: true
+      isFavorite: true,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
   
@@ -162,7 +168,10 @@ extension Story {
             And so, Twinkle continued to shine every night, knowing that she was making a difference in the world, one child at a time.
             """,
       date: Date().addingTimeInterval(-172800),
-      isFavorite: false
+      isFavorite: false,
+      theme: "Adventure",
+      length: StoryLength.short,
+      ageRange: BabyStage.newborn
     )
   }
 }

@@ -118,42 +118,60 @@ extension LibraryViewModel {
         title: "The Magical Forest Adventure",
         content: "Once upon a time, in a magical forest filled with talking animals and glowing flowers...",
         date: Date().addingTimeInterval(-86400), // 1 day ago
-        isFavorite: true
+        isFavorite: true,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       ),
       Story(
         id: UUID(),
         title: "Princess Luna and the Star Castle",
         content: "High above the clouds, Princess Luna discovered a castle made entirely of stardust...",
         date: Date().addingTimeInterval(-172800), // 2 days ago
-        isFavorite: false
+        isFavorite: false,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       ),
       Story(
         id: UUID(),
         title: "The Dragon Who Loved to Bake",
         content: "In a cozy cave at the edge of town lived Sparkle, a friendly dragon who loved baking cookies...",
         date: Date().addingTimeInterval(-259200), // 3 days ago
-        isFavorite: true
+        isFavorite: true,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       ),
       Story(
         id: UUID(),
         title: "Captain Whiskers' Ocean Quest",
         content: "Captain Whiskers the cat set sail on a grand adventure across the seven seas...",
         date: Date().addingTimeInterval(-345600), // 4 days ago
-        isFavorite: false
+        isFavorite: false,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       ),
       Story(
         id: UUID(),
         title: "The Robot Who Wanted Friends",
         content: "Beep Boop was a little robot who lived all alone in a big city...",
         date: Date().addingTimeInterval(-432000), // 5 days ago
-        isFavorite: false
+        isFavorite: false,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       ),
       Story(
         id: UUID(),
         title: "The Enchanted Garden Mystery",
         content: "When Emma discovered a hidden door in her grandmother's garden...",
         date: Date().addingTimeInterval(-518400), // 6 days ago
-        isFavorite: true
+        isFavorite: true,
+        theme: "Adventure",
+        length: StoryLength.short,
+        ageRange: BabyStage.newborn
       )
     ]
     return viewModel
