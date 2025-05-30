@@ -12,6 +12,7 @@ import UserNotifications
 struct BabyStoryApp: App {
     @StateObject private var themeManager = ThemeManager.shared
     @StateObject private var notificationDelegate = NotificationDelegate()
+  @AppStorage("AppLanguage") var language: String = "en"
     
     var body: some Scene {
         WindowGroup {
@@ -23,6 +24,7 @@ struct BabyStoryApp: App {
                 .onAppear {
                     setupNotifications()
                 }
+                .environment(\.locale, .init(identifier: language))
         }
     }
     

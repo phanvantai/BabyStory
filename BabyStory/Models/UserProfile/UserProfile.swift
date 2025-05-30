@@ -10,6 +10,7 @@ struct UserProfile: Codable, Equatable {
   var dateOfBirth: Date? // For automatic age calculation and stage updates
   var lastUpdate: Date // For tracking when profile was last manually updated
   var gender: Gender // Child's gender for personalized stories
+  var language: Language // Preferred language for stories and UI
   
   // Computed property to determine if this is for an unborn baby
   var isPregnancy: Bool {
@@ -132,7 +133,8 @@ struct UserProfile: Codable, Equatable {
     parentNames: [String] = [],
     dateOfBirth: Date? = nil,
     lastUpdate: Date = Date(),
-    gender: Gender = .notSpecified
+    gender: Gender = .notSpecified,
+    language: Language = Language.deviceDefault
   ) {
     self.name = name
     self.babyStage = babyStage
@@ -143,6 +145,7 @@ struct UserProfile: Codable, Equatable {
     self.dateOfBirth = dateOfBirth
     self.lastUpdate = lastUpdate
     self.gender = gender
+    self.language = language
   }
   
   // Method to check if the baby has grown to a new stage

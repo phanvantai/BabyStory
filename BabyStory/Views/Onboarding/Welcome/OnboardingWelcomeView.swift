@@ -39,8 +39,8 @@ struct OnboardingWelcomeView: View {
         // Navigation controls
         AnimatedEntrance(delay: 1.4) {
           OnboardingNavigationFooter(
-            pageIndex: 0,
-            totalPages: 3,
+            pageIndex: 1,
+            totalPages: 4,
             buttonText: "Let's Begin",
             onNext: onNext
           )

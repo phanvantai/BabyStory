@@ -19,6 +19,7 @@ struct ProfileSummarySection: View {
         ProfileSummaryRow(icon: "person.circle.fill", label: "Name", value: viewModel.name.isEmpty ? "Not set" : viewModel.name)
         ProfileSummaryRow(icon: "heart.circle.fill", label: "Stage", value: viewModel.babyStage.displayName)
         ProfileSummaryRow(icon: "person.2.fill", label: "Gender", value: viewModel.gender.displayName)
+        ProfileSummaryRow(icon: "globe.fill", label: "Language", value: viewModel.selectedLanguage.nativeName)
         if !viewModel.isPregnancy {
           ProfileSummaryRow(icon: "calendar", label: "Age", value: viewModel.ageDisplayText)
         }

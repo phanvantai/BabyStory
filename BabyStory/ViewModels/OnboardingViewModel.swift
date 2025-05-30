@@ -2,6 +2,9 @@ import Foundation
 import SwiftUI
 
 class OnboardingViewModel: ObservableObject {
+  // Language selection
+  @Published var selectedLanguage: Language = Language.preferred
+  
   @Published var name: String = ""
   @Published var babyStage: BabyStage = .toddler
   @Published var interests: [String] = []
@@ -240,7 +243,8 @@ class OnboardingViewModel: ObservableObject {
         parentNames: isPregnancy ? parentNames.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } : [],
         dateOfBirth: isPregnancy ? nil : dateOfBirth,
         lastUpdate: Date(),
-        gender: gender
+        gender: gender,
+        language: selectedLanguage
       )
       try StorageManager.shared.saveProfile(profile)
       error = nil

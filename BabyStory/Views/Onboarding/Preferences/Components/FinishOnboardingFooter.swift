@@ -28,6 +28,10 @@ struct FinishOnboardingFooter: View {
           .frame(width: 8, height: 8)
         
         Circle()
+          .fill(Color.green.opacity(0.3))
+          .frame(width: 8, height: 8)
+        
+        Circle()
           .fill(Color.green)
           .frame(width: 12, height: 12)
       }

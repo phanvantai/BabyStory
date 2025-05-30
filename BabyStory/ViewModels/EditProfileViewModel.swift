@@ -17,6 +17,7 @@ class EditProfileViewModel: ObservableObject {
   @Published var dueDate: Date = Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date()
   @Published var parentNames: [String] = []
   @Published var dateOfBirth: Date? = nil
+  @Published var language: Language = Language.deviceDefault
   @Published var error: AppError?
   @Published var isLoading: Bool = false
   @Published var showTimePicker: Bool = false
@@ -159,6 +160,7 @@ class EditProfileViewModel: ObservableObject {
            parentNames != original.parentNames ||
            dateOfBirth != original.dateOfBirth ||
            dueDate != original.dueDate ||
+           language != original.language ||
            !Calendar.current.isDate(storyTime, equalTo: original.storyTime, toGranularity: .minute)
   }
   
@@ -177,6 +179,7 @@ class EditProfileViewModel: ObservableObject {
         storyTime = profile.storyTime
         parentNames = profile.parentNames
         dateOfBirth = profile.dateOfBirth
+        language = profile.language
         
         if let dueDate = profile.dueDate {
           self.dueDate = dueDate
@@ -278,7 +281,8 @@ class EditProfileViewModel: ObservableObject {
         parentNames: parentNames,
         dateOfBirth: dateOfBirth,
         lastUpdate: Date(), // Update the last update timestamp
-        gender: gender
+        gender: gender,
+        language: language
       )
 
       try StorageManager.shared.saveProfile(updatedProfile)
@@ -329,6 +333,7 @@ class EditProfileViewModel: ObservableObject {
       storyTime = original.storyTime
       parentNames = original.parentNames
       dateOfBirth = original.dateOfBirth
+      language = original.language
       
       if let dueDate = original.dueDate {
         self.dueDate = dueDate

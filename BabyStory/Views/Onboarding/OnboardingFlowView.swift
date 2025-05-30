@@ -15,14 +15,18 @@ struct OnboardingFlowView: View {
     VStack {
       switch onboardingVM.step {
       case 0:
-        OnboardingWelcomeView(viewModel: onboardingVM) {
+        OnboardingLanguageView(viewModel: onboardingVM) {
           onboardingVM.step = 1
         }
       case 1:
-        OnboardingProfileView(viewModel: onboardingVM) {
+        OnboardingWelcomeView(viewModel: onboardingVM) {
           onboardingVM.step = 2
         }
       case 2:
+        OnboardingProfileView(viewModel: onboardingVM) {
+          onboardingVM.step = 3
+        }
+      case 3:
         OnboardingPreferencesView(viewModel: onboardingVM) {
           // Profile is already saved by FinishOnboardingFooter
           onComplete()
@@ -35,11 +39,23 @@ struct OnboardingFlowView: View {
 }
 
 // MARK: - Preview
+#Preview("Language Step") {
+  OnboardingFlowView(
+    onboardingVM: {
+      let vm = OnboardingViewModel()
+      vm.step = 0 // Language step
+      return vm
+    }()
+  ) {
+    print("Onboarding completed in preview")
+  }
+}
+
 #Preview("Welcome Step") {
   OnboardingFlowView(
     onboardingVM: {
       let vm = OnboardingViewModel()
-      vm.step = 0 // Welcome step
+      vm.step = 1 // Welcome step
       return vm
     }()
   ) {
@@ -51,7 +67,7 @@ struct OnboardingFlowView: View {
   OnboardingFlowView(
     onboardingVM: {
       let vm = OnboardingViewModel()
-      vm.step = 1 // Profile step
+      vm.step = 2 // Profile step
       return vm
     }()
   ) {
@@ -63,7 +79,7 @@ struct OnboardingFlowView: View {
   OnboardingFlowView(
     onboardingVM: {
       let vm = OnboardingViewModel()
-      vm.step = 2 // Preferences step
+      vm.step = 3 // Preferences step
       // Set some sample data for a more realistic preview
       vm.name = "Emma"
       vm.babyStage = .toddler

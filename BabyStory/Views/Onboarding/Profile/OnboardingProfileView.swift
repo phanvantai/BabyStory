@@ -96,8 +96,8 @@ struct OnboardingProfileView: View {
           ProfileContinueFooter(
             viewModel: viewModel,
             onNext: onNext,
-            currentPageIndex: 1,
-            totalPages: 3
+            currentPageIndex: 2,
+            totalPages: 4
           )
         }
         .padding(.top, 60)

@@ -60,6 +60,90 @@
           }
         }
       }
+    },
+    "choose_language" : {
+      "comment" : "Header for language selector",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose Language"
+          }
+        }
+      }
+    },
+    "continue_with_language" : {
+      "comment" : "Continue button text with language",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue with %@"
+          }
+        }
+      }
+    },
+    "current_selection" : {
+      "comment" : "Current language selection label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Selection:"
+          }
+        }
+      }
+    },
+    "language_change_later_note" : {
+      "comment" : "Note about changing language later",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can change this later in Settings if needed"
+          }
+        }
+      }
+    },
+    "language_selection_subtitle" : {
+      "comment" : "Subtitle for language selection screen",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose your preferred language for the best experience"
+          }
+        }
+      }
+    },
+    "language_selection_title" : {
+      "comment" : "Title for language selection screen",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome to BabyStory"
+          }
+        }
+      }
+    },
+    "language_settings" : {
+      "comment" : "Language settings card title",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language Settings"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
