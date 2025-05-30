@@ -24,7 +24,7 @@ struct OnboardingFlowView: View {
         }
       case 2:
         OnboardingPreferencesView(viewModel: onboardingVM) {
-          onboardingVM.saveProfile()
+          // Profile is already saved by FinishOnboardingFooter
           onComplete()
         }
       default:

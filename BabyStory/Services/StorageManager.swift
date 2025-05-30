@@ -31,7 +31,10 @@ class StorageManager {
   
   func loadProfile() throws -> UserProfile? {
     let profile = try userProfileService.loadProfile()
+    // Only log profile details in debug builds or when explicitly requested
+    #if DEBUG
     Logger.logUserProfile(profile, action: "Loaded")
+    #endif
     return profile
   }
   
