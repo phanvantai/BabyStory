@@ -14,6 +14,10 @@ class OnboardingViewModel: ObservableObject {
   @Published var error: AppError?
   @Published var hasSelectedBabyStatus: Bool = false
   
+  // Notification permission handling
+  @Published var showNotificationPermissionPrompt: Bool = false
+  @Published var notificationPermissionContext: PermissionContext = .pregnancyReminders
+  
   init() {
     // Don't initialize values until user makes their choice
     // The user will first select pregnancy vs born baby status
@@ -241,6 +245,22 @@ class OnboardingViewModel: ObservableObject {
       try StorageManager.shared.saveProfile(profile)
       error = nil
       Logger.info("Onboarding profile save completed successfully", category: .onboarding)
+      
+      // Setup due date notifications for pregnancy profiles
+      if isPregnancy {
+        Task {
+          let notificationService = ServiceFactory.shared.createDueDateNotificationService()
+          let permissionAlreadyGranted = await notificationService.setupDueDateNotifications()
+          
+          if !permissionAlreadyGranted && notificationService.shouldShowPermissionExplanation() {
+            // Show permission prompt on main thread
+            await MainActor.run {
+              showNotificationPermissionPrompt = true
+            }
+          }
+        }
+      }
+      
     } catch {
       Logger.error("Failed to save profile from onboarding: \(error.localizedDescription)", category: .onboarding)
       self.error = .profileSaveFailed
@@ -261,5 +281,22 @@ class OnboardingViewModel: ObservableObject {
     default:
       return ["Peaceful Dreams", "Quiet Stories", "Sleep Adventures", "Gentle Tales"]
     }
+  }
+  
+  // MARK: - Notification Permission Methods
+  
+  /// Handles when user grants notification permission
+  func handleNotificationPermissionGranted() {
+    Task {
+      let notificationService = ServiceFactory.shared.createDueDateNotificationService()
+      await notificationService.requestNotificationPermission()
+    }
+    showNotificationPermissionPrompt = false
+  }
+  
+  /// Handles when user denies notification permission
+  func handleNotificationPermissionDenied() {
+    showNotificationPermissionPrompt = false
+    // Continue without notifications - user can enable them later in settings
   }
 }

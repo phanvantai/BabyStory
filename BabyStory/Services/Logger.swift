@@ -14,6 +14,7 @@ struct Logger {
     case onboarding = "Onboarding"
     case settings = "Settings"
     case general = "General"
+    case notification = "Notification"
     
     var subsystem: String {
       return "com.randomtech.BabyStory"

@@ -142,6 +142,8 @@ class HomeViewModel: ObservableObject {
     
     guard autoUpdateService.needsAutoUpdate() else {
       Logger.debug("No auto-updates needed", category: .autoUpdate)
+      // Still check for due date notifications even if no profile updates needed
+      await ensureDueDateNotificationsSetup()
       return
     }
     
@@ -162,6 +164,20 @@ class HomeViewModel: ObservableObject {
       Logger.error("Auto-update failed: \(error.localizedDescription)", category: .autoUpdate)
       // Don't show error to user for auto-updates, just log it
     }
+    
+    // Ensure due date notifications are properly set up
+    await ensureDueDateNotificationsSetup()
+  }
+  
+  /// Ensures due date notifications are set up for pregnancy profiles
+  private func ensureDueDateNotificationsSetup() async {
+    guard let currentProfile = profile, currentProfile.isPregnancy else {
+      return
+    }
+    
+    Logger.debug("Ensuring due date notifications are set up for pregnancy profile", category: .notification)
+    let notificationService = ServiceFactory.shared.createDueDateNotificationService()
+    await notificationService.scheduleNotificationsForCurrentProfile()
   }
   
   /// Manually triggers auto-update check (for testing or manual refresh)

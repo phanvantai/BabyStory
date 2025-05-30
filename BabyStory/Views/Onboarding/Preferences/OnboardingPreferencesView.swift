@@ -79,6 +79,19 @@ struct OnboardingPreferencesView: View {
         .animation(.spring(response: 0.6, dampingFraction: 0.8), value: showTimePicker)
       }
     }
+    .notificationPermissionPrompt(
+      context: viewModel.notificationPermissionContext,
+      onGranted: viewModel.handleNotificationPermissionGranted,
+      onDenied: viewModel.handleNotificationPermissionDenied
+    )
+    .sheet(isPresented: $viewModel.showNotificationPermissionPrompt) {
+      NotificationPermissionSheet(
+        permissionManager: NotificationPermissionManager.shared,
+        context: viewModel.notificationPermissionContext,
+        onPermissionGranted: viewModel.handleNotificationPermissionGranted,
+        onPermissionDenied: viewModel.handleNotificationPermissionDenied
+      )
+    }
   }
 }
 

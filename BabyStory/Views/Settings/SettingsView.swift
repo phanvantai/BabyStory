@@ -149,6 +149,31 @@ struct SettingsView: View {
               .padding(.horizontal, 24)
             }
             
+            // Notifications Section
+            AnimatedEntrance(delay: 0.6) {
+              VStack(spacing: 16) {
+                HStack {
+                  Image(systemName: "bell.fill")
+                    .foregroundColor(.purple)
+                    .font(.title3)
+                  Text("Notifications")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                  Spacer()
+                }
+                
+                NotificationPermissionPrompt(
+                  permissionManager: NotificationPermissionManager.shared,
+                  context: .general,
+                  onPermissionGranted: {},
+                  onPermissionDenied: {}
+                )
+              }
+              .padding(20)
+              .appCardStyle()
+              .padding(.horizontal, 24)
+            }
+            
             // Parental Controls Section (temporarily hidden)
             if showParentalControls {
               AnimatedEntrance(delay: 0.7) {
@@ -189,7 +214,7 @@ struct SettingsView: View {
             }
             
             // Support Section
-            AnimatedEntrance(delay: 0.8) {
+            AnimatedEntrance(delay: 0.9) {
               VStack(spacing: 16) {
                 HStack {
                   Image(systemName: "questionmark.circle.fill")
@@ -226,7 +251,7 @@ struct SettingsView: View {
             }
             
             // App Info Section
-            AnimatedEntrance(delay: 0.9) {
+            AnimatedEntrance(delay: 1.0) {
               VStack(spacing: 16) {
                 HStack {
                   Image(systemName: "info.circle.fill")

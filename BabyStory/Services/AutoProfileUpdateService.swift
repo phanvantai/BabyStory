@@ -13,10 +13,12 @@ class AutoProfileUpdateService {
   
   // MARK: - Properties
   private let storageManager: StorageManager
+  private let notificationService: DueDateNotificationService
   
   // MARK: - Initialization
   init(storageManager: StorageManager = StorageManager.shared) {
     self.storageManager = storageManager
+    self.notificationService = DueDateNotificationService(storageManager: storageManager)
   }
   
   // MARK: - Public Methods
@@ -48,6 +50,9 @@ class AutoProfileUpdateService {
           updatedProfile.dateOfBirth = currentProfile.dueDate
           updatedProfile.dueDate = nil // Clear due date as it's no longer needed
           Logger.info("Pregnancy-to-newborn transition: Setting dateOfBirth to due date", category: .autoUpdate)
+          
+          // Cancel due date notifications since baby is now born
+          notificationService.cancelAllDueDateNotifications()
         }
         
         result.stageProgression = stageUpdate
@@ -77,8 +82,16 @@ class AutoProfileUpdateService {
       if result.hasUpdates {
         try storageManager.saveProfile(updatedProfile)
         Logger.logAutoUpdatePerformed(from: currentProfile, to: updatedProfile)
+        
+        // Handle notification updates
+        notificationService.handleProfileUpdate()
       } else {
         Logger.logAutoUpdateSkipped(currentProfile, reason: "No updates needed")
+      }
+      
+      // Setup or update due date notifications for pregnancy profiles
+      if updatedProfile.isPregnancy && updatedProfile.dueDate != nil {
+        await notificationService.scheduleNotificationsForCurrentProfile()
       }
       
       return result
@@ -89,6 +102,14 @@ class AutoProfileUpdateService {
     }
   }
   
+  /// Sets up due date notifications for the current profile
+  /// Only schedules if permission is already granted, doesn't request permission
+  func setupDueDateNotifications() async {
+    let _ = await notificationService.setupDueDateNotifications()
+    // Note: This method now only schedules if permission exists
+    // Permission requests should be handled by the UI layer
+  }
+
   /// Checks if profile needs auto-updating without performing the update
   /// - Returns: Bool indicating if auto-update is needed
   func needsAutoUpdate() -> Bool {

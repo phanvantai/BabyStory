@@ -74,6 +74,22 @@ class ServiceFactory {
       fatalError("CloudKit not implemented yet")
     }
   }
+  
+  /// Create a due date notification service instance
+  /// - Parameter storageType: The type of storage to use
+  /// - Returns: A DueDateNotificationService instance
+  func createDueDateNotificationService(storageType: StorageType = .userDefaults) -> DueDateNotificationService {
+    let storageManager = StorageManager.shared
+    return DueDateNotificationService(storageManager: storageManager)
+  }
+  
+  /// Create an auto profile update service instance
+  /// - Parameter storageType: The type of storage to use
+  /// - Returns: An AutoProfileUpdateService instance
+  func createAutoProfileUpdateService(storageType: StorageType = .userDefaults) -> AutoProfileUpdateService {
+    let storageManager = StorageManager.shared
+    return AutoProfileUpdateService(storageManager: storageManager)
+  }
 }
 
 // MARK: - Storage Type Enum

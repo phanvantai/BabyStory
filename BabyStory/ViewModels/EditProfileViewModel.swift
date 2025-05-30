@@ -255,20 +255,19 @@ class EditProfileViewModel: ObservableObject {
       interests.append(interest)
     }
   }
-  
-  func saveProfile() async -> Bool {
+   func saveProfile() async -> Bool {
     guard canSave else {
       error = .invalidProfile
       return false
     }
-    
+
     await MainActor.run {
       isLoading = true
       error = nil
     }
-    
+
     Logger.info("Saving updated profile", category: .userProfile)
-    
+
     do {
       let updatedProfile = UserProfile(
         name: name,
@@ -281,14 +280,34 @@ class EditProfileViewModel: ObservableObject {
         lastUpdate: Date(), // Update the last update timestamp
         gender: gender
       )
-      
+
       try StorageManager.shared.saveProfile(updatedProfile)
+
+      // Handle notification updates based on profile changes
+      let notificationService = ServiceFactory.shared.createDueDateNotificationService()
       
+      // Check if this is a significant change that affects notifications
+      let wasPregnancy = originalProfile?.isPregnancy ?? false
+      let dueDateChanged = originalProfile?.dueDate != updatedProfile.dueDate
+      
+      if wasPregnancy && !updatedProfile.isPregnancy {
+        // Changed from pregnancy to born baby - cancel all notifications
+        notificationService.cancelAllDueDateNotifications()
+        Logger.info("Profile changed from pregnancy to born baby, cancelled due date notifications", category: .userProfile)
+      } else if updatedProfile.isPregnancy && (dueDateChanged || !wasPregnancy) {
+        // Due date changed or switched to pregnancy - reschedule notifications
+        await notificationService.scheduleNotificationsForCurrentProfile()
+        Logger.info("Due date updated, rescheduled notifications", category: .userProfile)
+      } else if updatedProfile.isPregnancy {
+        // Still pregnancy but profile manually updated - handle notification update
+        notificationService.handleProfileUpdate()
+      }
+
       await MainActor.run {
         isLoading = false
         Logger.info("Profile updated successfully for: \(name)", category: .userProfile)
       }
-      
+
       return true
     } catch {
       await MainActor.run {
