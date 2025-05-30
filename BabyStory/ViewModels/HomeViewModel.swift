@@ -10,7 +10,8 @@ class HomeViewModel: ObservableObject {
   private let autoUpdateService = AutoProfileUpdateService()
   
   init() {
-    refresh()
+    // Don't automatically refresh in init to avoid race conditions
+    // Let AppView handle the initial data loading flow
   }
   
   func refresh() {
@@ -23,9 +24,11 @@ class HomeViewModel: ObservableObject {
       // Log current app state
       Logger.info("Home refresh completed - Stories count: \(stories.count)", category: .userProfile)
       
-      // Check for auto-updates
-      Task {
-        await checkAndPerformAutoUpdates()
+      // Only check for auto-updates if we have a profile
+      if profile != nil {
+        Task {
+          await checkAndPerformAutoUpdates()
+        }
       }
       
     } catch {
@@ -132,6 +135,12 @@ class HomeViewModel: ObservableObject {
   /// Checks and performs automatic profile updates
   @MainActor
   private func checkAndPerformAutoUpdates() async {
+    // Ensure we have a profile before attempting auto-updates
+    guard profile != nil else {
+      Logger.debug("No profile available - skipping auto-updates", category: .autoUpdate)
+      return
+    }
+    
     guard autoUpdateService.needsAutoUpdate() else {
       Logger.debug("No auto-updates needed", category: .autoUpdate)
       return

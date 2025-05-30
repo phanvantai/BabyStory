@@ -30,9 +30,9 @@ struct AppView: View {
             if newPhase == .active && oldPhase == .background {
                 Logger.info("App became active from background - refreshing data", category: .general)
                 // App became active from background - refresh data if needed
-                Task {
-                    await MainActor.run {
-                        if !needsOnboarding {
+                if !needsOnboarding && !isLoading {
+                    Task {
+                        await MainActor.run {
                             homeVM.refresh()
                         }
                     }
@@ -75,6 +75,8 @@ struct AppView: View {
                         Logger.info("No user profile found - showing onboarding", category: .general)
                     } else {
                         Logger.info("User profile exists - proceeding to home view", category: .general)
+                        // Only refresh home view if we have a profile and are going to home
+                        homeVM.refresh()
                     }
                 }
             } catch {
