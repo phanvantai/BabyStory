@@ -123,33 +123,6 @@ struct HomeView: View {
       .onAppear {
         libraryVM.loadStories()
       }
-      // Auto-update notifications overlay
-      .overlay {
-        ZStack {
-          // Growth celebration overlay
-          if viewModel.autoUpdateNotificationManager.showGrowthCelebration {
-            GrowthCelebrationView(
-              message: viewModel.autoUpdateNotificationManager.getGrowthMessage()
-            ) {
-              viewModel.autoUpdateNotificationManager.showGrowthCelebration = false
-            }
-            .zIndex(1000)
-          }
-          
-          // Interest update alert overlay
-          if viewModel.autoUpdateNotificationManager.showInterestUpdateAlert,
-             let updateInfo = viewModel.autoUpdateNotificationManager.getInterestUpdateInfo() {
-            Color.black.opacity(0.3)
-              .ignoresSafeArea()
-              .overlay {
-                InterestUpdateAlert(updateInfo: updateInfo) {
-                  viewModel.autoUpdateNotificationManager.showInterestUpdateAlert = false
-                }
-              }
-              .zIndex(999)
-          }
-        }
-      }
     }
   }
 }

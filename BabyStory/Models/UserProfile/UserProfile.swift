@@ -61,6 +61,12 @@ struct UserProfile: Codable, Equatable {
   
   // Computed property for automatically determined baby stage based on date of birth
   var currentBabyStage: BabyStage {
+    // Handle pregnancy profiles - if due date has passed, should be newborn
+    if babyStage == .pregnancy, let dueDate = dueDate, Date() >= dueDate {
+      return .newborn
+    }
+    
+    // For non-pregnancy profiles, calculate stage based on date of birth
     guard let dateOfBirth = dateOfBirth else { return babyStage }
     
     let calendar = Calendar.current
@@ -141,6 +147,12 @@ struct UserProfile: Codable, Equatable {
   
   // Method to check if the baby has grown to a new stage
   func hasGrownToNewStage() -> Bool {
+    // For pregnancy profiles, check if due date has passed (indicating transition to newborn)
+    if babyStage == .pregnancy, let dueDate = dueDate {
+      return Date() >= dueDate
+    }
+    
+    // For born babies, check if calculated stage differs from stored stage
     return dateOfBirth != nil && currentBabyStage != babyStage
   }
 }

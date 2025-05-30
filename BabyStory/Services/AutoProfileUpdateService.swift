@@ -41,6 +41,15 @@ class AutoProfileUpdateService {
       // Check for stage progression
       if let stageUpdate = checkForStageProgression(profile: currentProfile) {
         updatedProfile.babyStage = stageUpdate.newStage
+        
+        // Special handling for pregnancy-to-newborn transition
+        if currentProfile.babyStage == .pregnancy && stageUpdate.newStage == .newborn {
+          // Set date of birth to due date when transitioning from pregnancy to newborn
+          updatedProfile.dateOfBirth = currentProfile.dueDate
+          updatedProfile.dueDate = nil // Clear due date as it's no longer needed
+          Logger.info("Pregnancy-to-newborn transition: Setting dateOfBirth to due date", category: .autoUpdate)
+        }
+        
         result.stageProgression = stageUpdate
         Logger.info("Stage progression detected: \(currentProfile.babyStage.displayName) → \(stageUpdate.newStage.displayName)", category: .autoUpdate)
         

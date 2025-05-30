@@ -6,7 +6,6 @@ class HomeViewModel: ObservableObject {
   @Published var error: AppError?
   
   // Auto-update properties
-  @Published var autoUpdateNotificationManager = AutoUpdateNotificationManager()
   private let autoUpdateService = AutoProfileUpdateService()
   
   init() {
@@ -153,9 +152,6 @@ class HomeViewModel: ObservableObject {
       // Refresh profile with updates
       do {
         profile = try StorageManager.shared.loadProfile()
-        
-        // Process notifications
-        autoUpdateNotificationManager.processUpdateResult(result)
         
         Logger.info("Auto-update completed successfully", category: .autoUpdate)
       } catch {

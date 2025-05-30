@@ -74,26 +74,6 @@ struct AutoUpdateSettingsView: View {
               Toggle("", isOn: $viewModel.interestUpdatesEnabled)
             }
             .padding(.vertical, 4)
-            
-            // Notification settings
-            HStack {
-              Image(systemName: "bell.circle.fill")
-                .foregroundColor(.purple)
-                .font(.title3)
-              
-              VStack(alignment: .leading, spacing: 4) {
-                Text("Growth Celebrations")
-                  .font(.subheadline)
-                Text("Show celebration messages when your child reaches a new stage")
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-              }
-              
-              Spacer()
-              
-              Toggle("", isOn: $viewModel.growthNotificationsEnabled)
-            }
-            .padding(.vertical, 4)
           }
         } header: {
           Text("Auto-Update Settings")
@@ -176,12 +156,6 @@ class AutoUpdateSettingsViewModel: ObservableObject {
     }
   }
   
-  @Published var growthNotificationsEnabled: Bool {
-    didSet {
-      saveSettings()
-    }
-  }
-  
   @Published var isCheckingForUpdates = false
   @Published var showUpdateResult = false
   @Published var updateResultMessage = ""
@@ -203,18 +177,33 @@ class AutoUpdateSettingsViewModel: ObservableObject {
   }
   
   init() {
-    // Load settings from UserDefaults
-    self.autoUpdateEnabled = UserDefaults.standard.bool(forKey: "auto_update_enabled")
-    self.stageProgressionEnabled = UserDefaults.standard.bool(forKey: "stage_progression_enabled")
-    self.interestUpdatesEnabled = UserDefaults.standard.bool(forKey: "interest_updates_enabled")
-    self.growthNotificationsEnabled = UserDefaults.standard.bool(forKey: "growth_notifications_enabled")
+    // Load settings from UserDefaults with sensible defaults
+    // Check if this is the first time by looking for a key that indicates settings have been initialized
+    let hasInitializedSettings = UserDefaults.standard.object(forKey: "auto_update_settings_initialized") != nil
+    
+    if !hasInitializedSettings {
+      // First time - set user-friendly defaults
+      self.autoUpdateEnabled = true
+      self.stageProgressionEnabled = true
+      self.interestUpdatesEnabled = true
+      
+      // Mark as initialized and save defaults
+      UserDefaults.standard.set(true, forKey: "auto_update_settings_initialized")
+      UserDefaults.standard.set(true, forKey: "auto_update_enabled")
+      UserDefaults.standard.set(true, forKey: "stage_progression_enabled")
+      UserDefaults.standard.set(true, forKey: "interest_updates_enabled")
+    } else {
+      // Load existing settings
+      self.autoUpdateEnabled = UserDefaults.standard.bool(forKey: "auto_update_enabled")
+      self.stageProgressionEnabled = UserDefaults.standard.bool(forKey: "stage_progression_enabled")
+      self.interestUpdatesEnabled = UserDefaults.standard.bool(forKey: "interest_updates_enabled")
+    }
   }
   
   private func saveSettings() {
     UserDefaults.standard.set(autoUpdateEnabled, forKey: "auto_update_enabled")
     UserDefaults.standard.set(stageProgressionEnabled, forKey: "stage_progression_enabled")
     UserDefaults.standard.set(interestUpdatesEnabled, forKey: "interest_updates_enabled")
-    UserDefaults.standard.set(growthNotificationsEnabled, forKey: "growth_notifications_enabled")
   }
   
   @MainActor
