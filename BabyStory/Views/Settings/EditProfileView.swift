@@ -163,7 +163,7 @@ struct EditProfileView: View {
         )
         .multilineTextAlignment(.center)
         
-        Text("Update your child information")
+        Text("Update baby information")
           .font(.body)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
