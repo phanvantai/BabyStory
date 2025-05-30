@@ -72,8 +72,8 @@ struct SettingsView: View {
                       .foregroundColor(.secondary)
                   }
                   .padding(.vertical, 12)
+                  .contentShape(Rectangle())
                 }
-                .buttonStyle(PlainButtonStyle())
               }
               .padding(20)
               .appCardStyle()
@@ -156,8 +156,8 @@ struct SettingsView: View {
                         .foregroundColor(.secondary)
                     }
                     .padding(.vertical, 12)
+                    .contentShape(Rectangle())
                   }
-                  .buttonStyle(PlainButtonStyle())
                 }
                 .padding(20)
                 .appCardStyle()
@@ -194,8 +194,8 @@ struct SettingsView: View {
                       .foregroundColor(.teal)
                   }
                   .padding(.vertical, 12)
+                  .contentShape(Rectangle())
                 }
-                .buttonStyle(PlainButtonStyle())
               }
               .padding(20)
               .appCardStyle()
