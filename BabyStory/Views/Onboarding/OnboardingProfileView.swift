@@ -31,40 +31,63 @@ struct OnboardingProfileView: View {
           // Form content
           AnimatedEntrance(delay: 0.4) {
             VStack(spacing: 24) {
-              // Baby stage selection
-              BabyStageSelector(viewModel: viewModel)
+              // First step: Pregnancy status selection
+              PregnancyStatusSelector(viewModel: viewModel)
+              
+              // Show appropriate sections based on selection
+              if viewModel.hasSelectedBabyStatus {
+                if viewModel.isPregnancy {
+                  // Pregnancy flow
+                  VStack(spacing: 24) {
+                    // Name input for pregnancy
+                    NameInputField(
+                      name: $viewModel.name,
+                      iconName: "textformat.abc",
+                      iconColor: .cyan,
+                      label: "Baby's Name",
+                      placeholder: "What will you call your baby?"
+                    )
+                    
+                    // Gender selection
+                    GenderSelector(viewModel: viewModel)
+                    
+                    // Due date
+                    DueDatePicker(dueDate: $viewModel.dueDate)
+                    
+                    // Parent names
+                    ParentNamesInput(viewModel: viewModel)
+                    
+                    // Interests selection
+                    InterestsSelector(viewModel: viewModel)
+                  }
+                } else {
+                  // Born baby flow
+                  VStack(spacing: 24) {
+                    // Baby stage selection (excluding pregnancy)
+                    BornBabyStageSelector(viewModel: viewModel)
+                    
+                    // Name input for born baby
+                    NameInputField(
+                      name: $viewModel.name,
+                      iconName: "textformat.abc",
+                      iconColor: .cyan,
+                      label: "Name",
+                      placeholder: "Enter your child's name"
+                    )
+                    
+                    // Gender selection
+                    GenderSelector(viewModel: viewModel)
+                    
+                    // Date of birth
+                    DateOfBirthPicker(viewModel: viewModel)
+                    
+                    // Interests selection
+                    InterestsSelector(viewModel: viewModel)
+                  }
+                }
+              }
             }
           }
-          
-          // Name input
-          NameInputField(
-            name: $viewModel.name,
-            iconName: "textformat.abc",
-            iconColor: .cyan,
-            label: viewModel.isPregnancy ? "Baby's Name" : "Name",
-            placeholder: viewModel.isPregnancy ? "What will you call your baby?" : "Enter your child's name"
-          )
-          
-          // Gender selection
-          GenderSelector(viewModel: viewModel)
-          
-          // Date of birth input (if not pregnancy)
-          if viewModel.shouldShowDateOfBirth {
-            DateOfBirthPicker(viewModel: viewModel)
-          }
-          
-          // Due date (if pregnancy)
-          if viewModel.shouldShowDueDate {
-            DueDatePicker(dueDate: $viewModel.dueDate)
-          }
-          
-          // Parent names (if pregnancy)
-          if viewModel.shouldShowParentNames {
-            ParentNamesInput(viewModel: viewModel)
-          }
-          
-          // Interests selection
-          InterestsSelector(viewModel: viewModel)
         }
         .padding(.horizontal, 24)
         

@@ -12,23 +12,11 @@ class OnboardingViewModel: ObservableObject {
   @Published var gender: Gender = .notSpecified
   @Published var step: Int = 0
   @Published var error: AppError?
+  @Published var hasSelectedBabyStatus: Bool = false
   
   init() {
-    // Initialize with default values based on the default baby stage
-    initializeForCurrentBabyStage()
-  }
-  
-  // Initialization helper method
-  private func initializeForCurrentBabyStage() {
-    // Initialize parent names if pregnancy and empty
-    if isPregnancy && parentNames.isEmpty {
-      addParentName()
-    }
-    
-    // Set default date of birth based on baby stage if it's not pregnancy
-    if babyStage != .pregnancy {
-      setDefaultDateOfBirth()
-    }
+    // Don't initialize values until user makes their choice
+    // The user will first select pregnancy vs born baby status
   }
   
   // Computed properties for UI state
@@ -166,6 +154,9 @@ class OnboardingViewModel: ObservableObject {
   }
   
   var canProceed: Bool {
+    // First check if user has made their initial choice
+    guard hasSelectedBabyStatus else { return false }
+    
     return isValidName && isValidDateOfBirth && isValidParentNames
   }
   
@@ -184,6 +175,7 @@ class OnboardingViewModel: ObservableObject {
   
   func updateBabyStage(_ newStage: BabyStage) {
     babyStage = newStage
+    hasSelectedBabyStatus = true
     
     // Clear date of birth if switching to pregnancy
     if newStage == .pregnancy {
@@ -197,7 +189,7 @@ class OnboardingViewModel: ObservableObject {
       parentNames.removeAll()
     }
     
-    // Clear interests when stage changes
+    // Clear interests when stage changes to avoid invalid interests
     interests.removeAll()
   }
   
