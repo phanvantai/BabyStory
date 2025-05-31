@@ -17,6 +17,13 @@
 "continue_with_language" = "Continue with %@";
 "language_settings" = "Language Settings";
 
+// Onboarding Welcome
+"onboarding_welcome_welcome_to" = "Welcome to";
+"onboarding_welcome_app_name" = "Baby Story";
+"onboarding_welcome_headline" = "Create magical bedtime stories";
+"onboarding_welcome_description" = "Personalized adventures that spark imagination and create lasting memories for your little one";
+"onboarding_welcome_lets_begin" = "Let's Begin";
+
 // Baby stage display name
 "baby_stage_name_infant" = "Infant (3-12 months)";
 "baby_stage_name_toddler" = "Toddler (1-3 years)";

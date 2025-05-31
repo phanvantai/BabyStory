@@ -15,10 +15,9 @@ struct Language: Codable, Hashable, CaseIterable {
 //   static let italian = Language(code: "it", name: "Italian", nativeName: "Italiano", flag: "🇮🇹")
 //   static let portuguese = Language(code: "pt", name: "Portuguese", nativeName: "Português", flag: "🇵🇹")
 //   static let chinese = Language(code: "zh", name: "Chinese", nativeName: "中文", flag: "🇨🇳")
-//   static let japanese = Language(code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵")
-//   static let korean = Language(code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷")
-//   static let arabic = Language(code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦")
-  // vietnamese is intentionally excluded as per requirements
+//   static let japanese = Language(code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵")  //   static let korean = Language(code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷")
+  //   static let arabic = Language(code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦")
+  
   static let vietnamese = Language(code: "vi", name: "Vietnamese", nativeName: "Tiếng Việt", flag: "🇻🇳")
   
   // MARK: - CaseIterable Implementation
@@ -62,16 +61,8 @@ struct Language: Codable, Hashable, CaseIterable {
   
   /// Saves the language preference
   func save() {
-    UserDefaults.standard.set(code, forKey: "selectedLanguage")
-    
-    UserDefaults.standard.synchronize()
-    
-    // Log the language change
-    print("Language changed to: \(fullDisplayName)")
-    
-    // Update the app's language setting
-    UserDefaults.standard.set([code], forKey: "AppleLanguages")
-    UserDefaults.standard.synchronize()
+    // Use LanguageManager to handle all the saving and UI updates
+    LanguageManager.shared.updateLanguage(code)
   }
 }
 

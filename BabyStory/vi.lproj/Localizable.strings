@@ -5,3 +5,28 @@
   Created by Tai Phan Van on 31/5/25.
   
 */
+
+// Onboarding views
+
+// language selection
+"language_selection_title" = "Chào mừng đến với BabyStory";
+"language_selection_subtitle" = "Chọn ngôn ngữ yêu thích của bạn để có trải nghiệm tốt nhất";
+"choose_language" = "Chọn Ngôn Ngữ";
+"current_selection" = "Lựa chọn hiện tại:";
+"language_change_later_note" = "Bạn có thể thay đổi điều này sau trong Cài đặt nếu cần";
+"continue_with_language" = "Tiếp tục với %@";
+"language_settings" = "Cài đặt Ngôn Ngữ";
+
+// Onboarding Welcome
+"onboarding_welcome_welcome_to" = "Chào mừng đến với";
+"onboarding_welcome_app_name" = "Baby Story";
+"onboarding_welcome_headline" = "Tạo những câu chuyện ru ngủ kỳ diệu";
+"onboarding_welcome_description" = "Những cuộc phiêu lưu được cá nhân hóa khơi dậy trí tưởng tượng và tạo ra những kỷ niệm lâu dài cho bé yêu của bạn";
+"onboarding_welcome_lets_begin" = "Bắt Đầu Nào";
+
+// Baby stage display name
+"baby_stage_name_infant" = "Trẻ sơ sinh (3-12 tháng)";
+"baby_stage_name_toddler" = "Trẻ mới biết đi (1-3 tuổi)";
+"baby_stage_name_preschooler" = "Trẻ mầm non (3-5 tuổi)";
+"baby_stage_name_newborn" = "Trẻ sơ sinh (0-3 tháng)";
+"baby_stage_name_pregnancy" = "Trong thai kỳ";

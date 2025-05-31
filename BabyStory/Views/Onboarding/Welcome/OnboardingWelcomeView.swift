@@ -41,7 +41,7 @@ struct OnboardingWelcomeView: View {
           OnboardingNavigationFooter(
             pageIndex: 1,
             totalPages: 4,
-            buttonText: "Let's Begin",
+            buttonText: "onboarding_welcome_lets_begin".localized,
             onNext: onNext
           )
         }

@@ -6,20 +6,33 @@
 //
 
 import Foundation
+import ObjectiveC
 
 class LanguageManager: ObservableObject {
   
   static let shared = LanguageManager()
   @Published var currentLanguage: String {
-          didSet {
-              UserDefaults.standard.set(currentLanguage, forKey: "selectedLanguage")
-              Bundle.setLanguage(currentLanguage)
-          }
-      }
+    didSet {
+      // Only update the Bundle, don't save to UserDefaults here
+      // UserDefaults saving is handled by Language.save()
+      Bundle.setLanguage(currentLanguage)
+    }
+  }
+  
   private init() {
-          currentLanguage = UserDefaults.standard.string(forKey: "selectedLanguage") ?? Locale.current.languageCode ?? "en"
-          Bundle.setLanguage(currentLanguage)
-      }
+    currentLanguage = UserDefaults.standard.string(forKey: "selectedLanguage") ?? Locale.current.language.languageCode?.identifier ?? "en"
+    Bundle.setLanguage(currentLanguage)
+  }
+  
+  /// Updates the current language and saves to UserDefaults
+  func updateLanguage(_ languageCode: String) {
+    UserDefaults.standard.set(languageCode, forKey: "selectedLanguage")
+    UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
+    UserDefaults.standard.synchronize()
+    
+    // This will trigger the didSet which updates the Bundle
+    currentLanguage = languageCode
+  }
 }
 
 private var bundleKey: UInt8 = 0
@@ -34,7 +47,7 @@ extension Bundle {
     }
 }
 
-private class BundleEx: Bundle {
+private class BundleEx: Bundle, @unchecked Sendable {
     override func localizedString(forKey key: String, value: String?, table tableName: String?) -> String {
         let associated = objc_getAssociatedObject(self, &bundleKey) as? Bundle
         return associated?.localizedString(forKey: key, value: value, table: tableName) ?? super.localizedString(forKey: key, value: value, table: tableName)

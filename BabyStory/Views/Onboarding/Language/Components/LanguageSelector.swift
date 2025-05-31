@@ -19,6 +19,8 @@ struct LanguageSelector: View {
         ForEach(Language.allCases, id: \.self) { language in
           Button(action: {
             viewModel.selectedLanguage = language
+            // Apply language change immediately
+            language.save()
           }) {
             HStack(spacing: 16) {
               // Language flag and name

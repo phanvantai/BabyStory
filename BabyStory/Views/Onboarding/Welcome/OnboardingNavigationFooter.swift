@@ -3,7 +3,7 @@ import SwiftUI
 struct OnboardingNavigationFooter: View {
   var pageIndex: Int = 0
   var totalPages: Int = 3
-  var buttonText: String = "Let's Begin"
+  var buttonText: String = "onboarding_welcome_lets_begin".localized
   var onNext: () -> Void
   
   var body: some View {

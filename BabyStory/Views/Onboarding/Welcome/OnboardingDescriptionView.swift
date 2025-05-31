@@ -3,13 +3,13 @@ import SwiftUI
 struct OnboardingDescriptionView: View {
   var body: some View {
     VStack(spacing: 12) {
-      Text("Create magical bedtime stories")
+      Text("onboarding_welcome_headline".localized)
         .font(.title3)
         .fontWeight(.semibold)
         .foregroundColor(.primary)
         .multilineTextAlignment(.center)
       
-      Text("Personalized adventures that spark imagination and create lasting memories for your little one")
+      Text("onboarding_welcome_description".localized)
         .font(.body)
         .foregroundColor(.secondary)
         .multilineTextAlignment(.center)

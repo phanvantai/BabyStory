@@ -73,8 +73,7 @@ struct OnboardingLanguageView: View {
           LanguageContinueFooter(
             selectedLanguage: viewModel.selectedLanguage,
             onNext: {
-              // Save the selected language
-              viewModel.selectedLanguage.save()
+              // Language is already saved when selected, just proceed
               onNext()
             },
             currentPageIndex: 0,

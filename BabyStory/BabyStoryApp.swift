@@ -11,20 +11,21 @@ import UserNotifications
 @main
 struct BabyStoryApp: App {
     @StateObject private var themeManager = ThemeManager.shared
+    @StateObject private var languageManager = LanguageManager.shared
     @StateObject private var notificationDelegate = NotificationDelegate()
-  @AppStorage("AppLanguage") var language: String = "en"
     
     var body: some Scene {
         WindowGroup {
             AppView()
                 .environmentObject(themeManager)
+                .environmentObject(languageManager)
                 .preferredColorScheme(themeManager.preferredColorScheme)
                 .withCustomNavigationBarAppearance() // Apply custom navigation bar appearance
                 .animation(.easeInOut(duration: 0.3), value: themeManager.preferredColorScheme)
                 .onAppear {
                     setupNotifications()
                 }
-                .environment(\.locale, .init(identifier: language))
+                .environment(\.locale, .init(identifier: languageManager.currentLanguage))
         }
     }
     

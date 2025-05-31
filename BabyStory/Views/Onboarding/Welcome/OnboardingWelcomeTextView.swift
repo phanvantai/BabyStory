@@ -3,13 +3,13 @@ import SwiftUI
 struct OnboardingWelcomeTextView: View {
   var body: some View {
     VStack(spacing: 16) {
-      Text("Welcome to")
+      Text("onboarding_welcome_welcome_to".localized)
         .font(.title2)
         .fontWeight(.medium)
         .foregroundColor(.primary)
       
       GradientText(
-        "Baby Story",
+        "onboarding_welcome_app_name".localized,
         font: .system(size: 42, weight: .bold, design: .rounded)
       )
     }
