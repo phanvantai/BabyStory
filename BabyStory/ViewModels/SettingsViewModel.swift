@@ -93,4 +93,26 @@ class SettingsViewModel: ObservableObject {
       self.error = .dataSaveFailed
     }
   }
+  
+  // MARK: - Notification Permission Methods
+  
+  /// Handles when user grants notification permission from Settings
+  func handleNotificationPermissionGranted() async {
+    Task {
+      let notificationService = ServiceFactory.shared.createDueDateNotificationService()
+      let success = await notificationService.requestNotificationPermission()
+      
+      if success {
+        Logger.info("Notifications enabled from Settings - due date notifications set up", category: .notification)
+      } else {
+        Logger.warning("Failed to set up notifications from Settings", category: .notification)
+      }
+    }
+  }
+  
+  /// Handles when user denies notification permission from Settings
+  func handleNotificationPermissionDenied() {
+    Logger.info("User declined notifications from Settings", category: .notification)
+    // User can always enable notifications later from Settings or iOS Settings
+  }
 }

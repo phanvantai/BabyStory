@@ -162,11 +162,17 @@ struct SettingsView: View {
                   Spacer()
                 }
                 
-                NotificationPermissionPrompt(
+                NotificationStatusView(
                   permissionManager: NotificationPermissionManager.shared,
                   context: .general,
-                  onPermissionGranted: {},
-                  onPermissionDenied: {}
+                  onPermissionGranted: {
+                    Task {
+                      await viewModel.handleNotificationPermissionGranted()
+                    }
+                  },
+                  onPermissionDenied: {
+                    viewModel.handleNotificationPermissionDenied()
+                  }
                 )
               }
               .padding(20)
