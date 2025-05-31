@@ -130,6 +130,7 @@ struct Logger {
     ❤️ Interests: \(interestsInfo)
     🕐 Last Update: \(dateFormatter.string(from: profile.lastUpdate))
     📊 Status: \(updateInfo)
+    language: \(profile.language.displayName)
     """, category: .userProfile)
   }
   
