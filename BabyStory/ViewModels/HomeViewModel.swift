@@ -130,12 +130,12 @@ class HomeViewModel: ObservableObject {
   @MainActor
   private func checkAndPerformAutoUpdates() async {
     // Ensure we have a profile before attempting auto-updates
-    guard profile != nil else {
+    guard let currentProfile = profile else {
       Logger.debug("No profile available - skipping auto-updates", category: .autoUpdate)
       return
     }
     
-    guard autoUpdateService.needsAutoUpdate() else {
+    guard autoUpdateService.needsAutoUpdate(profile: currentProfile) else {
       Logger.debug("No auto-updates needed", category: .autoUpdate)
       // Still check for due date notifications even if no profile updates needed
       await ensureDueDateNotificationsSetup()
@@ -143,7 +143,7 @@ class HomeViewModel: ObservableObject {
     }
     
     Logger.info("Performing automatic profile updates", category: .autoUpdate)
-    let result = await autoUpdateService.performAutoUpdate()
+    let result = await autoUpdateService.performAutoUpdate(profile: currentProfile)
     
     if result.isSuccess && result.hasUpdates {
       // Refresh profile with updates

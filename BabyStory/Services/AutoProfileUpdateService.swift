@@ -24,14 +24,22 @@ class AutoProfileUpdateService {
   // MARK: - Public Methods
   
   /// Performs automatic profile updates and returns update results
+  /// - Parameter profile: Optional user profile. If provided, avoids loading the profile again from storage
   /// - Returns: AutoUpdateResult containing information about what was updated
-  func performAutoUpdate() async -> AutoUpdateResult {
+  func performAutoUpdate(profile: UserProfile? = nil) async -> AutoUpdateResult {
     Logger.info("Starting automatic profile update check", category: .autoUpdate)
     
     do {
-      guard let currentProfile = try storageManager.loadProfile() else {
-        Logger.logAutoUpdateSkipped(UserProfile(name: "Unknown"), reason: "No profile found")
-        return AutoUpdateResult()
+      // Use the provided profile if available, otherwise load from storage
+      let currentProfile: UserProfile
+      if let existingProfile = profile {
+        currentProfile = existingProfile
+      } else {
+        guard let loadedProfile = try storageManager.loadProfile() else {
+          Logger.logAutoUpdateSkipped(UserProfile(name: "Unknown"), reason: "No profile found")
+          return AutoUpdateResult()
+        }
+        currentProfile = loadedProfile
       }
       
       // Log the current state before checking for updates
@@ -111,14 +119,23 @@ class AutoProfileUpdateService {
   }
 
   /// Checks if profile needs auto-updating without performing the update
+  /// - Parameter profile: Optional user profile. If provided, avoids loading the profile again from storage
   /// - Returns: Bool indicating if auto-update is needed
-  func needsAutoUpdate() -> Bool {
+  func needsAutoUpdate(profile: UserProfile? = nil) -> Bool {
     do {
-      guard let profile = try storageManager.loadProfile() else { return false }
-      let needsUpdate = profile.hasGrownToNewStage() || profile.needsUpdate
+      // Use the provided profile if available, otherwise load from storage
+      let userProfile: UserProfile
+      if let existingProfile = profile {
+        userProfile = existingProfile
+      } else {
+        guard let loadedProfile = try storageManager.loadProfile() else { return false }
+        userProfile = loadedProfile
+      }
+      
+      let needsUpdate = userProfile.hasGrownToNewStage() || userProfile.needsUpdate
       
       if needsUpdate {
-        Logger.debug("Profile needs auto-update: stage change=\(profile.hasGrownToNewStage()), regular update=\(profile.needsUpdate)", category: .autoUpdate)
+        Logger.debug("Profile needs auto-update: stage change=\(userProfile.hasGrownToNewStage()), regular update=\(userProfile.needsUpdate)", category: .autoUpdate)
       }
       
       return needsUpdate
