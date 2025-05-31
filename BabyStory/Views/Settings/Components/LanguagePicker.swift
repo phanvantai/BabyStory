@@ -9,7 +9,10 @@ import SwiftUI
 
 struct LanguagePicker: View {
   @EnvironmentObject var languageManager: LanguageManager
-  @State private var selectedLanguage: Language = Language.preferred
+  
+  private var selectedLanguage: Language {
+    Language.allCases.first { $0.code == languageManager.currentLanguage } ?? Language.preferred
+  }
   
   var body: some View {
     VStack(spacing: 12) {
@@ -56,15 +59,9 @@ struct LanguagePicker: View {
         )
       }
     }
-    .onAppear {
-      // Initialize with current language
-      selectedLanguage = Language.preferred
-    }
   }
   
   private func selectLanguage(_ language: Language) {
-    selectedLanguage = language
-    
     // Update LanguageManager for immediate UI changes
     languageManager.updateLanguage(language.code)
     
