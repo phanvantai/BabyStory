@@ -21,7 +21,7 @@ struct SettingsPreferencesSectionView: View {
           Image(systemName: "slider.horizontal.3")
             .foregroundColor(.green)
             .font(.title3)
-          Text("Preferences")
+          Text("settings_preferences_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()
@@ -40,10 +40,10 @@ struct SettingsPreferencesSectionView: View {
           NavigationLink(destination: AutoUpdateSettingsView(viewModel: AutoUpdateSettingsViewModel())) {
             HStack {
               VStack(alignment: .leading, spacing: 4) {
-                Text("Auto-Update Profile")
+                Text("settings_auto_update_profile_title".localized)
                   .font(.body)
                   .fontWeight(.medium)
-                Text("Manage automatic profile updates as your child grows")
+                Text("settings_auto_update_profile_description".localized)
                   .font(.caption)
                   .foregroundColor(.secondary)
               }
@@ -63,10 +63,10 @@ struct SettingsPreferencesSectionView: View {
             
             HStack {
               VStack(alignment: .leading, spacing: 4) {
-                Text("Voice Narration")
+                Text("settings_voice_narration_title".localized)
                   .font(.body)
                   .fontWeight(.medium)
-                Text("Enable story read-aloud")
+                Text("settings_voice_narration_description".localized)
                   .font(.caption)
                   .foregroundColor(.secondary)
               }

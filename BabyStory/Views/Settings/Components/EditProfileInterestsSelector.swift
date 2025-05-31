@@ -16,7 +16,7 @@ struct EditProfileInterestsSelector: View {
         Image(systemName: "star.circle.fill")
           .foregroundColor(.yellow)
           .font(.title3)
-        Text("Interests")
+        Text("settings_interests_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

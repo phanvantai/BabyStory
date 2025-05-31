@@ -16,7 +16,7 @@ struct EditProfileParentNamesInput: View {
         Image(systemName: "figure.2.and.child.holdinghands")
           .foregroundColor(.orange)
           .font(.title3)
-        Text("Parent Names")
+        Text("settings_parent_names_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -32,7 +32,7 @@ struct EditProfileParentNamesInput: View {
       
       ForEach(Array(viewModel.parentNames.enumerated()), id: \.offset) { index, name in
         HStack {
-          TextField("Parent \(index + 1) name", text: $viewModel.parentNames[index])
+          TextField(String(format: "settings_parent_name_placeholder".localized, index + 1), text: $viewModel.parentNames[index])
             .textFieldStyle(CustomTextFieldStyle())
           
           if viewModel.parentNames.count > 1 {
@@ -55,7 +55,7 @@ struct EditProfileParentNamesInput: View {
     Color.gray.opacity(0.2).ignoresSafeArea()
     EditProfileParentNamesInput(viewModel: {
       let vm = EditProfileViewModel()
-      vm.parentNames = ["Parent 1"]
+      vm.parentNames = ["preview_parent_name".localized]
       return vm
     }())
     .padding()

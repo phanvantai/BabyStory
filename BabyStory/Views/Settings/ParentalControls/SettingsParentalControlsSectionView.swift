@@ -17,7 +17,7 @@ struct SettingsParentalControlsSectionView: View {
           Image(systemName: "lock.shield.fill")
             .foregroundColor(.orange)
             .font(.title3)
-          Text("Parental Controls")
+          Text("settings_parental_controls_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()
@@ -26,10 +26,10 @@ struct SettingsParentalControlsSectionView: View {
         Button(action: { showParentalLock = true }) {
           HStack {
             VStack(alignment: .leading, spacing: 4) {
-              Text("Parental Lock")
+              Text("parental_lock_title".localized)
                 .font(.body)
                 .fontWeight(.medium)
-              Text("Manage access and restrictions")
+              Text("settings_parental_controls_description".localized)
                 .font(.caption)
                 .foregroundColor(.secondary)
             }

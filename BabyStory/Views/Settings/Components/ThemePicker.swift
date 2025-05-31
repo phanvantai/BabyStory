@@ -18,7 +18,7 @@ struct ThemePicker: View {
         Image(systemName: "paintbrush.fill")
           .foregroundColor(.blue)
           .font(.title3)
-        Text("App Theme")
+        Text("settings_app_theme_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -101,11 +101,11 @@ struct ThemePicker: View {
   private func themeDescription(for theme: ThemeMode) -> String {
     switch theme {
     case .system:
-      return "Follows your device setting"
+      return "settings_theme_system_description".localized
     case .light:
-      return "Always use light appearance"
+      return "settings_theme_light_description".localized
     case .dark:
-      return "Always use dark appearance"
+      return "settings_theme_dark_description".localized
     }
   }
 }

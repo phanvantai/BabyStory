@@ -75,3 +75,116 @@
 "onboarding_preferences_start_creating_stories" = "Bắt Đầu Tạo Câu Chuyện!";
 "onboarding_preferences_cancel" = "Hủy";
 "onboarding_preferences_done" = "Xong";
+
+// MARK: - Settings
+
+// Common buttons and actions
+"settings_cancel" = "Hủy";
+"settings_ok" = "OK";
+"settings_enable" = "Bật";
+"settings_manage" = "Quản Lý";
+"settings_save_changes" = "Lưu Thay Đổi";
+"settings_saving" = "Đang lưu...";
+"settings_error" = "Lỗi";
+
+// Settings Header
+"settings_title" = "Cài Đặt";
+"settings_subtitle" = "Tùy chỉnh trải nghiệm của bạn";
+
+// Edit Profile
+"edit_profile_title" = "Chỉnh Sửa Hồ Sơ";
+"edit_profile_subtitle" = "Cập nhật thông tin bé";
+"edit_profile_loading" = "Đang lưu hồ sơ...";
+"edit_profile_baby_name_label" = "Tên của Bé";
+"edit_profile_baby_name_placeholder" = "Bạn sẽ gọi bé bằng tên gì?";
+"edit_profile_child_name_label" = "Tên";
+"edit_profile_child_name_placeholder" = "Nhập tên của con bạn";
+"edit_profile_unsaved_changes_title" = "Thay Đổi Chưa Lưu";
+"edit_profile_unsaved_changes_message" = "Bạn có những thay đổi chưa lưu. Bạn muốn làm gì?";
+"edit_profile_discard_changes" = "Bỏ Thay Đổi";
+"edit_profile_keep_editing" = "Tiếp Tục Chỉnh Sửa";
+"edit_profile_unknown_error" = "Đã xảy ra lỗi không xác định";
+
+// Profile Sections
+"settings_profile_title" = "Hồ Sơ";
+"settings_profile_edit" = "Chỉnh Sửa Hồ Sơ";
+"settings_baby_stage_title" = "Giai Đoạn Bé";
+"settings_gender_title" = "Giới Tính";
+"settings_interests_title" = "Sở Thích";
+
+// Preferences Section
+"settings_preferences_title" = "Tùy Chọn";
+"settings_app_theme_title" = "Giao Diện Ứng Dụng";
+"settings_theme_system_description" = "Theo cài đặt thiết bị của bạn";
+"settings_theme_light_description" = "Luôn sử dụng giao diện sáng";
+"settings_theme_dark_description" = "Luôn sử dụng giao diện tối";
+"settings_auto_update_profile_title" = "Tự Động Cập Nhật Hồ Sơ";
+"settings_auto_update_profile_description" = "Quản lý cập nhật hồ sơ tự động khi con bạn lớn lên";
+"settings_voice_narration_title" = "Kể Chuyện Bằng Giọng Nói";
+"settings_voice_narration_description" = "Bật chế độ đọc câu chuyện";
+
+// Notifications Section
+"settings_notifications_title" = "Thông Báo";
+"settings_notifications_enabled_title" = "Thông Báo Đã Bật";
+"settings_notifications_enabled_description" = "Bạn sẽ nhận được lời nhắc câu chuyện và cập nhật";
+"settings_notifications_disabled_title" = "Thông Báo Đã Tắt";
+"settings_notifications_disabled_description" = "Bật trong Cài đặt để nhận lời nhắc";
+
+// Support Section
+"settings_support_title" = "Hỗ Trợ";
+"settings_support_get_help" = "Nhận Trợ Giúp";
+"settings_support_description" = "Truy cập website hỗ trợ của chúng tôi";
+
+// About Section
+"settings_about_title" = "Giới Thiệu";
+"settings_about_version" = "Phiên Bản";
+
+// Auto-Update Settings
+"auto_update_settings_title" = "Cài Đặt Tự Động Cập Nhật";
+"auto_update_profile_title" = "Tự Động Cập Nhật Hồ Sơ";
+"auto_update_profile_description" = "Tự động cập nhật giai đoạn bé và sở thích khi con bạn lớn lên";
+"auto_update_stage_progression_title" = "Tiến Triển Giai Đoạn Bé";
+"auto_update_stage_progression_description" = "Cập nhật giai đoạn dựa trên tuổi (sơ sinh → trẻ sơ sinh → trẻ mới biết đi → trẻ mầm non)";
+"auto_update_interests_title" = "Sở Thích Phù Hợp Với Tuổi";
+"auto_update_interests_description" = "Cập nhật sở thích phù hợp với giai đoạn phát triển của con bạn";
+"auto_update_enabled_footer" = "Tự động cập nhật giúp giữ cho hồ sơ của con bạn luôn hiện tại khi chúng lớn lên, đảm bảo các câu chuyện và hoạt động phù hợp với lứa tuổi.";
+"auto_update_disabled_footer" = "Bật tự động cập nhật để tự động duy trì hồ sơ của con bạn khi chúng lớn lên.";
+"auto_update_check_now" = "Kiểm Tra Cập Nhật Ngay";
+"auto_update_last_update" = "Lần Tự Động Cập Nhật Cuối";
+"auto_update_status_title" = "Trạng Thái Cập Nhật";
+"auto_update_check_complete_title" = "Kiểm Tra Cập Nhật Hoàn Tất";
+"auto_update_success_message" = "Hồ sơ đã được cập nhật thành công! %d thay đổi đã được thực hiện.";
+"auto_update_no_updates_message" = "Hồ sơ của bạn đã được cập nhật mới nhất.";
+"auto_update_failed_message" = "Kiểm tra cập nhật thất bại. Vui lòng thử lại sau.";
+"auto_update_last_updated_format" = "Hồ sơ được cập nhật lần cuối: %@";
+
+// Story Time Picker
+"settings_story_time_title" = "Giờ Kể Chuyện";
+"settings_preferred_story_time" = "Giờ Kể Chuyện Ưa Thích";
+
+// Parental Lock
+"parental_lock_title" = "Khóa Phụ Huynh";
+"parental_lock_enter_passcode" = "Nhập mã PIN 4 chữ số của bạn";
+"parental_lock_enter_passcode_placeholder" = "Nhập mã PIN";
+"parental_lock_on" = "Khóa ĐANG BẬT";
+"parental_lock_off" = "Khóa ĐANG TẮT";
+"parental_lock_enable" = "Bật Khóa";
+"parental_lock_disable" = "Tắt Khóa";
+"parental_lock_enabled_success" = "Khóa Đã Được Bật Thành Công";
+"parental_lock_disabled_success" = "Khóa Đã Được Tắt Thành Công";
+"parental_lock_incorrect_passcode" = "Mã PIN Không Đúng";
+"parental_lock_about_title" = "Về Khóa Phụ Huynh";
+"parental_lock_about_description" = "Khi được bật, tính năng này ngăn trẻ em truy cập cài đặt hoặc thực hiện thay đổi trong ứng dụng.";
+"done" = "Xong";
+
+// Parental Controls Section
+"settings_parental_controls_title" = "Kiểm Soát Phụ Huynh";
+"settings_parental_controls_description" = "Quản lý quyền truy cập và hạn chế";
+
+// Edit Profile Components
+"settings_date_of_birth_title" = "Ngày Sinh";
+"settings_parent_names_title" = "Tên Cha Mẹ";
+"settings_parent_name_placeholder" = "Tên cha/mẹ %d";
+
+// Preview data
+"preview_parent_name" = "Cha Mẹ";

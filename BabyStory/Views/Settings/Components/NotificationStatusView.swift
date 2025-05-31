@@ -35,18 +35,18 @@ struct NotificationStatusView: View {
                 .font(.title2)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("Notifications Enabled")
+                Text("settings_notifications_enabled_title".localized)
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Text("You'll receive story reminders and updates")
+                Text("settings_notifications_enabled_description".localized)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
             
             Spacer()
             
-            Button("Manage") {
+            Button("settings_manage".localized) {
                 openNotificationSettings()
             }
             .buttonStyle(.bordered)
@@ -65,18 +65,18 @@ struct NotificationStatusView: View {
                 .font(.title2)
             
             VStack(alignment: .leading, spacing: 4) {
-                Text("Notifications Disabled")
+                Text("settings_notifications_disabled_title".localized)
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Text("Enable in Settings to get reminders")
+                Text("settings_notifications_disabled_description".localized)
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
             
             Spacer()
             
-            Button("Enable") {
+            Button("settings_enable".localized) {
                 openNotificationSettings()
             }
             .buttonStyle(.borderedProminent)

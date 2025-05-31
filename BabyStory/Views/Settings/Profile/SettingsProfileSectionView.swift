@@ -17,7 +17,7 @@ struct SettingsProfileSectionView: View {
           Image(systemName: "person.circle.fill")
             .foregroundColor(.blue)
             .font(.title3)
-          Text("Profile")
+          Text("settings_profile_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()
@@ -25,7 +25,7 @@ struct SettingsProfileSectionView: View {
         
         Button(action: { showEditProfile = true }) {
           HStack {
-            Text("Edit Profile")
+            Text("settings_profile_edit".localized)
               .font(.body)
               .fontWeight(.medium)
             Spacer()

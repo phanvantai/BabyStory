@@ -17,7 +17,7 @@ struct SettingsNotificationsSectionView: View {
           Image(systemName: "bell.fill")
             .foregroundColor(.purple)
             .font(.title3)
-          Text("Notifications")
+          Text("settings_notifications_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()

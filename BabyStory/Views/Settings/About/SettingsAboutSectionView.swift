@@ -17,7 +17,7 @@ struct SettingsAboutSectionView: View {
           Image(systemName: "info.circle.fill")
             .foregroundColor(.gray)
             .font(.title3)
-          Text("About")
+          Text("settings_about_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()
@@ -32,7 +32,7 @@ struct SettingsAboutSectionView: View {
           }
           
           HStack {
-            Text("Version")
+            Text("settings_about_version".localized)
               .font(.body)
             Spacer()
             Text(viewModel.appVersion)

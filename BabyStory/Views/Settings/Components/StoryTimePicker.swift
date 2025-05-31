@@ -17,7 +17,7 @@ struct StoryTimePicker: View {
         Image(systemName: "clock.fill")
           .foregroundColor(.orange)
           .font(.title3)
-        Text("Story Time")
+        Text("settings_story_time_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -28,7 +28,7 @@ struct StoryTimePicker: View {
       }) {
         HStack {
           VStack(alignment: .leading, spacing: 4) {
-            Text("Preferred Story Time")
+            Text("settings_preferred_story_time".localized)
               .font(.body)
               .fontWeight(.medium)
               .foregroundColor(.primary)

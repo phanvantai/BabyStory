@@ -16,7 +16,7 @@ struct EditProfileGenderSelector: View {
         Image(systemName: "person.2.fill")
           .foregroundColor(.indigo)
           .font(.title3)
-        Text("Gender")
+        Text("settings_gender_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

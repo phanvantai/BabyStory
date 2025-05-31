@@ -25,7 +25,7 @@ struct EditProfileView: View {
         FloatingStars(count: 6)
         
         if viewModel.isLoading {
-          LoadingCard(message: "Saving profile...")
+          LoadingCard(message: "edit_profile_loading".localized)
         } else {
           ScrollView {
             VStack(spacing: 24) {
@@ -45,8 +45,8 @@ struct EditProfileView: View {
                     name: $viewModel.name,
                     iconName: "textformat.abc",
                     iconColor: .cyan,
-                    label: viewModel.isPregnancy ? "Baby's Name" : "Name",
-                    placeholder: viewModel.isPregnancy ? "What will you call your baby?" : "Enter your child's name"
+                    label: viewModel.isPregnancy ? "edit_profile_baby_name_label".localized : "edit_profile_child_name_label".localized,
+                    placeholder: viewModel.isPregnancy ? "edit_profile_baby_name_placeholder".localized : "edit_profile_child_name_placeholder".localized
                   )
                   
                   // Gender selection
@@ -93,7 +93,7 @@ struct EditProfileView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
-          Button("Cancel") {
+          Button("settings_cancel".localized) {
             if viewModel.hasChanges {
               showCancelConfirmation = true
             } else {
@@ -105,21 +105,21 @@ struct EditProfileView: View {
         
 
       }
-      .alert("Error", isPresented: .constant(viewModel.error != nil)) {
-        Button("OK") {
+      .alert("settings_error".localized, isPresented: .constant(viewModel.error != nil)) {
+        Button("settings_ok".localized) {
           viewModel.error = nil
         }
       } message: {
-        Text(viewModel.error?.localizedDescription ?? "An unknown error occurred")
+        Text(viewModel.error?.localizedDescription ?? "edit_profile_unknown_error".localized)
       }
-      .confirmationDialog("Unsaved Changes", isPresented: $showCancelConfirmation) {
-        Button("Discard Changes", role: .destructive) {
+      .confirmationDialog("edit_profile_unsaved_changes_title".localized, isPresented: $showCancelConfirmation) {
+        Button("edit_profile_discard_changes".localized, role: .destructive) {
           viewModel.cancelEditing()
           dismiss()
         }
-        Button("Keep Editing", role: .cancel) { }
+        Button("edit_profile_keep_editing".localized, role: .cancel) { }
       } message: {
-        Text("You have unsaved changes. What would you like to do?")
+        Text("edit_profile_unsaved_changes_message".localized)
       }
       .sheet(isPresented: $viewModel.showTimePicker) {
         TimePickerOverlay(
@@ -157,13 +157,13 @@ struct EditProfileView: View {
       
       VStack(spacing: 8) {
         GradientText(
-          "Edit Profile",
+          "edit_profile_title".localized,
           font: .system(size: 28, weight: .bold, design: .rounded),
           colors: [Color.blue, Color.purple]
         )
         .multilineTextAlignment(.center)
         
-        Text("Update baby information")
+        Text("edit_profile_subtitle".localized)
           .font(.body)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -191,7 +191,7 @@ struct EditProfileView: View {
             .font(.title3)
         }
         
-        Text(viewModel.isLoading ? "Saving..." : "Save Changes")
+        Text(viewModel.isLoading ? "settings_saving".localized : "settings_save_changes".localized)
           .font(.headline)
           .fontWeight(.semibold)
       }

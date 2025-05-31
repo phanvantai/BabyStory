@@ -21,9 +21,9 @@ struct AutoUpdateSettingsView: View {
               .font(.title3)
             
             VStack(alignment: .leading, spacing: 4) {
-              Text("Auto-Update Profile")
+              Text("auto_update_profile_title".localized)
                 .font(.headline)
-              Text("Automatically update baby stage and interests as your child grows")
+              Text("auto_update_profile_description".localized)
                 .font(.caption)
                 .foregroundColor(.secondary)
             }
@@ -42,9 +42,9 @@ struct AutoUpdateSettingsView: View {
                 .font(.title3)
               
               VStack(alignment: .leading, spacing: 4) {
-                Text("Baby Stage Progression")
+                Text("auto_update_stage_progression_title".localized)
                   .font(.subheadline)
-                Text("Update stage based on age (newborn → infant → toddler → preschooler)")
+                Text("auto_update_stage_progression_description".localized)
                   .font(.caption)
                   .foregroundColor(.secondary)
               }
@@ -62,9 +62,9 @@ struct AutoUpdateSettingsView: View {
                 .font(.title3)
               
               VStack(alignment: .leading, spacing: 4) {
-                Text("Age-Appropriate Interests")
+                Text("auto_update_interests_title".localized)
                   .font(.subheadline)
-                Text("Update interests to match your child's developmental stage")
+                Text("auto_update_interests_description".localized)
                   .font(.caption)
                   .foregroundColor(.secondary)
               }
@@ -76,12 +76,12 @@ struct AutoUpdateSettingsView: View {
             .padding(.vertical, 4)
           }
         } header: {
-          Text("Auto-Update Settings")
+          Text("auto_update_settings_title".localized)
         } footer: {
           if viewModel.autoUpdateEnabled {
-            Text("Auto-updates help keep your child's profile current as they grow, ensuring stories and activities remain age-appropriate.")
+            Text("auto_update_enabled_footer".localized)
           } else {
-            Text("Enable auto-updates to automatically maintain your child's profile as they grow.")
+            Text("auto_update_disabled_footer".localized)
           }
         }
         
@@ -95,7 +95,7 @@ struct AutoUpdateSettingsView: View {
             HStack {
               Image(systemName: "arrow.clockwise")
                 .foregroundColor(.blue)
-              Text("Check for Updates Now")
+              Text("auto_update_check_now".localized)
               Spacer()
               if viewModel.isCheckingForUpdates {
                 ProgressView()
@@ -108,7 +108,7 @@ struct AutoUpdateSettingsView: View {
           // Last update info
           if let lastUpdateInfo = viewModel.lastUpdateInfo {
             VStack(alignment: .leading, spacing: 8) {
-              Text("Last Auto-Update")
+              Text("auto_update_last_update".localized)
                 .font(.subheadline)
                 .fontWeight(.medium)
               
@@ -119,12 +119,12 @@ struct AutoUpdateSettingsView: View {
             .padding(.vertical, 4)
           }
         } header: {
-          Text("Update Status")
+          Text("auto_update_status_title".localized)
         }
       }
       .navigationBarHidden(true)
-      .alert("Update Check Complete", isPresented: $viewModel.showUpdateResult) {
-        Button("OK") {
+      .alert("auto_update_check_complete_title".localized, isPresented: $viewModel.showUpdateResult) {
+        Button("settings_ok".localized) {
           viewModel.showUpdateResult = false
         }
       } message: {
@@ -167,7 +167,7 @@ class AutoUpdateSettingsViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
-        return "Profile last updated: \(formatter.string(from: profile.lastUpdate))"
+        return String(format: "auto_update_last_updated_format".localized, formatter.string(from: profile.lastUpdate))
       }
     } catch {
       Logger.error("Failed to get last update info: \(error.localizedDescription)", category: .settings)
@@ -214,12 +214,12 @@ class AutoUpdateSettingsViewModel: ObservableObject {
     
     if result.isSuccess {
       if result.hasUpdates {
-        updateResultMessage = "Profile updated successfully! \(result.updateCount) change(s) were made."
+        updateResultMessage = String(format: "auto_update_success_message".localized, result.updateCount)
       } else {
-        updateResultMessage = "Your profile is already up to date."
+        updateResultMessage = "auto_update_no_updates_message".localized
       }
     } else {
-      updateResultMessage = "Update check failed. Please try again later."
+      updateResultMessage = "auto_update_failed_message".localized
     }
     
     isCheckingForUpdates = false

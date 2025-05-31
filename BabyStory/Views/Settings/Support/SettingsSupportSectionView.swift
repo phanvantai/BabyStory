@@ -17,7 +17,7 @@ struct SettingsSupportSectionView: View {
           Image(systemName: "questionmark.circle.fill")
             .foregroundColor(.teal)
             .font(.title3)
-          Text("Support")
+          Text("settings_support_title".localized)
             .font(.headline)
             .fontWeight(.semibold)
           Spacer()
@@ -26,10 +26,10 @@ struct SettingsSupportSectionView: View {
         Button(action: { viewModel.openSupportWebsite() }) {
           HStack {
             VStack(alignment: .leading, spacing: 4) {
-              Text("Get Help")
+              Text("settings_support_get_help".localized)
                 .font(.body)
                 .fontWeight(.medium)
-              Text("Visit our support website")
+              Text("settings_support_description".localized)
                 .font(.caption)
                 .foregroundColor(.secondary)
             }

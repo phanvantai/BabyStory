@@ -13,13 +13,13 @@ struct SettingsHeaderView: View {
       HStack {
         VStack(alignment: .leading, spacing: 4) {
           GradientText(
-            "Settings",
+            "settings_title".localized,
             colors: [.purple, .blue]
           )
           .font(.largeTitle)
           .fontWeight(.bold)
           
-          Text("Customize your experience")
+          Text("settings_subtitle".localized)
             .font(.subheadline)
             .foregroundColor(.secondary)
         }

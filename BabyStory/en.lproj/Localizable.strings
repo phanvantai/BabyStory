@@ -75,3 +75,116 @@
 "onboarding_preferences_start_creating_stories" = "Start Creating Stories!";
 "onboarding_preferences_cancel" = "Cancel";
 "onboarding_preferences_done" = "Done";
+
+// MARK: - Settings
+
+// Common buttons and actions
+"settings_cancel" = "Cancel";
+"settings_ok" = "OK";
+"settings_enable" = "Enable";
+"settings_manage" = "Manage";
+"settings_save_changes" = "Save Changes";
+"settings_saving" = "Saving...";
+"settings_error" = "Error";
+
+// Settings Header
+"settings_title" = "Settings";
+"settings_subtitle" = "Customize your experience";
+
+// Edit Profile
+"edit_profile_title" = "Edit Profile";
+"edit_profile_subtitle" = "Update baby information";
+"edit_profile_loading" = "Saving profile...";
+"edit_profile_baby_name_label" = "Baby's Name";
+"edit_profile_baby_name_placeholder" = "What will you call your baby?";
+"edit_profile_child_name_label" = "Name";
+"edit_profile_child_name_placeholder" = "Enter your child's name";
+"edit_profile_unsaved_changes_title" = "Unsaved Changes";
+"edit_profile_unsaved_changes_message" = "You have unsaved changes. What would you like to do?";
+"edit_profile_discard_changes" = "Discard Changes";
+"edit_profile_keep_editing" = "Keep Editing";
+"edit_profile_unknown_error" = "An unknown error occurred";
+
+// Profile Sections
+"settings_profile_title" = "Profile";
+"settings_profile_edit" = "Edit Profile";
+"settings_baby_stage_title" = "Baby Stage";
+"settings_gender_title" = "Gender";
+"settings_interests_title" = "Interests";
+
+// Preferences Section
+"settings_preferences_title" = "Preferences";
+"settings_app_theme_title" = "App Theme";
+"settings_theme_system_description" = "Follows your device setting";
+"settings_theme_light_description" = "Always use light appearance";
+"settings_theme_dark_description" = "Always use dark appearance";
+"settings_auto_update_profile_title" = "Auto-Update Profile";
+"settings_auto_update_profile_description" = "Manage automatic profile updates as your child grows";
+"settings_voice_narration_title" = "Voice Narration";
+"settings_voice_narration_description" = "Enable story read-aloud";
+
+// Notifications Section
+"settings_notifications_title" = "Notifications";
+"settings_notifications_enabled_title" = "Notifications Enabled";
+"settings_notifications_enabled_description" = "You'll receive story reminders and updates";
+"settings_notifications_disabled_title" = "Notifications Disabled";
+"settings_notifications_disabled_description" = "Enable in Settings to get reminders";
+
+// Support Section
+"settings_support_title" = "Support";
+"settings_support_get_help" = "Get Help";
+"settings_support_description" = "Visit our support website";
+
+// About Section
+"settings_about_title" = "About";
+"settings_about_version" = "Version";
+
+// Auto-Update Settings
+"auto_update_settings_title" = "Auto-Update Settings";
+"auto_update_profile_title" = "Auto-Update Profile";
+"auto_update_profile_description" = "Automatically update baby stage and interests as your child grows";
+"auto_update_stage_progression_title" = "Baby Stage Progression";
+"auto_update_stage_progression_description" = "Update stage based on age (newborn → infant → toddler → preschooler)";
+"auto_update_interests_title" = "Age-Appropriate Interests";
+"auto_update_interests_description" = "Update interests to match your child's developmental stage";
+"auto_update_enabled_footer" = "Auto-updates help keep your child's profile current as they grow, ensuring stories and activities remain age-appropriate.";
+"auto_update_disabled_footer" = "Enable auto-updates to automatically maintain your child's profile as they grow.";
+"auto_update_check_now" = "Check for Updates Now";
+"auto_update_last_update" = "Last Auto-Update";
+"auto_update_status_title" = "Update Status";
+"auto_update_check_complete_title" = "Update Check Complete";
+"auto_update_success_message" = "Profile updated successfully! %d change(s) were made.";
+"auto_update_no_updates_message" = "Your profile is already up to date.";
+"auto_update_failed_message" = "Update check failed. Please try again later.";
+"auto_update_last_updated_format" = "Profile last updated: %@";
+
+// Story Time Picker
+"settings_story_time_title" = "Story Time";
+"settings_preferred_story_time" = "Preferred Story Time";
+
+// Parental Lock
+"parental_lock_title" = "Parental Lock";
+"parental_lock_enter_passcode" = "Enter your 4-digit passcode";
+"parental_lock_enter_passcode_placeholder" = "Enter passcode";
+"parental_lock_on" = "Lock is ON";
+"parental_lock_off" = "Lock is OFF";
+"parental_lock_enable" = "Enable Lock";
+"parental_lock_disable" = "Disable Lock";
+"parental_lock_enabled_success" = "Lock Enabled Successfully";
+"parental_lock_disabled_success" = "Lock Disabled Successfully";
+"parental_lock_incorrect_passcode" = "Incorrect Passcode";
+"parental_lock_about_title" = "About Parental Lock";
+"parental_lock_about_description" = "When enabled, this prevents children from accessing settings or making changes to the app.";
+"done" = "Done";
+
+// Parental Controls Section
+"settings_parental_controls_title" = "Parental Controls";
+"settings_parental_controls_description" = "Manage access and restrictions";
+
+// Edit Profile Components
+"settings_date_of_birth_title" = "Date of Birth";
+"settings_parent_names_title" = "Parent Names";
+"settings_parent_name_placeholder" = "Parent %d name";
+
+// Preview data
+"preview_parent_name" = "Parent 1";

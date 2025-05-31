@@ -16,7 +16,7 @@ struct EditProfileBabyStageSelector: View {
         Image(systemName: "heart.circle.fill")
           .foregroundColor(.pink)
           .font(.title3)
-        Text("Baby Stage")
+        Text("settings_baby_stage_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

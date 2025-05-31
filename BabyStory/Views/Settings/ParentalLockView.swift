@@ -4,6 +4,7 @@ struct ParentalLockView: View {
   @ObservedObject var viewModel: SettingsViewModel
   @State private var passcode: String = ""
   @State private var message: String?
+  @State private var isMessageError: Bool = false
   @Environment(\.dismiss) private var dismiss
   
   var body: some View {
@@ -23,13 +24,13 @@ struct ParentalLockView: View {
                 .foregroundColor(.orange)
               
               GradientText(
-                "Parental Lock",
+                "parental_lock_title".localized,
                 colors: [.orange, .red]
               )
               .font(.title)
               .fontWeight(.bold)
               
-              Text("Enter your 4-digit passcode")
+              Text("parental_lock_enter_passcode".localized)
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             }
@@ -38,7 +39,7 @@ struct ParentalLockView: View {
           // Passcode Input
           AnimatedEntrance(delay: 0.3) {
             VStack(spacing: 20) {
-              SecureField("Enter passcode", text: $passcode)
+              SecureField("parental_lock_enter_passcode_placeholder".localized, text: $passcode)
                 .textFieldStyle(.roundedBorder)
                 .keyboardType(.numberPad)
                 .font(.title2)
@@ -55,7 +56,7 @@ struct ParentalLockView: View {
                 Image(systemName: viewModel.parentalLockEnabled ? "lock.fill" : "lock.open.fill")
                   .foregroundColor(viewModel.parentalLockEnabled ? .red : .green)
                 
-                Text(viewModel.parentalLockEnabled ? "Lock is ON" : "Lock is OFF")
+                Text(viewModel.parentalLockEnabled ? "parental_lock_on".localized : "parental_lock_off".localized)
                   .font(.headline)
                   .foregroundColor(viewModel.parentalLockEnabled ? .red : .green)
               }
@@ -69,13 +70,15 @@ struct ParentalLockView: View {
             VStack(spacing: 16) {
               Button(action: {
                 if viewModel.toggleParentalLock(passcode: passcode) {
-                  message = viewModel.parentalLockEnabled ? "Lock Enabled Successfully" : "Lock Disabled Successfully"
+                  message = viewModel.parentalLockEnabled ? "parental_lock_enabled_success".localized : "parental_lock_disabled_success".localized
+                  isMessageError = false
                   passcode = ""
                 } else {
-                  message = "Incorrect Passcode"
+                  message = "parental_lock_incorrect_passcode".localized
+                  isMessageError = true
                 }
               }) {
-                Text(viewModel.parentalLockEnabled ? "Disable Lock" : "Enable Lock")
+                Text(viewModel.parentalLockEnabled ? "parental_lock_disable".localized : "parental_lock_enable".localized)
                   .font(.headline)
                   .fontWeight(.semibold)
               }
@@ -88,11 +91,12 @@ struct ParentalLockView: View {
                 Text(message)
                   .font(.body)
                   .fontWeight(.medium)
-                  .foregroundColor(message.contains("Incorrect") ? .red : .green)
+                  .foregroundColor(isMessageError ? .red : .green)
                   .padding(.horizontal)
                   .onAppear {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                       self.message = nil
+                      self.isMessageError = false
                     }
                   }
               }
@@ -104,12 +108,12 @@ struct ParentalLockView: View {
           // Instructions
           AnimatedEntrance(delay: 0.7) {
             VStack(spacing: 8) {
-              Text("About Parental Lock")
+              Text("parental_lock_about_title".localized)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundColor(.secondary)
               
-              Text("When enabled, this prevents children from accessing settings or making changes to the app.")
+              Text("parental_lock_about_description".localized)
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -128,7 +132,7 @@ struct ParentalLockView: View {
       .navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
-          Button("Done") {
+          Button("done".localized) {
             dismiss()
           }
           .buttonStyle(DoneButtonStyle())          }
