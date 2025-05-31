@@ -181,10 +181,14 @@
 "settings_parental_controls_title" = "Kiểm Soát Phụ Huynh";
 "settings_parental_controls_description" = "Quản lý quyền truy cập và hạn chế";
 
+// Language Settings
+"settings_language_title" = "Ngôn Ngữ";
+
 // Edit Profile Components
 "settings_date_of_birth_title" = "Ngày Sinh";
 "settings_parent_names_title" = "Tên Cha Mẹ";
 "settings_parent_name_placeholder" = "Tên cha/mẹ %d";
+"edit_profile_language_label" = "Ngôn Ngữ Ưa Thích";
 
 // Preview data
 "preview_parent_name" = "Cha Mẹ";

@@ -70,6 +70,9 @@ struct EditProfileView: View {
                   // Interests selection
                   EditProfileInterestsSelector(viewModel: viewModel)
                   
+                  // Language selection
+                  EditProfileLanguageSelector(viewModel: viewModel)
+                  
                   // Story time picker
                   StoryTimePicker(
                     storyTime: $viewModel.storyTime,

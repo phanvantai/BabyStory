@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SettingsHeaderView: View {
+  @EnvironmentObject var languageManager: LanguageManager
+  
   var body: some View {
     AnimatedEntrance(delay: 0.1) {
       HStack {

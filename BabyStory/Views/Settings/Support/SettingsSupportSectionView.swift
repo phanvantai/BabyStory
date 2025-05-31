@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsSupportSectionView: View {
+  @EnvironmentObject var languageManager: LanguageManager
   @ObservedObject var viewModel: SettingsViewModel
   
   var body: some View {

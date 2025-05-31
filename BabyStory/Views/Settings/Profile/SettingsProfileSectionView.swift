@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsProfileSectionView: View {
+  @EnvironmentObject var languageManager: LanguageManager
   @Binding var showEditProfile: Bool
   
   var body: some View {

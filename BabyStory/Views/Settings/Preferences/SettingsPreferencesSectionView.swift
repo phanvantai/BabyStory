@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsPreferencesSectionView: View {
+  @EnvironmentObject var languageManager: LanguageManager
   @ObservedObject var viewModel: SettingsViewModel
   @Environment(\.dismiss) private var dismiss
   
@@ -32,6 +33,12 @@ struct SettingsPreferencesSectionView: View {
           ThemePicker(onThemeChanged: {
             dismiss()
           })
+          
+          // Language Picker
+          Divider()
+            .background(Color(UIColor.separator))
+          
+          LanguagePicker()
           
           // Auto-Update Settings Navigation
           Divider()

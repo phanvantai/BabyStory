@@ -2,8 +2,6 @@ import SwiftUI
 
 struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
-  @EnvironmentObject var themeManager: ThemeManager
-  @Environment(\.colorScheme) private var colorScheme
   @Environment(\.dismiss) private var dismiss
   @State private var showEditProfile = false
   @State private var showParentalLock = false
@@ -54,8 +52,6 @@ struct SettingsView: View {
       .sheet(isPresented: $showParentalLock) {
         ParentalLockView(viewModel: viewModel)
       }
-      // Use preferredColorScheme from ThemeManager
-      .preferredColorScheme(themeManager.preferredColorScheme)
     }
   }
 }

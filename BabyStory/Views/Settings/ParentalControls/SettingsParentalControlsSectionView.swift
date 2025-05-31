@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct SettingsParentalControlsSectionView: View {
+  @EnvironmentObject var languageManager: LanguageManager
   @Binding var showParentalLock: Bool
   
   var body: some View {

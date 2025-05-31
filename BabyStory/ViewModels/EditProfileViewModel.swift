@@ -287,6 +287,12 @@ class EditProfileViewModel: ObservableObject {
 
       try StorageManager.shared.saveProfile(updatedProfile)
 
+      // Update LanguageManager if language changed
+      if let originalLanguage = originalProfile?.language, originalLanguage != language {
+        LanguageManager.shared.updateLanguage(language.code)
+        Logger.info("Language updated to: \(language.code)", category: .userProfile)
+      }
+
       // Handle notification updates based on profile changes
       let notificationService = ServiceFactory.shared.createDueDateNotificationService()
       

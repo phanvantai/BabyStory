@@ -181,10 +181,14 @@
 "settings_parental_controls_title" = "Parental Controls";
 "settings_parental_controls_description" = "Manage access and restrictions";
 
+// Language Settings
+"settings_language_title" = "Language";
+
 // Edit Profile Components
 "settings_date_of_birth_title" = "Date of Birth";
 "settings_parent_names_title" = "Parent Names";
 "settings_parent_name_placeholder" = "Parent %d name";
+"edit_profile_language_label" = "Preferred Language";
 
 // Preview data
 "preview_parent_name" = "Parent 1";
