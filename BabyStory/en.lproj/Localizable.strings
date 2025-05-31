@@ -299,3 +299,49 @@
 "gender_possessive_pronoun_male" = "his";
 "gender_possessive_pronoun_female" = "her";
 "gender_possessive_pronoun_not_specified" = "their";
+
+// MARK: - User Profile
+
+// Age display strings
+"user_profile_age_month_singular" = "month";
+"user_profile_age_month_plural" = "months";
+"user_profile_age_year_singular" = "year";
+"user_profile_age_year_plural" = "years";
+
+// Display name
+"user_profile_baby_prefix" = "Baby ";
+
+// Story context
+"user_profile_default_parent_names" = "Mommy and Daddy";
+"user_profile_story_context_baby_prefix" = "A story for baby ";
+"user_profile_story_context_from" = " from ";
+"user_profile_story_context_gentle_story" = "A gentle story for little ";
+"user_profile_story_context_adventure_story" = "An adventure story for ";
+
+// Welcome subtitle greetings
+"user_profile_greeting_morning" = "Good morning!";
+"user_profile_greeting_afternoon" = "Good afternoon!";
+"user_profile_greeting_evening" = "Good evening!";
+"user_profile_greeting_night" = "Sweet dreams!";
+
+// Welcome subtitle stage messages
+"user_profile_welcome_pregnancy" = "Ready for a bonding story?";
+"user_profile_welcome_newborn_infant" = "Time for a gentle story?";
+"user_profile_welcome_toddler" = "Ready for an adventure?";
+"user_profile_welcome_preschooler" = "What story shall we explore?";
+
+// Growth messages
+"user_profile_growth_newborn" = "🎉 Welcome to the world, %@! %@ is now a newborn!";
+"user_profile_growth_infant" = "🌟 %@ is growing! %@ is now an infant and ready for new adventures!";
+"user_profile_growth_toddler" = "🚀 Look who's growing up! %@ is now a toddler and ready for exciting stories!";
+"user_profile_growth_preschooler" = "📚 %@ is becoming such a big kid! %@ is now a preschooler!";
+
+// MARK: - Profile Validation
+
+// Validation warnings
+"profile_validation_due_date_far_future" = "Due date is quite far in the future. Please double-check the date.";
+"profile_validation_parent_names_too_long" = "Consider using shorter parent names for better story flow.";
+"profile_validation_child_age_too_old" = "This app is designed for children under %d years old.";
+"profile_validation_stage_mismatch" = "Your child may have grown to the %@ stage.";
+"profile_validation_too_many_interests" = "Consider selecting fewer interests for more focused stories.";
+"profile_validation_inappropriate_interests" = "Some interests may not be suitable for the %@ stage.";

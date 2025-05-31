@@ -47,15 +47,19 @@ struct UserProfile: Codable, Equatable {
     guard let ageInMonths = currentAge else { return nil }
     
     if ageInMonths < 12 {
-      return "\(ageInMonths) month\(ageInMonths == 1 ? "" : "s")"
+      let monthUnit = ageInMonths == 1 ? "user_profile_age_month_singular".localized : "user_profile_age_month_plural".localized
+      return "\(ageInMonths) \(monthUnit)"
     } else {
       let years = ageInMonths / 12
       let months = ageInMonths % 12
       
       if months == 0 {
-        return "\(years) year\(years == 1 ? "" : "s")"
+        let yearUnit = years == 1 ? "user_profile_age_year_singular".localized : "user_profile_age_year_plural".localized
+        return "\(years) \(yearUnit)"
       } else {
-        return "\(years) year\(years == 1 ? "" : "s") \(months) month\(months == 1 ? "" : "s")"
+        let yearUnit = years == 1 ? "user_profile_age_year_singular".localized : "user_profile_age_year_plural".localized
+        let monthUnit = months == 1 ? "user_profile_age_month_singular".localized : "user_profile_age_month_plural".localized
+        return "\(years) \(yearUnit) \(months) \(monthUnit)"
       }
     }
   }
@@ -102,7 +106,7 @@ struct UserProfile: Codable, Equatable {
   // Computed property for display name
   var displayName: String {
     if isPregnancy {
-      return "Baby \(name)"
+      return "user_profile_baby_prefix".localized + name
     } else {
       return name
     }
@@ -114,12 +118,12 @@ struct UserProfile: Codable, Equatable {
     
     switch babyStage {
     case .pregnancy:
-      let parentNamesString = parentNames.isEmpty ? "Mommy and Daddy" : parentNames.joined(separator: " and ")
-      return "A story for baby \(name)\(genderContext) from \(parentNamesString)"
+      let parentNamesString = parentNames.isEmpty ? "user_profile_default_parent_names".localized : parentNames.joined(separator: " and ")
+      return "user_profile_story_context_baby_prefix".localized + name + genderContext + "user_profile_story_context_from".localized + parentNamesString
     case .newborn, .infant:
-      return "A gentle story for little \(name)\(genderContext)"
+      return "user_profile_story_context_gentle_story".localized + name + genderContext
     case .toddler, .preschooler:
-      return "An adventure story for \(name)\(genderContext)"
+      return "user_profile_story_context_adventure_story".localized + name + genderContext
     }
   }
   
@@ -169,13 +173,13 @@ extension UserProfile {
     
     switch hour {
     case 6..<12:
-      greeting = "Good morning!"
+      greeting = "user_profile_greeting_morning".localized
     case 12..<17:
-      greeting = "Good afternoon!"
+      greeting = "user_profile_greeting_afternoon".localized
     case 17..<21:
-      greeting = "Good evening!"
+      greeting = "user_profile_greeting_evening".localized
     default:
-      greeting = "Sweet dreams!"
+      greeting = "user_profile_greeting_night".localized
     }
     
     // Use current baby stage if available, otherwise use stored stage
@@ -183,13 +187,13 @@ extension UserProfile {
     
     switch stageToUse {
     case .pregnancy:
-      return "\(greeting) Ready for a bonding story?"
+      return "\(greeting) " + "user_profile_welcome_pregnancy".localized
     case .newborn, .infant:
-      return "\(greeting) Time for a gentle story?"
+      return "\(greeting) " + "user_profile_welcome_newborn_infant".localized
     case .toddler:
-      return "\(greeting) Ready for an adventure?"
+      return "\(greeting) " + "user_profile_welcome_toddler".localized
     case .preschooler:
-      return "\(greeting) What story shall we explore?"
+      return "\(greeting) " + "user_profile_welcome_preschooler".localized
     }
   }
   
@@ -198,17 +202,17 @@ extension UserProfile {
     guard hasGrownToNewStage() else { return nil }
     
     let newStage = currentBabyStage
-    let pronoun = gender.pronoun
+    let pronoun = gender.pronoun.capitalized
     
     switch newStage {
     case .newborn:
-      return "🎉 Welcome to the world, \(name)! \(pronoun.capitalized) is now a newborn!"
+      return String(format: "user_profile_growth_newborn".localized, name, pronoun)
     case .infant:
-      return "🌟 \(name) is growing! \(pronoun.capitalized) is now an infant and ready for new adventures!"
+      return String(format: "user_profile_growth_infant".localized, name, pronoun)
     case .toddler:
-      return "🚀 Look who's growing up! \(name) is now a toddler and ready for exciting stories!"
+      return String(format: "user_profile_growth_toddler".localized, name, pronoun)
     case .preschooler:
-      return "📚 \(name) is becoming such a big kid! \(pronoun.capitalized) is now a preschooler!"
+      return String(format: "user_profile_growth_preschooler".localized, name, pronoun)
     case .pregnancy:
       return nil // This shouldn't happen in normal growth progression
     }

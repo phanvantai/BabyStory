@@ -119,7 +119,7 @@ class ProfileValidator {
       if dueDate < ProfileValidationRules.minDueDatePast {
         errors.append(.invalidDate)
       } else if dueDate > ProfileValidationRules.maxDueDateFuture {
-        warnings.append("Due date is quite far in the future. Please double-check the date.")
+        warnings.append("profile_validation_due_date_far_future".localized)
       }
     } else {
       errors.append(.profileIncomplete)
@@ -137,7 +137,7 @@ class ProfileValidator {
       }
       
       if profile.parentNames.count > ProfileValidationRules.maxParentNames {
-        warnings.append("Consider using shorter parent names for better story flow.")
+        warnings.append("profile_validation_parent_names_too_long".localized)
       }
     }
     
@@ -153,13 +153,13 @@ class ProfileValidator {
       if dateOfBirth > Date() {
         errors.append(.invalidDate)
       } else if dateOfBirth < ProfileValidationRules.maxChildAge {
-        warnings.append("This app is designed for children under \(ProfileValidationRules.maxChildAgeYears) years old.")
+        warnings.append(String(format: "profile_validation_child_age_too_old".localized, ProfileValidationRules.maxChildAgeYears))
       }
       
       // Check if stage matches age
       let calculatedStage = profile.currentBabyStage
       if calculatedStage != profile.babyStage {
-        warnings.append("Your child may have grown to the \(calculatedStage.displayName.lowercased()) stage.")
+        warnings.append(String(format: "profile_validation_stage_mismatch".localized, calculatedStage.displayName.lowercased()))
       }
     } else {
       errors.append(.profileIncomplete)
@@ -188,7 +188,7 @@ class ProfileValidator {
     var warnings: [String] = []
     
     if interests.count > ProfileValidationRules.maxInterests {
-      warnings.append("Consider selecting fewer interests for more focused stories.")
+      warnings.append("profile_validation_too_many_interests".localized)
     }
     
     // Check for age-appropriate interests
@@ -197,7 +197,7 @@ class ProfileValidator {
     let inappropriate = interests.filter { !ageAppropriate.contains($0) }
     
     if !inappropriate.isEmpty {
-      warnings.append("Some interests may not be suitable for the \(stage.displayName.lowercased()) stage.")
+      warnings.append(String(format: "profile_validation_inappropriate_interests".localized, stage.displayName.lowercased()))
     }
     
     return warnings

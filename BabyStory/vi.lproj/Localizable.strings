@@ -299,3 +299,49 @@
 "gender_possessive_pronoun_male" = "của nó";
 "gender_possessive_pronoun_female" = "của nó";
 "gender_possessive_pronoun_not_specified" = "của nó";
+
+// MARK: - User Profile
+
+// Age display strings
+"user_profile_age_month_singular" = "tháng";
+"user_profile_age_month_plural" = "tháng";
+"user_profile_age_year_singular" = "tuổi";
+"user_profile_age_year_plural" = "tuổi";
+
+// Display name
+"user_profile_baby_prefix" = "Bé ";
+
+// Story context
+"user_profile_default_parent_names" = "Bố và Mẹ";
+"user_profile_story_context_baby_prefix" = "Câu chuyện cho bé ";
+"user_profile_story_context_from" = " từ ";
+"user_profile_story_context_gentle_story" = "Câu chuyện nhẹ nhàng cho bé ";
+"user_profile_story_context_adventure_story" = "Câu chuyện phiêu lưu cho ";
+
+// Welcome subtitle greetings
+"user_profile_greeting_morning" = "Chào buổi sáng!";
+"user_profile_greeting_afternoon" = "Chào buổi chiều!";
+"user_profile_greeting_evening" = "Chào buổi tối!";
+"user_profile_greeting_night" = "Chúc ngủ ngon!";
+
+// Welcome subtitle stage messages
+"user_profile_welcome_pregnancy" = "Sẵn sàng cho câu chuyện gắn kết?";
+"user_profile_welcome_newborn_infant" = "Đã đến giờ nghe câu chuyện nhẹ nhàng?";
+"user_profile_welcome_toddler" = "Sẵn sàng cho cuộc phiêu lưu?";
+"user_profile_welcome_preschooler" = "Chúng ta sẽ khám phá câu chuyện nào?";
+
+// Growth messages
+"user_profile_growth_newborn" = "🎉 Chào mừng bé %@ đến với thế giới! %@ giờ đã là một em bé sơ sinh!";
+"user_profile_growth_infant" = "🌟 %@ đang lớn lên! %@ giờ đã là một trẻ sơ sinh và sẵn sàng cho những cuộc phiêu lưu mới!";
+"user_profile_growth_toddler" = "🚀 Nhìn ai đang lớn lên đây! %@ giờ đã là một bé mới biết đi và sẵn sàng cho những câu chuyện thú vị!";
+"user_profile_growth_preschooler" = "📚 %@ đang trở thành một bé lớn! %@ giờ đã là một bé mầm non!";
+
+// MARK: - Profile Validation
+
+// Validation warnings
+"profile_validation_due_date_far_future" = "Ngày sinh dự kiến khá xa trong tương lai. Vui lòng kiểm tra lại ngày tháng.";
+"profile_validation_parent_names_too_long" = "Nên sử dụng tên bố mẹ ngắn hơn để câu chuyện được diễn ra tự nhiên hơn.";
+"profile_validation_child_age_too_old" = "Ứng dụng này được thiết kế cho trẻ em dưới %d tuổi.";
+"profile_validation_stage_mismatch" = "Con bạn có thể đã lớn lên đến giai đoạn %@.";
+"profile_validation_too_many_interests" = "Nên chọn ít sở thích hơn để có những câu chuyện tập trung hơn.";
+"profile_validation_inappropriate_interests" = "Một số sở thích có thể không phù hợp với giai đoạn %@.";
