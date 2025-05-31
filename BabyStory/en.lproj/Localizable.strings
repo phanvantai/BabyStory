@@ -192,3 +192,37 @@
 
 // Preview data
 "preview_parent_name" = "Parent 1";
+
+// MARK: - Home
+
+// Home View
+"home_little_one" = "Little One";
+"home_ready_for_adventure" = "Ready for a magical story adventure?";
+"home_back_button" = "Back";
+"home_home_button" = "Home";
+"home_no_story_generated" = "No story generated.";
+
+// Welcome Header
+"home_hello_greeting" = "Hello, %@! 👋";
+
+// Today's Adventure Card
+"home_todays_adventure" = "Today's Adventure";
+"home_create_todays_story" = "Create Today's Story";
+"home_creating_magical_story" = "Creating your magical story...";
+
+// Story Options Grid
+"home_story_options" = "Story Options";
+"home_custom_story" = "Custom Story";
+"home_custom_story_subtitle" = "Choose themes, characters & more";
+"home_story_library" = "Story Library";
+"home_story_library_subtitle" = "Browse saved stories";
+"home_progress" = "Progress";
+"home_progress_subtitle" = "Track reading journey";
+"home_coming_soon" = "Coming Soon";
+"home_favorites" = "Favorites";
+"home_favorites_subtitle" = "Most loved stories";
+
+// Story Time Card
+"home_story_time" = "Story Time";
+"home_next_story_time" = "Next story time";
+"home_stories_read" = "Stories read";

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
   @ObservedObject var viewModel: HomeViewModel
+  @ObservedObject private var languageManager = LanguageManager.shared
   @State private var showCustomize = false
   @State private var showLibrary = false
   @State private var showProgress = false
@@ -33,8 +34,8 @@ struct HomeView: View {
               )
             } else {
               WelcomeHeader(
-                name: "Little One",
-                subtitle: "Ready for a magical story adventure?"
+                name: "home_little_one".localized,
+                subtitle: "home_ready_for_adventure".localized
               )
             }
             
@@ -78,6 +79,7 @@ struct HomeView: View {
           .padding(.horizontal, 24)
           .padding(.top, 20)
         }
+        .id(languageManager.currentLanguage) // Force refresh when language changes
       }
       .navigationDestination(isPresented: $showCustomize) {
         CustomizeStoryView(viewModel: storyGenVM) {
@@ -86,15 +88,15 @@ struct HomeView: View {
             showStory = true
           }
         }
-        .customBackButton(label: "Home")
+        .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showLibrary) {
         LibraryView(viewModel: libraryVM)
-          .customBackButton(label: "Home")
+          .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showProgress) {
         ReadingProgressView(profile: viewModel.profile)
-          .customBackButton(label: "Home")
+          .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showStory) {
         if let story = generatedStory {
@@ -102,10 +104,10 @@ struct HomeView: View {
             viewModel.saveStory(story)
             libraryVM.loadStories()
           }, showSave: true)
-          .customBackButton(label: "Back")
+          .customBackButton(label: "home_back_button".localized)
         } else {
-          Text("No story generated.")
-            .customBackButton(label: "Home")
+          Text("home_no_story_generated".localized)
+            .customBackButton(label: "home_home_button".localized)
         }
       }
       .toolbar {

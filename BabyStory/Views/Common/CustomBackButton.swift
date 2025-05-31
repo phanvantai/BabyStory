@@ -13,6 +13,7 @@ struct CustomBackButton: View {
     var label: String? = nil
     
     @Environment(\.colorScheme) private var colorScheme
+    @ObservedObject private var languageManager = LanguageManager.shared
     @State private var isPressed = false
     
     var body: some View {
@@ -76,12 +77,14 @@ struct CustomBackButton: View {
         // Even though we're not showing the label visually, we maintain it for accessibility
         .accessibilityLabel(label ?? "Back")
         .accessibilityHint("Navigate to previous screen")
+        .id(languageManager.currentLanguage) // Force refresh when language changes
     }
 }
 
 /// A view modifier that customizes the navigation bar with our custom back button
 struct CustomBackButtonModifier: ViewModifier {
     @Environment(\.presentationMode) private var presentationMode
+    @ObservedObject private var languageManager = LanguageManager.shared
     var label: String? = nil
     
     func body(content: Content) -> some View {
@@ -94,6 +97,7 @@ struct CustomBackButtonModifier: ViewModifier {
                     }, label: label) // Label is kept for accessibility but not visually displayed
                 }
             }
+            .id(languageManager.currentLanguage) // Force refresh when language changes
     }
 }
 

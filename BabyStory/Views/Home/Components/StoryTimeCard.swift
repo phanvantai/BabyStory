@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct StoryTimeCard: View {
+    @ObservedObject private var languageManager = LanguageManager.shared
     let storyTime: Date
     let storiesCount: Int
     
@@ -10,7 +11,7 @@ struct StoryTimeCard: View {
                 Image(systemName: "clock.fill")
                     .foregroundColor(.purple)
                     .font(.title3)
-                Text("Story Time")
+                Text("home_story_time".localized)
                     .font(.title3)
                     .fontWeight(.semibold)
                 Spacer()
@@ -18,7 +19,7 @@ struct StoryTimeCard: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Next story time")
+                    Text("home_next_story_time".localized)
                         .font(.caption)
                         .foregroundColor(.secondary)
                     Text(storyTime, style: .time)
@@ -30,7 +31,7 @@ struct StoryTimeCard: View {
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: 4) {
-                    Text("Stories read")
+                    Text("home_stories_read".localized)
                         .font(.caption)
                         .foregroundColor(.secondary)
                     Text("\(storiesCount)")
@@ -42,6 +43,7 @@ struct StoryTimeCard: View {
         }
         .padding(20)
         .appCardStyle()
+        .id(languageManager.currentLanguage) // Force refresh when language changes
     }
 }
 

@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct StoryOptionsGrid: View {
+    @ObservedObject private var languageManager = LanguageManager.shared
     let onCustomTapped: () -> Void
     let onLibraryTapped: () -> Void
     let onProgressTapped: () -> Void
@@ -18,7 +19,7 @@ struct StoryOptionsGrid: View {
                 Image(systemName: "rectangle.grid.2x2.fill")
                     .foregroundColor(.purple)
                     .font(.title3)
-                Text("Story Options")
+                Text("home_story_options".localized)
                     .font(.title2)
                     .fontWeight(.bold)
                 Spacer()
@@ -27,8 +28,8 @@ struct StoryOptionsGrid: View {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
                 if showCustomStory {
                     ActionCard(
-                        title: "Custom Story",
-                        subtitle: "Choose themes, characters & more",
+                        title: "home_custom_story".localized,
+                        subtitle: "home_custom_story_subtitle".localized,
                         icon: "paintbrush.fill",
                         gradientColors: [Color.purple, Color.blue]
                     ) {
@@ -38,8 +39,8 @@ struct StoryOptionsGrid: View {
                 
                 if showLibrary {
                     ActionCard(
-                        title: "Story Library",
-                        subtitle: "Browse saved stories",
+                        title: "home_story_library".localized,
+                        subtitle: "home_story_library_subtitle".localized,
                         icon: "books.vertical.fill",
                         gradientColors: [Color.blue, Color.cyan]
                     ) {
@@ -49,15 +50,15 @@ struct StoryOptionsGrid: View {
                 
                 if showProgress {
                     ActionCard(
-                        title: "Progress",
-                        subtitle: "Track reading journey",
+                        title: "home_progress".localized,
+                        subtitle: "home_progress_subtitle".localized,
                         icon: "chart.line.uptrend.xyaxis",
                         gradientColors: [Color.green, Color.mint]
                     ) {
                         onProgressTapped()
                     }
                     .overlay(alignment: .topTrailing) {
-                        Text("Coming Soon")
+                        Text("home_coming_soon".localized)
                             .font(.caption2)
                             .fontWeight(.bold)
                             .foregroundColor(.white)
@@ -73,8 +74,8 @@ struct StoryOptionsGrid: View {
                 
                 if showFavorites {
                     ActionCard(
-                        title: "Favorites",
-                        subtitle: "Most loved stories",
+                        title: "home_favorites".localized,
+                        subtitle: "home_favorites_subtitle".localized,
                         icon: "heart.fill",
                         gradientColors: [Color.pink, Color.red]
                     ) {
@@ -83,6 +84,7 @@ struct StoryOptionsGrid: View {
                 }
             }
         }
+        .id(languageManager.currentLanguage) // Force refresh when language changes
     }
 }
 

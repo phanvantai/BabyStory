@@ -192,3 +192,37 @@
 
 // Preview data
 "preview_parent_name" = "Cha Mẹ";
+
+// MARK: - Home
+
+// Home View
+"home_little_one" = "Bé Yêu";
+"home_ready_for_adventure" = "Sẵn sàng cho một cuộc phiêu lưu kỳ diệu?";
+"home_back_button" = "Quay Lại";
+"home_home_button" = "Trang Chủ";
+"home_no_story_generated" = "Chưa có câu chuyện nào được tạo.";
+
+// Welcome Header
+"home_hello_greeting" = "Xin chào, %@! 👋";
+
+// Today's Adventure Card
+"home_todays_adventure" = "Cuộc Phiêu Lưu Hôm Nay";
+"home_create_todays_story" = "Tạo Câu Chuyện Hôm Nay";
+"home_creating_magical_story" = "Đang tạo câu chuyện kỳ diệu của bạn...";
+
+// Story Options Grid
+"home_story_options" = "Tùy Chọn Câu Chuyện";
+"home_custom_story" = "Câu Chuyện Tùy Chỉnh";
+"home_custom_story_subtitle" = "Chọn chủ đề, nhân vật & nhiều hơn nữa";
+"home_story_library" = "Thư Viện Câu Chuyện";
+"home_story_library_subtitle" = "Duyệt xem các câu chuyện đã lưu";
+"home_progress" = "Tiến Độ";
+"home_progress_subtitle" = "Theo dõi hành trình đọc sách";
+"home_coming_soon" = "Sắp Ra Mắt";
+"home_favorites" = "Yêu Thích";
+"home_favorites_subtitle" = "Những câu chuyện được yêu thích nhất";
+
+// Story Time Card
+"home_story_time" = "Giờ Kể Chuyện";
+"home_next_story_time" = "Giờ kể chuyện tiếp theo";
+"home_stories_read" = "Số câu chuyện đã đọc";

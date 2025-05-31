@@ -3,6 +3,7 @@ import SwiftUI
 struct TodaysAdventureCard: View {
   @ObservedObject var storyGenVM: StoryGenerationViewModel
   @ObservedObject var homeVM: HomeViewModel
+  @ObservedObject private var languageManager = LanguageManager.shared
   let onStoryGenerated: (Story) -> Void
   
   private var timeOfDayIcon: String {
@@ -39,7 +40,7 @@ struct TodaysAdventureCard: View {
         Image(systemName: timeOfDayIcon)
           .foregroundColor(timeOfDayColor)
           .font(.title2)
-        Text("Today's Adventure")
+        Text("home_todays_adventure".localized)
           .font(.title2)
           .fontWeight(.bold)
         Spacer()
@@ -53,7 +54,7 @@ struct TodaysAdventureCard: View {
         }
       }) {
         HStack(spacing: 12) {
-          Text("Create Today's Story")
+          Text("home_create_todays_story".localized)
             .font(.headline)
             .fontWeight(.semibold)
           
@@ -68,7 +69,7 @@ struct TodaysAdventureCard: View {
         HStack {
           ProgressView()
             .scaleEffect(0.8)
-          Text("Creating your magical story...")
+          Text("home_creating_magical_story".localized)
             .font(.caption)
             .foregroundColor(.secondary)
         }
@@ -80,6 +81,7 @@ struct TodaysAdventureCard: View {
       borderColor: timeOfDayColor.opacity(0.3),
       shadowColor: timeOfDayColor.opacity(0.2)
     )
+    .id(languageManager.currentLanguage) // Force refresh when language changes
   }
 }
 
