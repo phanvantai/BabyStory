@@ -345,3 +345,155 @@
 "profile_validation_stage_mismatch" = "Con bạn có thể đã lớn lên đến giai đoạn %@.";
 "profile_validation_too_many_interests" = "Nên chọn ít sở thích hơn để có những câu chuyện tập trung hơn.";
 "profile_validation_inappropriate_interests" = "Một số sở thích có thể không phù hợp với giai đoạn %@.";
+
+// MARK: - App Error Messages
+
+// Error descriptions
+"app_error_story_generation_failed" = "Không thể tạo câu chuyện. Vui lòng thử lại.";
+"app_error_profile_save_failed" = "Không thể lưu thay đổi hồ sơ.";
+"app_error_story_save_failed" = "Không thể lưu câu chuyện vào thư viện.";
+"app_error_invalid_profile" = "Thông tin hồ sơ không đầy đủ hoặc không hợp lệ.";
+"app_error_network_unavailable" = "Kết nối mạng không khả dụng.";
+"app_error_data_corruption" = "Dữ liệu có vẻ bị hỏng. Vui lòng khởi động lại ứng dụng.";
+"app_error_data_save_failed" = "Không thể lưu dữ liệu. Vui lòng thử lại.";
+"app_error_data_export_failed" = "Không thể xuất dữ liệu. Vui lòng thử lại.";
+"app_error_data_import_failed" = "Không thể nhập dữ liệu. Vui lòng kiểm tra tệp và thử lại.";
+"app_error_invalid_name" = "Vui lòng nhập tên hợp lệ.";
+"app_error_invalid_date" = "Vui lòng chọn ngày hợp lệ.";
+"app_error_invalid_story_options" = "Tùy chọn câu chuyện không hợp lệ. Vui lòng kiểm tra lựa chọn của bạn.";
+"app_error_invalid_character_count" = "Đã chọn quá nhiều nhân vật. Vui lòng chọn tối đa 5 nhân vật.";
+"app_error_profile_incomplete" = "Vui lòng hoàn thành tất cả các trường hồ sơ bắt buộc.";
+
+// Recovery suggestions
+"app_error_recovery_story_generation" = "Kiểm tra kết nối internet và thử tạo câu chuyện lại.";
+"app_error_recovery_save_retry" = "Vui lòng thử lưu lại. Nếu vấn đề vẫn tiếp tục, hãy khởi động lại ứng dụng.";
+"app_error_recovery_profile_complete" = "Vui lòng hoàn thành tất cả các trường hồ sơ bắt buộc.";
+"app_error_recovery_network" = "Kết nối internet và thử lại.";
+"app_error_recovery_data_corruption" = "Khởi động lại ứng dụng. Nếu vấn đề vẫn tiếp tục, bạn có thể cần đặt lại hồ sơ.";
+"app_error_recovery_storage_space" = "Đảm bảo bạn có đủ dung lượng lưu trữ và thử lại.";
+"app_error_recovery_file_corruption" = "Đảm bảo tệp không bị hỏng và được xuất từ BabyStory.";
+"app_error_recovery_name_length" = "Nhập tên có ít nhất 1 ký tự.";
+"app_error_recovery_date_validation" = "Chọn ngày phù hợp với độ tuổi của con bạn.";
+"app_error_recovery_story_options" = "Xem lại tùy chọn câu chuyện và thử lại.";
+"app_error_recovery_character_limit" = "Chọn ít nhân vật hơn cho câu chuyện của bạn.";
+
+// MARK: - Story Options
+
+// Story length descriptions
+"story_length_short" = "Câu chuyện ngắn (2-3 phút)";
+"story_length_medium" = "Câu chuyện hoàn hảo (5-7 phút)";
+"story_length_long" = "Cuộc phiêu lưu dài (10+ phút)";
+
+// Story theme descriptions
+"story_theme_adventure" = "Những hành trình thú vị và khám phá";
+"story_theme_friendship" = "Câu chuyện về việc kết bạn và quan tâm";
+"story_theme_magic" = "Thế giới phép thuật và kỳ diệu";
+"story_theme_animals" = "Những sinh vật thân thiện và thiên nhiên";
+"story_theme_learning" = "Bài học vui nhộn và kỹ năng mới";
+"story_theme_kindness" = "Giúp đỡ và quan tâm đến người khác";
+"story_theme_nature" = "Thiên nhiên đẹp và khu vườn";
+"story_theme_family" = "Tình yêu, sự gắn kết và thuộc về";
+"story_theme_dreams" = "Cuộc phiêu lưu êm dịu trong đêm";
+"story_theme_creativity" = "Nghệ thuật, âm nhạc và trí tưởng tượng";
+
+// MARK: - Due Date Notifications
+
+// Notification titles
+"due_date_notification_title_three_days_before" = "Nhắc Nhở Ngày Sinh Dự Kiến 📅";
+"due_date_notification_title_on_due_date" = "Hôm Nay Là Ngày Sinh Dự Kiến! 🎉";
+"due_date_notification_title_two_days_after" = "Nhắc Nhở Cập Nhật Hồ Sơ 👶";
+
+// Notification bodies
+"due_date_notification_body_three_days_before" = "Bé %@ dự kiến sinh trong 3 ngày nữa! Hãy cân nhắc cập nhật hồ sơ nếu ngày sinh dự kiến đã thay đổi.";
+"due_date_notification_body_on_due_date" = "Hôm nay là ngày sinh dự kiến của bé %@! Đừng quên cập nhật hồ sơ khi bé chào đời.";
+"due_date_notification_body_two_days_after" = "Bé %@ thế nào rồi? Vui lòng cập nhật hồ sơ để tiếp tục tận hưởng những câu chuyện được cá nhân hóa.";
+
+// MARK: - Notification Permission Manager
+
+// Permission context reasons
+"permission_context_pregnancy_reason" = "Nhận những lời nhắc hữu ích về hành trình thai kỳ của bạn";
+"permission_context_story_time_reason" = "Không bao giờ bỏ lỡ giờ kể chuyện với bé yêu";
+"permission_context_general_reason" = "Luôn kết nối với trải nghiệm BabyStory của bạn";
+
+// Permission context benefits - Pregnancy
+"permission_benefit_due_date_reminders" = "Nhắc nhở ngày sinh dự kiến";
+"permission_benefit_profile_update_suggestions" = "Gợi ý cập nhật hồ sơ";
+"permission_benefit_important_milestones" = "Các cột mốc quan trọng";
+
+// Permission context benefits - Story Time
+"permission_benefit_daily_story_reminders" = "Nhắc nhở giờ kể chuyện hàng ngày";
+"permission_benefit_reading_routine_notifications" = "Thông báo thói quen đọc sách";
+"permission_benefit_new_story_alerts" = "Cảnh báo câu chuyện mới";
+
+// Permission context benefits - General
+"permission_benefit_story_time_reminders" = "Nhắc nhở giờ kể chuyện";
+"permission_benefit_profile_updates" = "Cập nhật hồ sơ";
+"permission_benefit_milestone_celebrations" = "Lễ kỷ niệm cột mốc đặc biệt";
+
+// Permission context reasons - General
+"permission_context_general_reason" = "Luôn kết nối với trải nghiệm BabyStory của bạn";
+
+// MARK: - Theme Manager
+
+// Theme mode display names
+"theme_mode_system" = "Hệ Thống";
+"theme_mode_light" = "Sáng";
+"theme_mode_dark" = "Tối";
+
+// MARK: - Edit Profile ViewModel
+
+// Age display strings
+"edit_profile_age_not_set" = "Chưa đặt";
+"edit_profile_age_one_month" = "1 tháng tuổi";
+"edit_profile_age_months_format" = "%d tháng tuổi";
+"edit_profile_age_one_year" = "1 tuổi";
+"edit_profile_age_years_format" = "%d tuổi";
+"edit_profile_age_unknown" = "Tuổi không xác định";
+
+// MARK: - Onboarding ViewModel
+
+// Story recommendations - Morning (6-11 AM)
+"onboarding_story_morning_adventures" = "Cuộc Phiêu Lưu Buổi Sáng";
+"onboarding_story_wake_up_stories" = "Câu Chuyện Thức Dậy";
+"onboarding_story_breakfast_tales" = "Câu Chuyện Bữa Sáng";
+"onboarding_story_sunny_day_fun" = "Niềm Vui Ngày Nắng";
+
+// Story recommendations - Afternoon (12-17 PM)
+"onboarding_story_afternoon_play" = "Chơi Đùa Buổi Chiều";
+"onboarding_story_learning_stories" = "Câu Chuyện Học Tập";
+"onboarding_story_outdoor_adventures" = "Phiêu Lưu Ngoài Trời";
+"onboarding_story_friend_tales" = "Câu Chuyện Về Bạn Bè";
+
+// Story recommendations - Evening (18-21 PM)
+"onboarding_story_bedtime_stories" = "Câu Chuyện Ru Ngủ";
+"onboarding_story_calm_adventures" = "Cuộc Phiêu Lưu Êm Dịu";
+"onboarding_story_dream_journeys" = "Hành Trình Trong Mơ";
+"onboarding_story_goodnight_tales" = "Câu Chuyện Chúc Ngủ Ngon";
+
+// Story recommendations - Night (22-5 AM)
+"onboarding_story_peaceful_dreams" = "Giấc Mơ Yên Bình";
+"onboarding_story_quiet_stories" = "Câu Chuyện Tĩnh Lặng";
+"onboarding_story_sleep_adventures" = "Cuộc Phiêu Lưu Giấc Ngủ";
+"onboarding_story_gentle_tales" = "Câu Chuyện Dịu Dàng";
+
+// MARK: - Common UI Components
+
+// Loading states
+"loading_default_message" = "Đang tải...";
+
+// Notification permission prompt
+"notification_permission_enable_title" = "Bật Thông Báo";
+"notification_permission_learn_more" = "Tìm Hiểu Thêm";
+"notification_permission_enable_button" = "Bật";
+
+// Notification permission sheet
+"notification_permission_sheet_stay_connected" = "Luôn Kết Nối";
+"notification_permission_sheet_navigation_title" = "Thông Báo";
+"notification_permission_sheet_skip" = "Bỏ Qua";
+"notification_permission_sheet_description" = "Chúng tôi sẽ xin phép bạn để gửi thông báo. Bạn luôn có thể thay đổi điều này trong Cài đặt sau.";
+"notification_permission_sheet_requesting" = "Đang yêu cầu...";
+"notification_permission_sheet_enable_notifications" = "Bật Thông Báo";
+"notification_permission_sheet_not_now" = "Không Phải Bây Giờ";
+"notification_permission_sheet_denied_description" = "Thông báo hiện đang bị tắt. Bạn có thể bật chúng trong Cài đặt để có trải nghiệm BabyStory đầy đủ.";
+"notification_permission_sheet_open_settings" = "Mở Cài Đặt";
+"notification_permission_sheet_continue_without" = "Tiếp Tục Không Có Thông Báo";

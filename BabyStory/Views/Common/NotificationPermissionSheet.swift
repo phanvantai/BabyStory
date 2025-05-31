@@ -26,7 +26,7 @@ struct NotificationPermissionSheet: View {
                         .font(.system(size: 60))
                         .foregroundColor(.blue)
                     
-                    Text("Stay Connected")
+                    Text("notification_permission_sheet_stay_connected".localized)
                         .font(.title2)
                         .fontWeight(.bold)
                     
@@ -65,11 +65,11 @@ struct NotificationPermissionSheet: View {
                 Spacer()
             }
             .padding(.horizontal, 24)
-            .navigationTitle("Notifications")
+            .navigationTitle("notification_permission_sheet_navigation_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Skip") {
+                    Button("notification_permission_sheet_skip".localized) {
                         dismiss()
                         onPermissionDenied()
                     }
@@ -82,7 +82,7 @@ struct NotificationPermissionSheet: View {
     @ViewBuilder
     private var requestPermissionView: some View {
         VStack(spacing: 16) {
-            Text("We'll ask your permission to send notifications. You can always change this in Settings later.")
+            Text("notification_permission_sheet_description".localized)
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -97,7 +97,7 @@ struct NotificationPermissionSheet: View {
                         Image(systemName: "bell.badge")
                     }
                     
-                    Text(isRequestingPermission ? "Requesting..." : "Enable Notifications")
+                    Text(isRequestingPermission ? "notification_permission_sheet_requesting".localized : "notification_permission_sheet_enable_notifications".localized)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
@@ -107,7 +107,7 @@ struct NotificationPermissionSheet: View {
             }
             .disabled(isRequestingPermission)
             
-            Button("Not Now") {
+            Button("notification_permission_sheet_not_now".localized) {
                 dismiss()
                 onPermissionDenied()
             }
@@ -118,7 +118,7 @@ struct NotificationPermissionSheet: View {
     @ViewBuilder
     private var deniedPermissionView: some View {
         VStack(spacing: 16) {
-            Text("Notifications are currently disabled. You can enable them in Settings to get the full BabyStory experience.")
+            Text("notification_permission_sheet_denied_description".localized)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -126,7 +126,7 @@ struct NotificationPermissionSheet: View {
             Button(action: openSettings) {
                 HStack {
                     Image(systemName: "gear")
-                    Text("Open Settings")
+                    Text("notification_permission_sheet_open_settings".localized)
                 }
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
@@ -135,7 +135,7 @@ struct NotificationPermissionSheet: View {
                 .cornerRadius(12)
             }
             
-            Button("Continue Without Notifications") {
+            Button("notification_permission_sheet_continue_without".localized) {
                 dismiss()
                 onPermissionDenied()
             }

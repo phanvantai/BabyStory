@@ -17,11 +17,11 @@ enum ThemeMode: String, CaseIterable, Codable {
   var displayName: String {
     switch self {
     case .system:
-      return "System"
+      return "theme_mode_system".localized
     case .light:
-      return "Light"
+      return "theme_mode_light".localized
     case .dark:
-      return "Dark"
+      return "theme_mode_dark".localized
     }
   }
   

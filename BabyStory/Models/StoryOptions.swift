@@ -10,11 +10,11 @@ enum StoryLength: String, Codable, CaseIterable, Identifiable {
   var description: String {
     switch self {
     case .short:
-      return "Quick tale (2-3 minutes)"
+      return "story_length_short".localized
     case .medium:
-      return "Perfect story (5-7 minutes)"
+      return "story_length_medium".localized
     case .long:
-      return "Extended adventure (10+ minutes)"
+      return "story_length_long".localized
     }
   }
 }
@@ -36,25 +36,25 @@ enum StoryTheme: String, Codable, CaseIterable, Identifiable {
   var description: String {
     switch self {
     case .adventure:
-      return "Exciting journeys and discoveries"
+      return "story_theme_adventure".localized
     case .friendship:
-      return "Stories about making friends and caring"
+      return "story_theme_friendship".localized
     case .magic:
-      return "Enchanted worlds and wonder"
+      return "story_theme_magic".localized
     case .animals:
-      return "Friendly creatures and nature"
+      return "story_theme_animals".localized
     case .learning:
-      return "Fun lessons and new skills"
+      return "story_theme_learning".localized
     case .kindness:
-      return "Being helpful and caring for others"
+      return "story_theme_kindness".localized
     case .nature:
-      return "Beautiful outdoors and gardens"
+      return "story_theme_nature".localized
     case .family:
-      return "Love, togetherness and belonging"
+      return "story_theme_family".localized
     case .dreams:
-      return "Peaceful nighttime adventures"
+      return "story_theme_dreams".localized
     case .creativity:
-      return "Art, music and imagination"
+      return "story_theme_creativity".localized
     }
   }
   

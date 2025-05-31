@@ -143,31 +143,31 @@ struct PermissionContext {
     let showForDenied: Bool
     
     static let pregnancyReminders = PermissionContext(
-        reason: "Get helpful reminders about your pregnancy journey",
+        reason: "permission_context_pregnancy_reason".localized,
         benefits: [
-            "Due date reminders",
-            "Profile update suggestions",
-            "Important milestones"
+            "permission_benefit_due_date_reminders".localized,
+            "permission_benefit_profile_update_suggestions".localized,
+            "permission_benefit_important_milestones".localized
         ],
         showForDenied: true
     )
     
     static let storyTime = PermissionContext(
-        reason: "Never miss story time with your little one",
+        reason: "permission_context_story_time_reason".localized,
         benefits: [
-            "Daily story time reminders",
-            "Reading routine notifications",
-            "New story alerts"
+            "permission_benefit_daily_story_reminders".localized,
+            "permission_benefit_reading_routine_notifications".localized,
+            "permission_benefit_new_story_alerts".localized
         ],
         showForDenied: true
     )
     
     static let general = PermissionContext(
-        reason: "Stay connected with your BabyStory experience",
+        reason: "permission_context_general_reason".localized,
         benefits: [
-            "Story time reminders",
-            "Profile updates",
-            "Special milestone celebrations"
+            "permission_benefit_story_time_reminders".localized,
+            "permission_benefit_profile_updates".localized,
+            "permission_benefit_milestone_celebrations".localized
         ],
         showForDenied: true
     )

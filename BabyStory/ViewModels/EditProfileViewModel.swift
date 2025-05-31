@@ -55,7 +55,7 @@ class EditProfileViewModel: ObservableObject {
   
   // Current age display text
   var ageDisplayText: String {
-    guard let dateOfBirth = dateOfBirth else { return "Not set" }
+    guard let dateOfBirth = dateOfBirth else { return "edit_profile_age_not_set".localized }
     
     let calendar = Calendar.current
     let ageComponents = calendar.dateComponents([.year, .month], from: dateOfBirth, to: Date())
@@ -63,13 +63,13 @@ class EditProfileViewModel: ObservableObject {
     if let years = ageComponents.year, let months = ageComponents.month {
       if years < 2 {
         let totalMonths = years * 12 + months
-        return totalMonths == 1 ? "1 month old" : "\(totalMonths) months old"
+        return totalMonths == 1 ? "edit_profile_age_one_month".localized : String(format: "edit_profile_age_months_format".localized, totalMonths)
       } else {
-        return years == 1 ? "1 year old" : "\(years) years old"
+        return years == 1 ? "edit_profile_age_one_year".localized : String(format: "edit_profile_age_years_format".localized, years)
       }
     }
     
-    return "Unknown age"
+    return "edit_profile_age_unknown".localized
   }
   
   // Available interests based on baby stage

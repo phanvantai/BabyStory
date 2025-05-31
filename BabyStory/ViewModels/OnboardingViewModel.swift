@@ -69,7 +69,7 @@ class OnboardingViewModel: ObservableObject {
   }
   
   var ageDisplayText: String {
-    guard let dateOfBirth = dateOfBirth else { return "Not set" }
+    guard let dateOfBirth = dateOfBirth else { return "edit_profile_age_not_set".localized }
     
     let calendar = Calendar.current
     let ageComponents = calendar.dateComponents([.year, .month], from: dateOfBirth, to: Date())
@@ -77,13 +77,13 @@ class OnboardingViewModel: ObservableObject {
     if let years = ageComponents.year, let months = ageComponents.month {
       if years < 2 {
         let totalMonths = years * 12 + months
-        return totalMonths == 1 ? "1 month old" : "\(totalMonths) months old"
+        return totalMonths == 1 ? "edit_profile_age_one_month".localized : String(format: "edit_profile_age_months_format".localized, totalMonths)
       } else {
-        return years == 1 ? "1 year old" : "\(years) years old"
+        return years == 1 ? "edit_profile_age_one_year".localized : String(format: "edit_profile_age_years_format".localized, years)
       }
     }
     
-    return "Unknown age"
+    return "edit_profile_age_unknown".localized
   }
   
   // Available interests based on baby stage
@@ -227,13 +227,33 @@ class OnboardingViewModel: ObservableObject {
     
     switch hour {
     case 6...11:
-      return ["Morning Adventures", "Wake-up Stories", "Breakfast Tales", "Sunny Day Fun"]
+      return [
+        "onboarding_story_morning_adventures".localized,
+        "onboarding_story_wake_up_stories".localized,
+        "onboarding_story_breakfast_tales".localized,
+        "onboarding_story_sunny_day_fun".localized
+      ]
     case 12...17:
-      return ["Afternoon Play", "Learning Stories", "Outdoor Adventures", "Friend Tales"]
+      return [
+        "onboarding_story_afternoon_play".localized,
+        "onboarding_story_learning_stories".localized,
+        "onboarding_story_outdoor_adventures".localized,
+        "onboarding_story_friend_tales".localized
+      ]
     case 18...21:
-      return ["Bedtime Stories", "Calm Adventures", "Dream Journeys", "Goodnight Tales"]
+      return [
+        "onboarding_story_bedtime_stories".localized,
+        "onboarding_story_calm_adventures".localized,
+        "onboarding_story_dream_journeys".localized,
+        "onboarding_story_goodnight_tales".localized
+      ]
     default:
-      return ["Peaceful Dreams", "Quiet Stories", "Sleep Adventures", "Gentle Tales"]
+      return [
+        "onboarding_story_peaceful_dreams".localized,
+        "onboarding_story_quiet_stories".localized,
+        "onboarding_story_sleep_adventures".localized,
+        "onboarding_story_gentle_tales".localized
+      ]
     }
   }
   

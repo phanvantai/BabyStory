@@ -10,7 +10,7 @@ import SwiftUI
 struct LoadingCard: View {
   let message: String
   
-  init(message: String = "Loading...") {
+  init(message: String = "loading_default_message".localized) {
     self.message = message
   }
   

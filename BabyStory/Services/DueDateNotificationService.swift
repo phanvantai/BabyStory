@@ -30,22 +30,22 @@ class DueDateNotificationService {
         var title: String {
             switch self {
             case .threeDaysBefore:
-                return "Due Date Reminder 📅"
+                return "due_date_notification_title_three_days_before".localized
             case .onDueDate:
-                return "Due Date Today! 🎉"
+                return "due_date_notification_title_on_due_date".localized
             case .twoDaysAfter:
-                return "Profile Update Reminder 👶"
+                return "due_date_notification_title_two_days_after".localized
             }
         }
         
         func body(for babyName: String) -> String {
             switch self {
             case .threeDaysBefore:
-                return "Baby \(babyName) is due in 3 days! Consider updating your profile if your due date has changed."
+                return String(format: "due_date_notification_body_three_days_before".localized, babyName)
             case .onDueDate:
-                return "Baby \(babyName) is due today! Don't forget to update your profile when baby arrives."
+                return String(format: "due_date_notification_body_on_due_date".localized, babyName)
             case .twoDaysAfter:
-                return "How is baby \(babyName)? Please update your profile to continue enjoying personalized stories."
+                return String(format: "due_date_notification_body_two_days_after".localized, babyName)
             }
         }
     }

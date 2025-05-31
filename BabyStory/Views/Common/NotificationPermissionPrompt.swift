@@ -25,7 +25,7 @@ struct NotificationPermissionPrompt: View {
                         .font(.title2)
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Enable Notifications")
+                        Text("notification_permission_enable_title".localized)
                             .font(.headline)
                         
                         Text(context.reason)
@@ -37,12 +37,12 @@ struct NotificationPermissionPrompt: View {
                 }
                 
                 HStack(spacing: 12) {
-                    Button("Learn More") {
+                    Button("notification_permission_learn_more".localized) {
                         showSheet = true
                     }
                     .buttonStyle(.bordered)
                     
-                    Button("Enable") {
+                    Button("notification_permission_enable_button".localized) {
                         showSheet = true
                     }
                     .buttonStyle(.borderedProminent)

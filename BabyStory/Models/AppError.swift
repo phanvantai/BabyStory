@@ -22,60 +22,60 @@ enum AppError: LocalizedError, Equatable {
   var errorDescription: String? {
     switch self {
     case .storyGenerationFailed:
-      return "Unable to generate story. Please try again."
+      return "app_error_story_generation_failed".localized
     case .profileSaveFailed:
-      return "Failed to save profile changes."
+      return "app_error_profile_save_failed".localized
     case .storySaveFailed:
-      return "Failed to save story to library."
+      return "app_error_story_save_failed".localized
     case .invalidProfile:
-      return "Profile information is incomplete or invalid."
+      return "app_error_invalid_profile".localized
     case .networkUnavailable:
-      return "Network connection unavailable."
+      return "app_error_network_unavailable".localized
     case .dataCorruption:
-      return "Data appears to be corrupted. Please restart the app."
+      return "app_error_data_corruption".localized
     case .dataSaveFailed:
-      return "Failed to save data. Please try again."
+      return "app_error_data_save_failed".localized
     case .dataExportFailed:
-      return "Failed to export data. Please try again."
+      return "app_error_data_export_failed".localized
     case .dataImportFailed:
-      return "Failed to import data. Please check the file and try again."
+      return "app_error_data_import_failed".localized
     case .invalidName:
-      return "Please enter a valid name."
+      return "app_error_invalid_name".localized
     case .invalidDate:
-      return "Please select a valid date."
+      return "app_error_invalid_date".localized
     case .invalidStoryOptions:
-      return "Story options are invalid. Please check your selections."
+      return "app_error_invalid_story_options".localized
     case .invalidCharacterCount:
-      return "Too many characters selected. Please choose up to 5 characters."
+      return "app_error_invalid_character_count".localized
     case .profileIncomplete:
-      return "Please complete all required profile fields."
+      return "app_error_profile_incomplete".localized
     }
   }
   
   var recoverySuggestion: String? {
     switch self {
     case .storyGenerationFailed:
-      return "Check your internet connection and try generating the story again."
+      return "app_error_recovery_story_generation".localized
     case .profileSaveFailed, .storySaveFailed, .dataSaveFailed:
-      return "Please try saving again. If the problem persists, restart the app."
+      return "app_error_recovery_save_retry".localized
     case .invalidProfile, .profileIncomplete:
-      return "Please complete all required profile fields."
+      return "app_error_recovery_profile_complete".localized
     case .networkUnavailable:
-      return "Connect to the internet and try again."
+      return "app_error_recovery_network".localized
     case .dataCorruption:
-      return "Restart the app. If the problem persists, you may need to reset your profile."
+      return "app_error_recovery_data_corruption".localized
     case .dataExportFailed:
-      return "Make sure you have enough storage space and try again."
+      return "app_error_recovery_storage_space".localized
     case .dataImportFailed:
-      return "Ensure the file is not corrupted and was exported from BabyStory."
+      return "app_error_recovery_file_corruption".localized
     case .invalidName:
-      return "Enter a name with at least 1 character."
+      return "app_error_recovery_name_length".localized
     case .invalidDate:
-      return "Choose a date that makes sense for your child's age."
+      return "app_error_recovery_date_validation".localized
     case .invalidStoryOptions:
-      return "Review your story preferences and try again."
+      return "app_error_recovery_story_options".localized
     case .invalidCharacterCount:
-      return "Select fewer characters for your story."
+      return "app_error_recovery_character_limit".localized
     }
   }
 }
