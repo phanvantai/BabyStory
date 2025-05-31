@@ -15,33 +15,33 @@ enum Gender: String, Codable, CaseIterable {
   var displayName: String {
     switch self {
     case .male:
-      return "Boy"
+      return "gender_display_name_male".localized
     case .female:
-      return "Girl"
+      return "gender_display_name_female".localized
     case .notSpecified:
-      return "Not Specified"
+      return "gender_display_name_not_specified".localized
     }
   }
   
   var pronoun: String {
     switch self {
     case .male:
-      return "he"
+      return "gender_pronoun_male".localized
     case .female:
-      return "she"
+      return "gender_pronoun_female".localized
     case .notSpecified:
-      return "they"
+      return "gender_pronoun_not_specified".localized
     }
   }
   
   var possessivePronoun: String {
     switch self {
     case .male:
-      return "his"
+      return "gender_possessive_pronoun_male".localized
     case .female:
-      return "her"
+      return "gender_possessive_pronoun_female".localized
     case .notSpecified:
-      return "their"
+      return "gender_possessive_pronoun_not_specified".localized
     }
   }
 }

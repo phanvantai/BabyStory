@@ -31,6 +31,64 @@
 "baby_stage_name_newborn" = "Newborn (0-3 months)";
 "baby_stage_name_pregnancy" = "During Pregnancy";
 
+// Baby stage descriptions
+"baby_stage_description_pregnancy" = "Create bonding stories for your unborn baby";
+"baby_stage_description_newborn" = "Gentle, soothing stories for newborns";
+"baby_stage_description_infant" = "Simple stories with sounds and textures";
+"baby_stage_description_toddler" = "Interactive stories with basic lessons";
+"baby_stage_description_preschooler" = "Adventure stories with moral lessons";
+
+// Baby stage interests - Pregnancy
+"baby_stage_interest_classical_music" = "Classical Music";
+"baby_stage_interest_nature_sounds" = "Nature Sounds";
+"baby_stage_interest_gentle_stories" = "Gentle Stories";
+"baby_stage_interest_parent_bonding" = "Parent Bonding";
+"baby_stage_interest_relaxation" = "Relaxation";
+"baby_stage_interest_love_care" = "Love & Care";
+
+// Baby stage interests - Newborn
+"baby_stage_interest_lullabies" = "Lullabies";
+"baby_stage_interest_gentle_sounds" = "Gentle Sounds";
+"baby_stage_interest_soft_colors" = "Soft Colors";
+"baby_stage_interest_comfort" = "Comfort";
+"baby_stage_interest_sleep" = "Sleep";
+"baby_stage_interest_feeding_time" = "Feeding Time";
+"baby_stage_interest_parent_voice" = "Parent Voice";
+
+// Baby stage interests - Infant
+"baby_stage_interest_peek_a_boo" = "Peek-a-boo";
+"baby_stage_interest_simple_sounds" = "Simple Sounds";
+"baby_stage_interest_textures" = "Textures";
+"baby_stage_interest_movement" = "Movement";
+"baby_stage_interest_smiles" = "Smiles";
+"baby_stage_interest_discovery" = "Discovery";
+"baby_stage_interest_clapping" = "Clapping";
+"baby_stage_interest_faces" = "Faces";
+
+// Baby stage interests - Toddler
+"baby_stage_interest_animals" = "Animals";
+"baby_stage_interest_colors" = "Colors";
+"baby_stage_interest_numbers" = "Numbers";
+"baby_stage_interest_vehicles" = "Vehicles";
+"baby_stage_interest_nature" = "Nature";
+"baby_stage_interest_family" = "Family";
+"baby_stage_interest_friends" = "Friends";
+"baby_stage_interest_playing" = "Playing";
+"baby_stage_interest_songs" = "Songs";
+"baby_stage_interest_repetition" = "Repetition";
+
+// Baby stage interests - Preschooler
+"baby_stage_interest_adventure" = "Adventure";
+"baby_stage_interest_magic" = "Magic";
+"baby_stage_interest_friendship" = "Friendship";
+"baby_stage_interest_learning" = "Learning";
+"baby_stage_interest_imagination" = "Imagination";
+"baby_stage_interest_problem_solving" = "Problem Solving";
+"baby_stage_interest_emotions" = "Emotions";
+"baby_stage_interest_school" = "School";
+"baby_stage_interest_helping_others" = "Helping Others";
+"baby_stage_interest_curiosity" = "Curiosity";
+
 // Onboarding Profile
 "onboarding_profile_title" = "Tell us about your baby";
 "onboarding_profile_subtitle" = "This helps us create the perfect stories";
@@ -226,3 +284,18 @@
 "home_story_time" = "Story Time";
 "home_next_story_time" = "Next story time";
 "home_stories_read" = "Stories read";
+
+// Gender display names
+"gender_display_name_male" = "Boy";
+"gender_display_name_female" = "Girl";
+"gender_display_name_not_specified" = "Not Specified";
+
+// Gender pronouns
+"gender_pronoun_male" = "he";
+"gender_pronoun_female" = "she";
+"gender_pronoun_not_specified" = "they";
+
+// Gender possessive pronouns
+"gender_possessive_pronoun_male" = "his";
+"gender_possessive_pronoun_female" = "her";
+"gender_possessive_pronoun_not_specified" = "their";

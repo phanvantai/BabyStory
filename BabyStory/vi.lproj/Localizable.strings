@@ -31,6 +31,64 @@
 "baby_stage_name_newborn" = "Trẻ sơ sinh (0-3 tháng)";
 "baby_stage_name_pregnancy" = "Trong thai kỳ";
 
+// Baby stage descriptions
+"baby_stage_description_pregnancy" = "Tạo những câu chuyện gắn kết cho bé trong bụng mẹ";
+"baby_stage_description_newborn" = "Những câu chuyện nhẹ nhàng, êm dịu cho trẻ sơ sinh";
+"baby_stage_description_infant" = "Những câu chuyện đơn giản với âm thanh và kết cấu";
+"baby_stage_description_toddler" = "Những câu chuyện tương tác với bài học cơ bản";
+"baby_stage_description_preschooler" = "Những câu chuyện phiêu lưu với bài học đạo đức";
+
+// Baby stage interests - Pregnancy
+"baby_stage_interest_classical_music" = "Nhạc Cổ Điển";
+"baby_stage_interest_nature_sounds" = "Âm Thanh Thiên Nhiên";
+"baby_stage_interest_gentle_stories" = "Câu Chuyện Nhẹ Nhàng";
+"baby_stage_interest_parent_bonding" = "Gắn Kết Với Bố Mẹ";
+"baby_stage_interest_relaxation" = "Thư Giãn";
+"baby_stage_interest_love_care" = "Tình Yêu & Chăm Sóc";
+
+// Baby stage interests - Newborn
+"baby_stage_interest_lullabies" = "Những Bài Hát Ru";
+"baby_stage_interest_gentle_sounds" = "Âm Thanh Nhẹ Nhàng";
+"baby_stage_interest_soft_colors" = "Màu Sắc Dịu Nhẹ";
+"baby_stage_interest_comfort" = "Sự Thoải Mái";
+"baby_stage_interest_sleep" = "Giấc Ngủ";
+"baby_stage_interest_feeding_time" = "Giờ Ăn";
+"baby_stage_interest_parent_voice" = "Giọng Nói Của Bố Mẹ";
+
+// Baby stage interests - Infant
+"baby_stage_interest_peek_a_boo" = "Ú Òa";
+"baby_stage_interest_simple_sounds" = "Âm Thanh Đơn Giản";
+"baby_stage_interest_textures" = "Kết Cấu";
+"baby_stage_interest_movement" = "Chuyển Động";
+"baby_stage_interest_smiles" = "Nụ Cười";
+"baby_stage_interest_discovery" = "Khám Phá";
+"baby_stage_interest_clapping" = "Vỗ Tay";
+"baby_stage_interest_faces" = "Khuôn Mặt";
+
+// Baby stage interests - Toddler
+"baby_stage_interest_animals" = "Động Vật";
+"baby_stage_interest_colors" = "Màu Sắc";
+"baby_stage_interest_numbers" = "Số";
+"baby_stage_interest_vehicles" = "Phương Tiện";
+"baby_stage_interest_nature" = "Thiên Nhiên";
+"baby_stage_interest_family" = "Gia Đình";
+"baby_stage_interest_friends" = "Bạn Bè";
+"baby_stage_interest_playing" = "Chơi";
+"baby_stage_interest_songs" = "Bài Hát";
+"baby_stage_interest_repetition" = "Lặp Lại";
+
+// Baby stage interests - Preschooler
+"baby_stage_interest_adventure" = "Phiêu Lưu";
+"baby_stage_interest_magic" = "Phép Thuật";
+"baby_stage_interest_friendship" = "Tình Bạn";
+"baby_stage_interest_learning" = "Học Tập";
+"baby_stage_interest_imagination" = "Trí Tưởng Tượng";
+"baby_stage_interest_problem_solving" = "Giải Quyết Vấn Đề";
+"baby_stage_interest_emotions" = "Cảm Xúc";
+"baby_stage_interest_school" = "Trường Học";
+"baby_stage_interest_helping_others" = "Giúp Đỡ Người Khác";
+"baby_stage_interest_curiosity" = "Tò Mò";
+
 // Onboarding Profile
 "onboarding_profile_title" = "Hãy cho chúng tôi biết về bé";
 "onboarding_profile_subtitle" = "Điều này giúp chúng tôi tạo ra những câu chuyện hoàn hảo";
@@ -226,3 +284,18 @@
 "home_story_time" = "Giờ Kể Chuyện";
 "home_next_story_time" = "Giờ kể chuyện tiếp theo";
 "home_stories_read" = "Số câu chuyện đã đọc";
+
+// Gender display names
+"gender_display_name_male" = "Bé Trai";
+"gender_display_name_female" = "Bé Gái";
+"gender_display_name_not_specified" = "Không Xác Định";
+
+// Gender pronouns
+"gender_pronoun_male" = "nó";
+"gender_pronoun_female" = "nó";
+"gender_pronoun_not_specified" = "nó";
+
+// Gender possessive pronouns
+"gender_possessive_pronoun_male" = "của nó";
+"gender_possessive_pronoun_female" = "của nó";
+"gender_possessive_pronoun_not_specified" = "của nó";
