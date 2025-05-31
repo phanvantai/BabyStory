@@ -182,57 +182,7 @@ class AutoProfileUpdateService {
   
   /// Gets available interests for a specific baby stage
   private func getAvailableInterests(for stage: BabyStage) -> [String] {
-    switch stage {
-    case .pregnancy:
-      return [
-        "Classical Music",
-        "Nature Sounds",
-        "Gentle Stories",
-        "Parent Bonding",
-        "Relaxation",
-        "Love & Care"
-      ]
-    case .newborn:
-      return [
-        "Lullabies",
-        "Gentle Sounds",
-        "Soft Colors",
-        "Comfort",
-        "Sleep",
-        "Feeding Time"
-      ]
-    case .infant:
-      return [
-        "Peek-a-boo",
-        "Simple Sounds",
-        "Textures",
-        "Movement",
-        "Smiles",
-        "Discovery"
-      ]
-    case .toddler:
-      return [
-        "Animals",
-        "Colors",
-        "Numbers",
-        "Vehicles",
-        "Nature",
-        "Family",
-        "Friends",
-        "Playing"
-      ]
-    case .preschooler:
-      return [
-        "Adventure",
-        "Magic",
-        "Friendship",
-        "Learning",
-        "Imagination",
-        "Problem Solving",
-        "Emotions",
-        "School"
-      ]
-    }
+    return stage.availableInterests
   }
   
   /// Gets suggested interests for a stage, prioritizing popular ones

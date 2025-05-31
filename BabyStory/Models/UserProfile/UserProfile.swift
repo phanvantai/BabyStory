@@ -229,58 +229,7 @@ extension UserProfile {
   /// Returns age-appropriate interests for the current baby stage
   func getAgeAppropriateInterests() -> [String] {
     let currentStage = dateOfBirth != nil ? currentBabyStage : babyStage
-    
-    switch currentStage {
-    case .pregnancy:
-      return [
-        "Classical Music",
-        "Nature Sounds", 
-        "Gentle Stories",
-        "Parent Bonding",
-        "Relaxation",
-        "Love & Care"
-      ]
-    case .newborn:
-      return [
-        "Lullabies",
-        "Gentle Sounds",
-        "Soft Colors", 
-        "Comfort",
-        "Sleep",
-        "Feeding Time"
-      ]
-    case .infant:
-      return [
-        "Peek-a-boo",
-        "Simple Sounds",
-        "Textures",
-        "Movement", 
-        "Smiles",
-        "Discovery"
-      ]
-    case .toddler:
-      return [
-        "Animals",
-        "Colors",
-        "Numbers",
-        "Vehicles",
-        "Nature",
-        "Family",
-        "Friends", 
-        "Playing"
-      ]
-    case .preschooler:
-      return [
-        "Adventure",
-        "Magic",
-        "Friendship",
-        "Learning",
-        "Imagination",
-        "Problem Solving",
-        "Emotions",
-        "School"
-      ]
-    }
+    return currentStage.availableInterests
   }
   
   /// Filters current interests to keep only age-appropriate ones

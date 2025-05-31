@@ -88,57 +88,7 @@ class OnboardingViewModel: ObservableObject {
   
   // Available interests based on baby stage
   var availableInterests: [String] {
-    switch babyStage {
-    case .pregnancy:
-      return [
-        "Classical Music",
-        "Nature Sounds",
-        "Gentle Stories",
-        "Parent Bonding",
-        "Relaxation",
-        "Love & Care"
-      ]
-    case .newborn:
-      return [
-        "Lullabies",
-        "Gentle Sounds",
-        "Soft Colors",
-        "Comfort",
-        "Sleep",
-        "Feeding Time"
-      ]
-    case .infant:
-      return [
-        "Peek-a-boo",
-        "Simple Sounds",
-        "Textures",
-        "Movement",
-        "Smiles",
-        "Discovery"
-      ]
-    case .toddler:
-      return [
-        "Animals",
-        "Colors",
-        "Numbers",
-        "Vehicles",
-        "Nature",
-        "Family",
-        "Friends",
-        "Playing"
-      ]
-    case .preschooler:
-      return [
-        "Adventure",
-        "Magic",
-        "Friendship",
-        "Learning",
-        "Imagination",
-        "Problem Solving",
-        "Emotions",
-        "School"
-      ]
-    }
+    return babyStage.availableInterests
   }
   
   // Validation methods
