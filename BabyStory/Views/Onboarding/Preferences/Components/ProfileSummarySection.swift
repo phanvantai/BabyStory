@@ -9,22 +9,22 @@ struct ProfileSummarySection: View {
         Image(systemName: "checkmark.circle.fill")
           .foregroundColor(.green)
           .font(.title2)
-        Text("Profile Summary")
+        Text("onboarding_preferences_profile_summary".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
       }
       
       VStack(spacing: 12) {
-        ProfileSummaryRow(icon: "person.circle.fill", label: "Name", value: viewModel.name.isEmpty ? "Not set" : viewModel.name)
-        ProfileSummaryRow(icon: "heart.circle.fill", label: "Stage", value: viewModel.babyStage.displayName)
-        ProfileSummaryRow(icon: "person.2.fill", label: "Gender", value: viewModel.gender.displayName)
-        ProfileSummaryRow(icon: "globe.fill", label: "Language", value: viewModel.selectedLanguage.nativeName)
+        ProfileSummaryRow(icon: "person.circle.fill", label: "onboarding_preferences_name".localized, value: viewModel.name.isEmpty ? "onboarding_preferences_not_set".localized : viewModel.name)
+        ProfileSummaryRow(icon: "heart.circle.fill", label: "onboarding_preferences_stage".localized, value: viewModel.babyStage.displayName)
+        ProfileSummaryRow(icon: "person.2.fill", label: "onboarding_preferences_gender".localized, value: viewModel.gender.displayName)
+        ProfileSummaryRow(icon: "globe.fill", label: "onboarding_preferences_language".localized, value: viewModel.selectedLanguage.nativeName)
         if !viewModel.isPregnancy {
-          ProfileSummaryRow(icon: "calendar", label: "Age", value: viewModel.ageDisplayText)
+          ProfileSummaryRow(icon: "calendar", label: "onboarding_preferences_age".localized, value: viewModel.ageDisplayText)
         }
         if !viewModel.interests.isEmpty {
-          ProfileSummaryRow(icon: "star.circle.fill", label: "Interests", value: "\(viewModel.interests.count) selected")
+          ProfileSummaryRow(icon: "star.circle.fill", label: "onboarding_preferences_interests".localized, value: "\(viewModel.interests.count) " + "onboarding_preferences_selected".localized)
         }
       }
       .padding(16)

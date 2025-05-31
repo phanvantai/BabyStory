@@ -55,3 +55,23 @@
 "profile_parent_names_title" = "Parent Names";
 "profile_parent_name_placeholder" = "Parent %d name";
 "profile_continue_button" = "Continue";
+
+// Onboarding Preferences
+"onboarding_preferences_perfect_almost_done" = "Perfect! Almost Done";
+"onboarding_preferences_when_story_time" = "When would you like story time?";
+"onboarding_preferences_story_time_description" = "Set your preferred time and we'll send gentle reminders for magical bedtime stories";
+"onboarding_preferences_story_time" = "Story Time";
+"onboarding_preferences_bedtime_stories_at" = "Bedtime Stories at";
+"onboarding_preferences_perfect_time_for" = "Perfect Time For";
+"onboarding_preferences_profile_summary" = "Profile Summary";
+"onboarding_preferences_not_set" = "Not set";
+"onboarding_preferences_name" = "Name";
+"onboarding_preferences_stage" = "Stage";
+"onboarding_preferences_gender" = "Gender";
+"onboarding_preferences_language" = "Language";
+"onboarding_preferences_age" = "Age";
+"onboarding_preferences_interests" = "Interests";
+"onboarding_preferences_selected" = "selected";
+"onboarding_preferences_start_creating_stories" = "Start Creating Stories!";
+"onboarding_preferences_cancel" = "Cancel";
+"onboarding_preferences_done" = "Done";

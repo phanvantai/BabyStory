@@ -10,7 +10,7 @@ struct StoryTimeDisplay: View {
         Image(systemName: "moon.stars.fill")
           .foregroundColor(.purple)
           .font(.title2)
-        Text("Story Time")
+        Text("onboarding_preferences_story_time".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -20,7 +20,7 @@ struct StoryTimeDisplay: View {
       HStack {
         Spacer()
         VStack(spacing: 4) {
-          Text("Bedtime Stories at")
+          Text("onboarding_preferences_bedtime_stories_at".localized)
             .font(.subheadline)
             .foregroundColor(.secondary)
           

@@ -7,7 +7,7 @@ struct FinishOnboardingFooter: View {
     VStack(spacing: 16) {
       Button(action: onFinish) {
         HStack(spacing: 12) {
-          Text("Start Creating Stories!")
+          Text("onboarding_preferences_start_creating_stories".localized)
             .font(.headline)
             .fontWeight(.semibold)
           

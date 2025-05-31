@@ -54,19 +54,19 @@ struct PreferencesHeaderView: View {
       // Title and description
       VStack(spacing: 16) {
         GradientText(
-          "Perfect! Almost Done",
+          "onboarding_preferences_perfect_almost_done".localized,
           font: .system(size: 32, weight: .bold, design: .rounded)
         )
         .multilineTextAlignment(.center)
         
         VStack(spacing: 8) {
-          Text("When would you like story time?")
+          Text("onboarding_preferences_when_story_time".localized)
             .font(.title2)
             .fontWeight(.semibold)
             .foregroundColor(.primary)
             .multilineTextAlignment(.center)
           
-          Text("Set your preferred time and we'll send gentle reminders for magical bedtime stories")
+          Text("onboarding_preferences_story_time_description".localized)
             .font(.body)
             .foregroundColor(.secondary)
             .multilineTextAlignment(.center)

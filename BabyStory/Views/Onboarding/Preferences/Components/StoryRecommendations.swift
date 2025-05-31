@@ -9,7 +9,7 @@ struct StoryRecommendations: View {
         Image(systemName: "lightbulb.fill")
           .foregroundColor(.orange)
           .font(.title3)
-        Text("Perfect Time For")
+        Text("onboarding_preferences_perfect_time_for".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

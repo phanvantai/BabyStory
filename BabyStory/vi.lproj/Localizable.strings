@@ -55,3 +55,23 @@
 "profile_parent_names_title" = "Tên Cha Mẹ";
 "profile_parent_name_placeholder" = "Tên cha/mẹ %d";
 "profile_continue_button" = "Tiếp Tục";
+
+// Onboarding Preferences
+"onboarding_preferences_perfect_almost_done" = "Hoàn Hảo! Sắp Xong Rồi";
+"onboarding_preferences_when_story_time" = "Bạn muốn giờ kể chuyện vào lúc nào?";
+"onboarding_preferences_story_time_description" = "Đặt thời gian ưa thích của bạn và chúng tôi sẽ gửi lời nhắc nhở nhẹ nhàng cho những câu chuyện ru ngủ kỳ diệu";
+"onboarding_preferences_story_time" = "Giờ Kể Chuyện";
+"onboarding_preferences_bedtime_stories_at" = "Câu Chuyện Ru Ngủ Lúc";
+"onboarding_preferences_perfect_time_for" = "Thời Gian Hoàn Hảo Cho";
+"onboarding_preferences_profile_summary" = "Tóm Tắt Hồ Sơ";
+"onboarding_preferences_not_set" = "Chưa thiết lập";
+"onboarding_preferences_name" = "Tên";
+"onboarding_preferences_stage" = "Giai Đoạn";
+"onboarding_preferences_gender" = "Giới Tính";
+"onboarding_preferences_language" = "Ngôn Ngữ";
+"onboarding_preferences_age" = "Tuổi";
+"onboarding_preferences_interests" = "Sở Thích";
+"onboarding_preferences_selected" = "đã chọn";
+"onboarding_preferences_start_creating_stories" = "Bắt Đầu Tạo Câu Chuyện!";
+"onboarding_preferences_cancel" = "Hủy";
+"onboarding_preferences_done" = "Xong";

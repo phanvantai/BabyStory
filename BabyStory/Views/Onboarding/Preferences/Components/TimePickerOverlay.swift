@@ -21,7 +21,7 @@ struct TimePickerOverlay: View {
           // Header
           VStack(spacing: 8) {
             HStack {
-              Button("Cancel") {
+              Button("onboarding_preferences_cancel".localized) {
                 showTimePicker = false
               }
               .font(.subheadline)
@@ -32,14 +32,14 @@ struct TimePickerOverlay: View {
               
               Spacer()
               
-              Text("Story Time")
+              Text("onboarding_preferences_story_time".localized)
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
               
               Spacer()
               
-              Button("Done") {
+              Button("onboarding_preferences_done".localized) {
                 showTimePicker = false
               }
               .buttonStyle(DoneButtonStyle(gradient: [.purple, .indigo]))
@@ -51,7 +51,7 @@ struct TimePickerOverlay: View {
           
           // Time picker
           DatePicker(
-            "Story Time",
+            "onboarding_preferences_story_time".localized,
             selection: $storyTime,
             displayedComponents: .hourAndMinute
           )
