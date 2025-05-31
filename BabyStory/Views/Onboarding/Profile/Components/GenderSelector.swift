@@ -9,7 +9,7 @@ struct GenderSelector: View {
         Image(systemName: "person.2.fill")
           .foregroundColor(.indigo)
           .font(.title3)
-        Text("Gender")
+        Text("profile_gender_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

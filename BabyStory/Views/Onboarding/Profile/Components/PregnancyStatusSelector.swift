@@ -17,7 +17,7 @@ struct PregnancyStatusSelector: View {
         Image(systemName: "heart.circle.fill")
           .foregroundColor(.pink)
           .font(.title3)
-        Text("Baby Status")
+        Text("baby_status_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -34,12 +34,12 @@ struct PregnancyStatusSelector: View {
               .foregroundColor(isPregnancySelected ? .white : .pink)
             
             VStack(alignment: .leading, spacing: 4) {
-              Text("I'm Pregnant")
+              Text("baby_status_pregnant".localized)
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(isPregnancySelected ? .white : .primary)
               
-              Text("Create bonding stories for your unborn baby")
+              Text("baby_status_pregnant_description".localized)
                 .font(.caption)
                 .foregroundColor(isPregnancySelected ? .white.opacity(0.8) : .secondary)
                 .multilineTextAlignment(.leading)
@@ -86,12 +86,12 @@ struct PregnancyStatusSelector: View {
               .foregroundColor(isBornBabySelected ? .white : .blue)
             
             VStack(alignment: .leading, spacing: 4) {
-              Text("My Baby is Already Born")
+              Text("baby_status_born".localized)
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(isBornBabySelected ? .white : .primary)
               
-              Text("Create personalized stories for your little one")
+              Text("baby_status_born_description".localized)
                 .font(.caption)
                 .foregroundColor(isBornBabySelected ? .white.opacity(0.8) : .secondary)
                 .multilineTextAlignment(.leading)

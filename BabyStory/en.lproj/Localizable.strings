@@ -30,3 +30,28 @@
 "baby_stage_name_preschooler" = "Preschooler (3-5 years)";
 "baby_stage_name_newborn" = "Newborn (0-3 months)";
 "baby_stage_name_pregnancy" = "During Pregnancy";
+
+// Onboarding Profile
+"onboarding_profile_title" = "Tell us about your baby";
+"onboarding_profile_subtitle" = "This helps us create the perfect stories";
+"onboarding_profile_baby_name_label" = "Baby's Name";
+"onboarding_profile_baby_name_placeholder" = "What will you call your baby?";
+"onboarding_profile_child_name_label" = "Name";
+"onboarding_profile_child_name_placeholder" = "Enter your child's name";
+
+// Baby Status
+"baby_status_title" = "Baby Status";
+"baby_status_pregnant" = "I'm Pregnant";
+"baby_status_pregnant_description" = "Create bonding stories for your unborn baby";
+"baby_status_born" = "My Baby is Already Born";
+"baby_status_born_description" = "Create personalized stories for your little one";
+
+// Profile Fields
+"profile_gender_title" = "Gender";
+"profile_baby_age_stage_title" = "Baby's Age Stage";
+"profile_due_date_title" = "Due Date";
+"profile_date_of_birth_title" = "Date of Birth";
+"profile_interests_title" = "Interests";
+"profile_parent_names_title" = "Parent Names";
+"profile_parent_name_placeholder" = "Parent %d name";
+"profile_continue_button" = "Continue";

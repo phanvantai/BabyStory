@@ -22,8 +22,8 @@ struct OnboardingProfileView: View {
           AnimatedEntrance(delay: 0.2) {
             OnboardingHeaderView(
               isAnimating: $isAnimating,
-              title: "Tell us about your baby",
-              subtitle: "This helps us create the perfect stories",
+              title: "onboarding_profile_title".localized,
+              subtitle: "onboarding_profile_subtitle".localized,
               iconName: "person.circle.fill"
             )
           }
@@ -44,8 +44,8 @@ struct OnboardingProfileView: View {
                       name: $viewModel.name,
                       iconName: "textformat.abc",
                       iconColor: .cyan,
-                      label: "Baby's Name",
-                      placeholder: "What will you call your baby?"
+                      label: "onboarding_profile_baby_name_label".localized,
+                      placeholder: "onboarding_profile_baby_name_placeholder".localized
                     )
                     
                     // Gender selection
@@ -71,8 +71,8 @@ struct OnboardingProfileView: View {
                       name: $viewModel.name,
                       iconName: "textformat.abc",
                       iconColor: .cyan,
-                      label: "Name",
-                      placeholder: "Enter your child's name"
+                      label: "onboarding_profile_child_name_label".localized,
+                      placeholder: "onboarding_profile_child_name_placeholder".localized
                     )
                     
                     // Gender selection

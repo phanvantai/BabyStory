@@ -9,7 +9,7 @@ struct InterestsSelector: View {
         Image(systemName: "star.circle.fill")
           .foregroundColor(.yellow)
           .font(.title3)
-        Text("Interests")
+        Text("profile_interests_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

@@ -9,7 +9,7 @@ struct DueDatePicker: View {
         Image(systemName: "heart.fill")
           .foregroundColor(.pink)
           .font(.title3)
-        Text("Due Date")
+        Text("profile_due_date_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

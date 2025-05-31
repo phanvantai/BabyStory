@@ -10,7 +10,7 @@ struct ProfileContinueFooter: View {
     VStack(spacing: 16) {
       Button(action: onNext) {
         HStack(spacing: 12) {
-          Text("Continue")
+          Text("profile_continue_button".localized)
             .font(.headline)
             .fontWeight(.semibold)
           

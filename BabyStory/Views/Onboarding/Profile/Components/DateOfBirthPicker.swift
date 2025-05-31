@@ -9,7 +9,7 @@ struct DateOfBirthPicker: View {
         Image(systemName: "calendar")
           .foregroundColor(.green)
           .font(.title3)
-        Text("Date of Birth")
+        Text("profile_date_of_birth_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

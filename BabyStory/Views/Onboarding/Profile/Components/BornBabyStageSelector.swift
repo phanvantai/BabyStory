@@ -14,7 +14,7 @@ struct BornBabyStageSelector: View {
         Image(systemName: "figure.child.circle.fill")
           .foregroundColor(.blue)
           .font(.title3)
-        Text("Baby's Age Stage")
+        Text("profile_baby_age_stage_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

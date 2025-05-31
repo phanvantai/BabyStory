@@ -32,8 +32,8 @@ struct NameInputField: View {
       name: .constant(""),
       iconName: "textformat.abc",
       iconColor: .cyan,
-      label: "Baby's Name",
-      placeholder: "What will you call your baby?"
+      label: "onboarding_profile_baby_name_label".localized,
+      placeholder: "onboarding_profile_baby_name_placeholder".localized
     )
     .padding()
   }

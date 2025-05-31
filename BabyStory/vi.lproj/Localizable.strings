@@ -30,3 +30,28 @@
 "baby_stage_name_preschooler" = "Trẻ mầm non (3-5 tuổi)";
 "baby_stage_name_newborn" = "Trẻ sơ sinh (0-3 tháng)";
 "baby_stage_name_pregnancy" = "Trong thai kỳ";
+
+// Onboarding Profile
+"onboarding_profile_title" = "Hãy cho chúng tôi biết về bé";
+"onboarding_profile_subtitle" = "Điều này giúp chúng tôi tạo ra những câu chuyện hoàn hảo";
+"onboarding_profile_baby_name_label" = "Tên của Bé";
+"onboarding_profile_baby_name_placeholder" = "Bạn sẽ gọi bé bằng tên gì?";
+"onboarding_profile_child_name_label" = "Tên";
+"onboarding_profile_child_name_placeholder" = "Nhập tên của con bạn";
+
+// Baby Status
+"baby_status_title" = "Tình Trạng Bé";
+"baby_status_pregnant" = "Tôi Đang Mang Thai";
+"baby_status_pregnant_description" = "Tạo những câu chuyện gắn kết cho bé trong bụng mẹ";
+"baby_status_born" = "Bé Của Tôi Đã Chào Đời";
+"baby_status_born_description" = "Tạo những câu chuyện cá nhân hóa cho bé yêu";
+
+// Profile Fields
+"profile_gender_title" = "Giới Tính";
+"profile_baby_age_stage_title" = "Giai Đoạn Tuổi Của Bé";
+"profile_due_date_title" = "Ngày Dự Sinh";
+"profile_date_of_birth_title" = "Ngày Sinh";
+"profile_interests_title" = "Sở Thích";
+"profile_parent_names_title" = "Tên Cha Mẹ";
+"profile_parent_name_placeholder" = "Tên cha/mẹ %d";
+"profile_continue_button" = "Tiếp Tục";
