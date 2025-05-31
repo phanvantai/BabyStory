@@ -149,40 +149,6 @@ extension StorageManager {
     }
   }
   
-  /// Log comprehensive profile information and app state
-  func logCurrentAppState() {
-    Logger.info("=== CURRENT APP STATE ===", category: .userProfile)
-    
-    do {
-      if let profile = try loadProfile() {
-        Logger.logUserProfile(profile, action: "Current Profile")
-        
-        // Log additional profile analysis
-        if profile.hasGrownToNewStage() {
-          Logger.warning("Profile indicates child has grown to new stage: \(profile.currentBabyStage.displayName)", category: .userProfile)
-        }
-        
-        if profile.needsUpdate {
-          Logger.warning("Profile needs updating - last updated \(profile.daysSinceLastUpdate) days ago", category: .userProfile)
-        }
-        
-      } else {
-        Logger.warning("No user profile found", category: .userProfile)
-      }
-      
-      let stories = try loadStories()
-      Logger.info("Stories: \(stories.count) total, \(stories.filter { $0.isFavorite }.count) favorites", category: .userProfile)
-      
-      let todayStories = try getStoriesCreatedToday()
-      Logger.info("Stories created today: \(todayStories.count)", category: .userProfile)
-      
-    } catch {
-      Logger.error("Failed to load app state: \(error.localizedDescription)", category: .userProfile)
-    }
-    
-    Logger.info("=== END APP STATE ===", category: .userProfile)
-  }
-  
   /// Get total number of saved stories
   var totalStoriesCount: Int {
     do {

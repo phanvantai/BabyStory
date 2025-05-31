@@ -90,6 +90,22 @@ class ServiceFactory {
     let storageManager = StorageManager.shared
     return AutoProfileUpdateService(storageManager: storageManager)
   }
+  
+  /// Create a story generation service instance
+  /// - Parameter serviceType: The type of story generation service to use
+  /// - Returns: A service conforming to StoryGenerationServiceProtocol
+  func createStoryGenerationService(serviceType: StoryGenerationServiceType = .mock) -> StoryGenerationServiceProtocol {
+    switch serviceType {
+    case .mock:
+      return MockStoryGenerationService()
+    case .openAI:
+      // TODO: Implement OpenAI service
+      fatalError("OpenAI service not implemented yet")
+    case .localAI:
+      // TODO: Implement local AI service
+      fatalError("Local AI service not implemented yet")
+    }
+  }
 }
 
 // MARK: - Storage Type Enum
@@ -97,4 +113,11 @@ enum StorageType {
   case userDefaults
   case coreData
   case cloudKit
+}
+
+// MARK: - Story Generation Service Type Enum
+enum StoryGenerationServiceType {
+  case mock
+  case openAI
+  case localAI
 }

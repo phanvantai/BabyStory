@@ -95,11 +95,6 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-  /// Log current profile information for debugging
-  func logCurrentProfileInfo() {
-    StorageManager.shared.logCurrentAppState()
-  }
-  
   // MARK: - Enhanced Storage Methods
   func saveStoryToLibrary(_ story: Story) {
     do {
