@@ -1,0 +1,25 @@
+/* 
+  Localizable.strings
+  BabyStory
+
+  Created by Tai Phan Van on 31/5/25.
+  
+*/
+
+// Onboarding views
+
+// language selection
+"language_selection_title" = "Welcome to BabyStory";
+"language_selection_subtitle" = "Choose your preferred language for the best experience";
+"choose_language" = "Choose Language";
+"current_selection" = "Current Selection:";
+"language_change_later_note" = "You can change this later in Settings if needed";
+"continue_with_language" = "Continue with %@";
+"language_settings" = "Language Settings";
+
+// Baby stage display name
+"baby_stage_name_infant" = "Infant (3-12 months)";
+"baby_stage_name_toddler" = "Toddler (1-3 years)";
+"baby_stage_name_preschooler" = "Preschooler (3-5 years)";
+"baby_stage_name_newborn" = "Newborn (0-3 months)";
+"baby_stage_name_pregnancy" = "During Pregnancy";
