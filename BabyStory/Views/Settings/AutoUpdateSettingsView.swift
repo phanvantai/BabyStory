@@ -122,8 +122,7 @@ struct AutoUpdateSettingsView: View {
           Text("Update Status")
         }
       }
-      .navigationTitle("Auto-Updates")
-      .navigationBarTitleDisplayMode(.inline)
+      .navigationBarHidden(true)
       .alert("Update Check Complete", isPresented: $viewModel.showUpdateResult) {
         Button("OK") {
           viewModel.showUpdateResult = false

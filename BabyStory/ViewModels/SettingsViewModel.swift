@@ -8,10 +8,21 @@ class SettingsViewModel: ObservableObject {
   @Published var error: AppError?
   private let parentalPasscode = "1234" // Dummy passcode
   
+  // App info properties
+  @Published var appName: String
+  @Published var appVersion: String
+  
   // Support URL - can be updated later
   let supportURL = URL(string: "https://taiphanvan.dev")!
   
+  // App info service
+  private let appInfo = AppInfoService.shared
+  
   init() {
+    // Initialize app info properties
+    self.appName = appInfo.appName
+    self.appVersion = appInfo.appVersion
+    
     loadProfile()
     loadSettings()
   }
