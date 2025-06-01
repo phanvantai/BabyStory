@@ -411,42 +411,16 @@ private struct OpenAIChoice: Codable {
 
 extension OpenAIStoryGenerationService {
   
-  /// Create an OpenAI service with API key from UserDefaults or environment
+  /// Create an OpenAI service with API key from configuration
   /// - Returns: Configured OpenAI service or nil if no API key is available
   static func createWithStoredAPIKey() -> OpenAIStoryGenerationService? {
-    // Try to get API key from UserDefaults first
-    if let apiKey = UserDefaults.standard.string(forKey: StorageKeys.openAIAPIKey), !apiKey.isEmpty {
+    // Get API key from configuration (xcconfig -> Info.plist)
+    do {
+      let apiKey = APIConfig.apiKey
       return OpenAIStoryGenerationService(apiKey: apiKey)
+    } catch {
+      Logger.error("OpenAI: No API key found in configuration: \(error.localizedDescription)", category: .storyGeneration)
+      return nil
     }
-    
-    // Try to get from environment variable (for development)
-    if let apiKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"], !apiKey.isEmpty {
-      return OpenAIStoryGenerationService(apiKey: apiKey)
-    }
-    
-    Logger.error("OpenAI: No API key found in UserDefaults or environment", category: .storyGeneration)
-    return nil
-  }
-  
-  /// Save API key to UserDefaults
-  /// - Parameter apiKey: The OpenAI API key to save
-  static func saveAPIKey(_ apiKey: String) {
-    UserDefaults.standard.set(apiKey, forKey: StorageKeys.openAIAPIKey)
-    Logger.info("OpenAI: API key saved to UserDefaults", category: .storyGeneration)
-  }
-  
-  /// Remove API key from UserDefaults
-  static func removeAPIKey() {
-    UserDefaults.standard.removeObject(forKey: StorageKeys.openAIAPIKey)
-    Logger.info("OpenAI: API key removed from UserDefaults", category: .storyGeneration)
-  }
-  
-  /// Check if API key is stored
-  /// - Returns: True if API key exists in storage
-  static func hasStoredAPIKey() -> Bool {
-    guard let apiKey = UserDefaults.standard.string(forKey: StorageKeys.openAIAPIKey) else {
-      return false
-    }
-    return !apiKey.isEmpty
   }
 }

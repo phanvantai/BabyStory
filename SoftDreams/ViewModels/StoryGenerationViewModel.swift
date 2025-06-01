@@ -12,7 +12,7 @@ class StoryGenerationViewModel: ObservableObject {
   
   // MARK: - Initialization
   init(storyGenerationService: StoryGenerationServiceProtocol? = nil) {
-    self.storyGenerationService = storyGenerationService ?? ServiceFactory.shared.createStoryGenerationService()
+    self.storyGenerationService = storyGenerationService ?? ServiceFactory.shared.createStoryGenerationService(serviceType: .openAI)
   }
   
   func generateStory(profile: UserProfile, options: StoryOptions?) async {
