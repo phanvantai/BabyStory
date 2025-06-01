@@ -1,4 +1,4 @@
-# 📚 BabyStory
+# 📚 SoftDreams
 
 A personalized bedtime story generator iOS app that creates magical, AI-powered stories tailored to your child's interests and developmental stage.
 
@@ -18,7 +18,7 @@ A personalized bedtime story generator iOS app that creates magical, AI-powered 
 
 ## 🏗️ Architecture
 
-BabyStory follows the **MVVM (Model-View-ViewModel)** architectural pattern for clean separation of concerns and maintainable code.
+SoftDreams follows the **MVVM (Model-View-ViewModel)** architectural pattern for clean separation of concerns and maintainable code.
 
 ### Tech Stack
 
@@ -32,8 +32,8 @@ BabyStory follows the **MVVM (Model-View-ViewModel)** architectural pattern for 
 ## 📁 Project Structure
 
 ```bash
-BabyStory/
-├── BabyStoryApp.swift              # Main app entry point
+SoftDreams/
+├── SoftDreamsApp.swift              # Main app entry point
 ├── AppView.swift                   # Root view with onboarding logic
 ├── Models/                         # Data models
 │   ├── Story.swift                # Story data structure
@@ -70,14 +70,14 @@ BabyStory/
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/your-username/BabyStory.git
-   cd BabyStory
+   git clone https://github.com/your-username/SoftDreams.git
+   cd SoftDreams
    ```
 
 2. **Open in Xcode**
 
    ```bash
-   open BabyStory.xcodeproj
+   open SoftDreams.xcodeproj
    ```
 
 3. **Select your development team**
@@ -220,7 +220,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Team
 
-- **Bundle ID**: `com.randomtech.BabyStory`
+- **Bundle ID**: `com.randomtech.SoftDreams`
 - **Development Team**: K6GZTHQ9Z5
 
 ## 📞 Support
@@ -231,4 +231,4 @@ For support, feature requests, or bug reports, please open an issue on GitHub.
 
 ## **Made with ❤️ for creating magical bedtime moments**
 
-*BabyStory - Where every child's imagination comes to life through personalized storytelling.*
+*SoftDreams - Where every child's imagination comes to life through personalized storytelling.*

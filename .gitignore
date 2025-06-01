@@ -130,7 +130,7 @@ Temporary Items
 *.tmp
 *.temp
 
-# App specific ignores (BabyStory)
+# App specific ignores (SoftDreams)
 # Add any app-specific files you want to ignore here
 *.log
 .env

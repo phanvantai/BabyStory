@@ -2,7 +2,7 @@
 
 ## Overview
 
-I've implemented a comprehensive local notification system for BabyStory that reminds users to update their pregnancy profiles near the due date. The system automatically schedules notifications and handles profile updates gracefully.
+I've implemented a comprehensive local notification system for SoftDreams that reminds users to update their pregnancy profiles near the due date. The system automatically schedules notifications and handles profile updates gracefully.
 
 ## Key Features
 
@@ -45,7 +45,7 @@ I've implemented a comprehensive local notification system for BabyStory that re
    - Handles notification cancellation when baby is born
    - Sets up notifications for pregnancy profiles
 
-2. **`BabyStoryApp.swift`**
+2. **`SoftDreamsApp.swift`**
    - Added notification delegate
    - Set up notification categories with actions
    - Automatic notification setup on app launch
@@ -127,7 +127,7 @@ Automatic transition to newborn + notification cleanup
 ### 1. Testing Notification Permission
 
 ```swift
-// In simulator or device, go to Settings > Notifications > BabyStory
+// In simulator or device, go to Settings > Notifications > SoftDreams
 // Verify permission request appears when creating pregnancy profile
 ```
 
@@ -168,7 +168,7 @@ Automatic transition to newborn + notification cleanup
 ### Notification Permission
 
 The app requests notification permission with the usage description:
-> "BabyStory sends helpful reminders to update your baby's profile for personalized stories."
+> "SoftDreams sends helpful reminders to update your baby's profile for personalized stories."
 
 ### Notification Categories
 
@@ -215,4 +215,4 @@ The system includes comprehensive logging with category `.notification` for debu
 
 ## Conclusion
 
-The due date notification system provides a seamless way to keep pregnancy profiles up-to-date while respecting user preferences and providing value through timely reminders. The implementation is robust, handles edge cases well, and integrates smoothly with the existing BabyStory architecture.
+The due date notification system provides a seamless way to keep pregnancy profiles up-to-date while respecting user preferences and providing value through timely reminders. The implementation is robust, handles edge cases well, and integrates smoothly with the existing SoftDreams architecture.
