@@ -99,8 +99,14 @@ class ServiceFactory {
     case .mock:
       return MockStoryGenerationService()
     case .openAI:
-      // TODO: Implement OpenAI service
-      fatalError("OpenAI service not implemented yet")
+      // Try to create OpenAI service with stored API key
+      if let openAIService = OpenAIStoryGenerationService.createWithStoredAPIKey() {
+        return openAIService
+      } else {
+        // Fallback to mock service if no API key is available
+        Logger.info("OpenAI API key not available, falling back to mock service", category: .storyGeneration)
+        return MockStoryGenerationService()
+      }
     case .localAI:
       // TODO: Implement local AI service
       fatalError("Local AI service not implemented yet")

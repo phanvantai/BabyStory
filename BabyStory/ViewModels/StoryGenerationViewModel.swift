@@ -90,21 +90,6 @@ class StoryGenerationViewModel: ObservableObject {
     }
   }
   
-  /// Get suggested themes based on current profile
-  func getSuggestedThemes(for profile: UserProfile) -> [String] {
-    return storyGenerationService.getSuggestedThemes(for: profile)
-  }
-  
-  /// Get estimated generation time for current options
-  func getEstimatedGenerationTime() -> TimeInterval {
-    return storyGenerationService.getEstimatedGenerationTime(for: options)
-  }
-  
-  /// Check if story generation is possible with current settings
-  func canGenerateStory(for profile: UserProfile) -> Bool {
-    return storyGenerationService.canGenerateStory(for: profile, with: options)
-  }
-  
   // MARK: - Private Helper Methods
   
   private func mapStoryGenerationError(_ storyError: StoryGenerationError) -> AppError {

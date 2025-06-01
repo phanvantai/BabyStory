@@ -8,6 +8,7 @@ enum StorageKeys {
   static let narrationEnabled = "narrationEnabled"
   static let parentalLockEnabled = "parentalLockEnabled"
   static let parentalPasscode = "parentalPasscode"
+  static let openAIAPIKey = "openAIAPIKey"
 }
 
 // MARK: - UserDefaults Settings Service

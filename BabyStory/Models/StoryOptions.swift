@@ -17,6 +17,18 @@ enum StoryLength: String, Codable, CaseIterable, Identifiable {
       return "story_length_long".localized
     }
   }
+  
+  /// Detailed description for AI prompts including word count and structure guidance
+  var aiPromptDescription: String {
+    switch self {
+    case .short:
+      return "Quick tale (2-3 minutes)"
+    case .medium:
+      return "Perfect story (5-7 minutes)"
+    case .long:
+      return "Extended adventure (10+ minutes)"
+    }
+  }
 }
 
 enum StoryTheme: String, Codable, CaseIterable, Identifiable {
