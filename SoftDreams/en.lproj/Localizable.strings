@@ -1,0 +1,499 @@
+/* 
+  Localizable.strings
+  SoftDreams
+
+  Created by Tai Phan Van on 31/5/25.
+  
+*/
+
+// Onboarding views
+
+// language selection
+"language_selection_title" = "Welcome to SoftDreams";
+"language_selection_subtitle" = "Choose your preferred language for the best experience";
+"choose_language" = "Choose Language";
+"current_selection" = "Current Selection:";
+"language_change_later_note" = "You can change this later in Settings if needed";
+"continue_with_language" = "Continue with %@";
+"language_settings" = "Language Settings";
+
+// Onboarding Welcome
+"onboarding_welcome_welcome_to" = "Welcome to";
+"onboarding_welcome_app_name" = "SoftDreams";
+"onboarding_welcome_headline" = "Create magical bedtime stories";
+"onboarding_welcome_description" = "Personalized adventures that spark imagination and create lasting memories for your little one";
+"onboarding_welcome_lets_begin" = "Let's Begin";
+
+// Baby stage display name
+"baby_stage_name_infant" = "Infant (3-12 months)";
+"baby_stage_name_toddler" = "Toddler (1-3 years)";
+"baby_stage_name_preschooler" = "Preschooler (3-5 years)";
+"baby_stage_name_newborn" = "Newborn (0-3 months)";
+"baby_stage_name_pregnancy" = "During Pregnancy";
+
+// Baby stage descriptions
+"baby_stage_description_pregnancy" = "Create bonding stories for your unborn baby";
+"baby_stage_description_newborn" = "Gentle, soothing stories for newborns";
+"baby_stage_description_infant" = "Simple stories with sounds and textures";
+"baby_stage_description_toddler" = "Interactive stories with basic lessons";
+"baby_stage_description_preschooler" = "Adventure stories with moral lessons";
+
+// Baby stage interests - Pregnancy
+"baby_stage_interest_classical_music" = "Classical Music";
+"baby_stage_interest_nature_sounds" = "Nature Sounds";
+"baby_stage_interest_gentle_stories" = "Gentle Stories";
+"baby_stage_interest_parent_bonding" = "Parent Bonding";
+"baby_stage_interest_relaxation" = "Relaxation";
+"baby_stage_interest_love_care" = "Love & Care";
+
+// Baby stage interests - Newborn
+"baby_stage_interest_lullabies" = "Lullabies";
+"baby_stage_interest_gentle_sounds" = "Gentle Sounds";
+"baby_stage_interest_soft_colors" = "Soft Colors";
+"baby_stage_interest_comfort" = "Comfort";
+"baby_stage_interest_sleep" = "Sleep";
+"baby_stage_interest_feeding_time" = "Feeding Time";
+"baby_stage_interest_parent_voice" = "Parent Voice";
+
+// Baby stage interests - Infant
+"baby_stage_interest_peek_a_boo" = "Peek-a-boo";
+"baby_stage_interest_simple_sounds" = "Simple Sounds";
+"baby_stage_interest_textures" = "Textures";
+"baby_stage_interest_movement" = "Movement";
+"baby_stage_interest_smiles" = "Smiles";
+"baby_stage_interest_discovery" = "Discovery";
+"baby_stage_interest_clapping" = "Clapping";
+"baby_stage_interest_faces" = "Faces";
+
+// Baby stage interests - Toddler
+"baby_stage_interest_animals" = "Animals";
+"baby_stage_interest_colors" = "Colors";
+"baby_stage_interest_numbers" = "Numbers";
+"baby_stage_interest_vehicles" = "Vehicles";
+"baby_stage_interest_nature" = "Nature";
+"baby_stage_interest_family" = "Family";
+"baby_stage_interest_friends" = "Friends";
+"baby_stage_interest_playing" = "Playing";
+"baby_stage_interest_songs" = "Songs";
+"baby_stage_interest_repetition" = "Repetition";
+
+// Baby stage interests - Preschooler
+"baby_stage_interest_adventure" = "Adventure";
+"baby_stage_interest_magic" = "Magic";
+"baby_stage_interest_friendship" = "Friendship";
+"baby_stage_interest_learning" = "Learning";
+"baby_stage_interest_imagination" = "Imagination";
+"baby_stage_interest_problem_solving" = "Problem Solving";
+"baby_stage_interest_emotions" = "Emotions";
+"baby_stage_interest_school" = "School";
+"baby_stage_interest_helping_others" = "Helping Others";
+"baby_stage_interest_curiosity" = "Curiosity";
+
+// Onboarding Profile
+"onboarding_profile_title" = "Tell us about your baby";
+"onboarding_profile_subtitle" = "This helps us create the perfect stories";
+"onboarding_profile_baby_name_label" = "Baby's Name";
+"onboarding_profile_baby_name_placeholder" = "What will you call your baby?";
+"onboarding_profile_child_name_label" = "Name";
+"onboarding_profile_child_name_placeholder" = "Enter your child's name";
+
+// Baby Status
+"baby_status_title" = "Baby Status";
+"baby_status_pregnant" = "I'm Pregnant";
+"baby_status_pregnant_description" = "Create bonding stories for your unborn baby";
+"baby_status_born" = "My Baby is Already Born";
+"baby_status_born_description" = "Create personalized stories for your little one";
+
+// Profile Fields
+"profile_gender_title" = "Gender";
+"profile_baby_age_stage_title" = "Baby's Age Stage";
+"profile_due_date_title" = "Due Date";
+"profile_date_of_birth_title" = "Date of Birth";
+"profile_interests_title" = "Interests";
+"profile_parent_names_title" = "Parent Names";
+"profile_parent_name_placeholder" = "Parent %d name";
+"profile_continue_button" = "Continue";
+
+// Onboarding Preferences
+"onboarding_preferences_perfect_almost_done" = "Perfect! Almost Done";
+"onboarding_preferences_when_story_time" = "When would you like story time?";
+"onboarding_preferences_story_time_description" = "Set your preferred time and we'll send gentle reminders for magical bedtime stories";
+"onboarding_preferences_story_time" = "Story Time";
+"onboarding_preferences_bedtime_stories_at" = "Bedtime Stories at";
+"onboarding_preferences_perfect_time_for" = "Perfect Time For";
+"onboarding_preferences_profile_summary" = "Profile Summary";
+"onboarding_preferences_not_set" = "Not set";
+"onboarding_preferences_name" = "Name";
+"onboarding_preferences_stage" = "Stage";
+"onboarding_preferences_gender" = "Gender";
+"onboarding_preferences_language" = "Language";
+"onboarding_preferences_age" = "Age";
+"onboarding_preferences_interests" = "Interests";
+"onboarding_preferences_selected" = "selected";
+"onboarding_preferences_start_creating_stories" = "Start Creating Stories!";
+"onboarding_preferences_cancel" = "Cancel";
+"onboarding_preferences_done" = "Done";
+
+// MARK: - Settings
+
+// Common buttons and actions
+"settings_cancel" = "Cancel";
+"settings_ok" = "OK";
+"settings_enable" = "Enable";
+"settings_manage" = "Manage";
+"settings_save_changes" = "Save Changes";
+"settings_saving" = "Saving...";
+"settings_error" = "Error";
+
+// Settings Header
+"settings_title" = "Settings";
+"settings_subtitle" = "Customize your experience";
+
+// Edit Profile
+"edit_profile_title" = "Edit Profile";
+"edit_profile_subtitle" = "Update baby information";
+"edit_profile_loading" = "Saving profile...";
+"edit_profile_baby_name_label" = "Baby's Name";
+"edit_profile_baby_name_placeholder" = "What will you call your baby?";
+"edit_profile_child_name_label" = "Name";
+"edit_profile_child_name_placeholder" = "Enter your child's name";
+"edit_profile_unsaved_changes_title" = "Unsaved Changes";
+"edit_profile_unsaved_changes_message" = "You have unsaved changes. What would you like to do?";
+"edit_profile_discard_changes" = "Discard Changes";
+"edit_profile_keep_editing" = "Keep Editing";
+"edit_profile_unknown_error" = "An unknown error occurred";
+
+// Profile Sections
+"settings_profile_title" = "Profile";
+"settings_profile_edit" = "Edit Profile";
+"settings_baby_stage_title" = "Baby Stage";
+"settings_gender_title" = "Gender";
+"settings_interests_title" = "Interests";
+
+// Preferences Section
+"settings_preferences_title" = "Preferences";
+"settings_app_theme_title" = "App Theme";
+"settings_theme_system_description" = "Follows your device setting";
+"settings_theme_light_description" = "Always use light appearance";
+"settings_theme_dark_description" = "Always use dark appearance";
+"settings_auto_update_profile_title" = "Auto-Update Profile";
+"settings_auto_update_profile_description" = "Manage automatic profile updates as your child grows";
+"settings_voice_narration_title" = "Voice Narration";
+"settings_voice_narration_description" = "Enable story read-aloud";
+
+// Notifications Section
+"settings_notifications_title" = "Notifications";
+"settings_notifications_enabled_title" = "Notifications Enabled";
+"settings_notifications_enabled_description" = "You'll receive story reminders and updates";
+"settings_notifications_disabled_title" = "Notifications Disabled";
+"settings_notifications_disabled_description" = "Enable in Settings to get reminders";
+
+// Support Section
+"settings_support_title" = "Support";
+"settings_support_get_help" = "Get Help";
+"settings_support_description" = "Visit our support website";
+
+// About Section
+"settings_about_title" = "About";
+"settings_about_version" = "Version";
+
+// Auto-Update Settings
+"auto_update_settings_title" = "Auto-Update Settings";
+"auto_update_profile_title" = "Auto-Update Profile";
+"auto_update_profile_description" = "Automatically update baby stage and interests as your child grows";
+"auto_update_stage_progression_title" = "Baby Stage Progression";
+"auto_update_stage_progression_description" = "Update stage based on age (newborn → infant → toddler → preschooler)";
+"auto_update_interests_title" = "Age-Appropriate Interests";
+"auto_update_interests_description" = "Update interests to match your child's developmental stage";
+"auto_update_enabled_footer" = "Auto-updates help keep your child's profile current as they grow, ensuring stories and activities remain age-appropriate.";
+"auto_update_disabled_footer" = "Enable auto-updates to automatically maintain your child's profile as they grow.";
+"auto_update_check_now" = "Check for Updates Now";
+"auto_update_last_update" = "Last Auto-Update";
+"auto_update_status_title" = "Update Status";
+"auto_update_check_complete_title" = "Update Check Complete";
+"auto_update_success_message" = "Profile updated successfully! %d change(s) were made.";
+"auto_update_no_updates_message" = "Your profile is already up to date.";
+"auto_update_failed_message" = "Update check failed. Please try again later.";
+"auto_update_last_updated_format" = "Profile last updated: %@";
+
+// Story Time Picker
+"settings_story_time_title" = "Story Time";
+"settings_preferred_story_time" = "Preferred Story Time";
+
+// Parental Lock
+"parental_lock_title" = "Parental Lock";
+"parental_lock_enter_passcode" = "Enter your 4-digit passcode";
+"parental_lock_enter_passcode_placeholder" = "Enter passcode";
+"parental_lock_on" = "Lock is ON";
+"parental_lock_off" = "Lock is OFF";
+"parental_lock_enable" = "Enable Lock";
+"parental_lock_disable" = "Disable Lock";
+"parental_lock_enabled_success" = "Lock Enabled Successfully";
+"parental_lock_disabled_success" = "Lock Disabled Successfully";
+"parental_lock_incorrect_passcode" = "Incorrect Passcode";
+"parental_lock_about_title" = "About Parental Lock";
+"parental_lock_about_description" = "When enabled, this prevents children from accessing settings or making changes to the app.";
+"done" = "Done";
+
+// Parental Controls Section
+"settings_parental_controls_title" = "Parental Controls";
+"settings_parental_controls_description" = "Manage access and restrictions";
+
+// Language Settings
+"settings_language_title" = "Language";
+
+// Edit Profile Components
+"settings_date_of_birth_title" = "Date of Birth";
+"settings_parent_names_title" = "Parent Names";
+"settings_parent_name_placeholder" = "Parent %d name";
+"edit_profile_language_label" = "Preferred Language";
+
+// Preview data
+"preview_parent_name" = "Parent 1";
+
+// MARK: - Home
+
+// Home View
+"home_little_one" = "Little One";
+"home_ready_for_adventure" = "Ready for a magical story adventure?";
+"home_back_button" = "Back";
+"home_home_button" = "Home";
+"home_no_story_generated" = "No story generated.";
+
+// Welcome Header
+"home_hello_greeting" = "Hello, %@! 👋";
+
+// Today's Adventure Card
+"home_todays_adventure" = "Today's Adventure";
+"home_create_todays_story" = "Create Today's Story";
+"home_creating_magical_story" = "Creating your magical story...";
+
+// Story Options Grid
+"home_story_options" = "Story Options";
+"home_custom_story" = "Custom Story";
+"home_custom_story_subtitle" = "Choose themes, characters & more";
+"home_story_library" = "Story Library";
+"home_story_library_subtitle" = "Browse saved stories";
+"home_progress" = "Progress";
+"home_progress_subtitle" = "Track reading journey";
+"home_coming_soon" = "Coming Soon";
+"home_favorites" = "Favorites";
+"home_favorites_subtitle" = "Most loved stories";
+
+// Story Time Card
+"home_story_time" = "Story Time";
+"home_next_story_time" = "Next story time";
+"home_stories_read" = "Stories read";
+
+// Gender display names
+"gender_display_name_male" = "Boy";
+"gender_display_name_female" = "Girl";
+"gender_display_name_not_specified" = "Not Specified";
+
+// Gender pronouns
+"gender_pronoun_male" = "he";
+"gender_pronoun_female" = "she";
+"gender_pronoun_not_specified" = "they";
+
+// Gender possessive pronouns
+"gender_possessive_pronoun_male" = "his";
+"gender_possessive_pronoun_female" = "her";
+"gender_possessive_pronoun_not_specified" = "their";
+
+// MARK: - User Profile
+
+// Age display strings
+"user_profile_age_month_singular" = "month";
+"user_profile_age_month_plural" = "months";
+"user_profile_age_year_singular" = "year";
+"user_profile_age_year_plural" = "years";
+
+// Display name
+"user_profile_baby_prefix" = "Baby ";
+
+// Story context
+"user_profile_default_parent_names" = "Mommy and Daddy";
+"user_profile_story_context_baby_prefix" = "A story for baby ";
+"user_profile_story_context_from" = " from ";
+"user_profile_story_context_gentle_story" = "A gentle story for little ";
+"user_profile_story_context_adventure_story" = "An adventure story for ";
+
+// Welcome subtitle greetings
+"user_profile_greeting_morning" = "Good morning!";
+"user_profile_greeting_afternoon" = "Good afternoon!";
+"user_profile_greeting_evening" = "Good evening!";
+"user_profile_greeting_night" = "Sweet dreams!";
+
+// Welcome subtitle stage messages
+"user_profile_welcome_pregnancy" = "Ready for a bonding story?";
+"user_profile_welcome_newborn_infant" = "Time for a gentle story?";
+"user_profile_welcome_toddler" = "Ready for an adventure?";
+"user_profile_welcome_preschooler" = "What story shall we explore?";
+
+// Growth messages
+"user_profile_growth_newborn" = "🎉 Welcome to the world, %@! %@ is now a newborn!";
+"user_profile_growth_infant" = "🌟 %@ is growing! %@ is now an infant and ready for new adventures!";
+"user_profile_growth_toddler" = "🚀 Look who's growing up! %@ is now a toddler and ready for exciting stories!";
+"user_profile_growth_preschooler" = "📚 %@ is becoming such a big kid! %@ is now a preschooler!";
+
+// MARK: - Profile Validation
+
+// Validation warnings
+"profile_validation_due_date_far_future" = "Due date is quite far in the future. Please double-check the date.";
+"profile_validation_parent_names_too_long" = "Consider using shorter parent names for better story flow.";
+"profile_validation_child_age_too_old" = "This app is designed for children under %d years old.";
+"profile_validation_stage_mismatch" = "Your child may have grown to the %@ stage.";
+"profile_validation_too_many_interests" = "Consider selecting fewer interests for more focused stories.";
+"profile_validation_inappropriate_interests" = "Some interests may not be suitable for the %@ stage.";
+
+// MARK: - App Error Messages
+
+// Error descriptions
+"app_error_story_generation_failed" = "Unable to generate story. Please try again.";
+"app_error_profile_save_failed" = "Failed to save profile changes.";
+"app_error_story_save_failed" = "Failed to save story to library.";
+"app_error_invalid_profile" = "Profile information is incomplete or invalid.";
+"app_error_network_unavailable" = "Network connection unavailable.";
+"app_error_data_corruption" = "Data appears to be corrupted. Please restart the app.";
+"app_error_data_save_failed" = "Failed to save data. Please try again.";
+"app_error_data_export_failed" = "Failed to export data. Please try again.";
+"app_error_data_import_failed" = "Failed to import data. Please check the file and try again.";
+"app_error_invalid_name" = "Please enter a valid name.";
+"app_error_invalid_date" = "Please select a valid date.";
+"app_error_invalid_story_options" = "Story options are invalid. Please check your selections.";
+"app_error_invalid_character_count" = "Too many characters selected. Please choose up to 5 characters.";
+"app_error_profile_incomplete" = "Please complete all required profile fields.";
+
+// Recovery suggestions
+"app_error_recovery_story_generation" = "Check your internet connection and try generating the story again.";
+"app_error_recovery_save_retry" = "Please try saving again. If the problem persists, restart the app.";
+"app_error_recovery_profile_complete" = "Please complete all required profile fields.";
+"app_error_recovery_network" = "Connect to the internet and try again.";
+"app_error_recovery_data_corruption" = "Restart the app. If the problem persists, you may need to reset your profile.";
+"app_error_recovery_storage_space" = "Make sure you have enough storage space and try again.";
+"app_error_recovery_file_corruption" = "Ensure the file is not corrupted and was exported from SoftDreams.";
+"app_error_recovery_name_length" = "Enter a name with at least 1 character.";
+"app_error_recovery_date_validation" = "Choose a date that makes sense for your child's age.";
+"app_error_recovery_story_options" = "Review your story preferences and try again.";
+"app_error_recovery_character_limit" = "Select fewer characters for your story.";
+
+// MARK: - Story Options
+
+// Story length descriptions
+"story_length_short" = "Quick tale (2-3 minutes)";
+"story_length_medium" = "Perfect story (5-7 minutes)";
+"story_length_long" = "Extended adventure (10+ minutes)";
+
+// Story theme descriptions
+"story_theme_adventure" = "Exciting journeys and discoveries";
+"story_theme_friendship" = "Stories about making friends and caring";
+"story_theme_magic" = "Enchanted worlds and wonder";
+"story_theme_animals" = "Friendly creatures and nature";
+"story_theme_learning" = "Fun lessons and new skills";
+"story_theme_kindness" = "Being helpful and caring for others";
+"story_theme_nature" = "Beautiful outdoors and gardens";
+"story_theme_family" = "Love, togetherness and belonging";
+"story_theme_dreams" = "Peaceful nighttime adventures";
+"story_theme_creativity" = "Art, music and imagination";
+
+// MARK: - Due Date Notifications
+
+// Notification titles
+"due_date_notification_title_three_days_before" = "Due Date Reminder 📅";
+"due_date_notification_title_on_due_date" = "Due Date Today! 🎉";
+"due_date_notification_title_two_days_after" = "Profile Update Reminder 👶";
+
+// Notification bodies
+"due_date_notification_body_three_days_before" = "Baby %@ is due in 3 days! Consider updating your profile if your due date has changed.";
+"due_date_notification_body_on_due_date" = "Baby %@ is due today! Don't forget to update your profile when baby arrives.";
+"due_date_notification_body_two_days_after" = "How is baby %@? Please update your profile to continue enjoying personalized stories.";
+
+// MARK: - Notification Permission Manager
+
+// Permission context reasons
+"permission_context_pregnancy_reason" = "Get helpful reminders about your pregnancy journey";
+"permission_context_story_time_reason" = "Never miss story time with your little one";
+"permission_context_general_reason" = "Stay connected with your SoftDreams experience";
+
+// Permission context benefits - Pregnancy
+"permission_benefit_due_date_reminders" = "Due date reminders";
+"permission_benefit_profile_update_suggestions" = "Profile update suggestions";
+"permission_benefit_important_milestones" = "Important milestones";
+
+// Permission context benefits - Story Time
+"permission_benefit_daily_story_reminders" = "Daily story time reminders";
+"permission_benefit_reading_routine_notifications" = "Reading routine notifications";
+"permission_benefit_new_story_alerts" = "New story alerts";
+
+// Permission context benefits - General
+"permission_benefit_story_time_reminders" = "Story time reminders";
+"permission_benefit_profile_updates" = "Profile updates";
+"permission_benefit_milestone_celebrations" = "Special milestone celebrations";
+
+// Permission context reasons - General
+"permission_context_general_reason" = "Stay connected with your SoftDreams experience";
+
+// MARK: - Theme Manager
+
+// Theme mode display names
+"theme_mode_system" = "System";
+"theme_mode_light" = "Light";
+"theme_mode_dark" = "Dark";
+
+// MARK: - Edit Profile ViewModel
+
+// Age display strings
+"edit_profile_age_not_set" = "Not set";
+"edit_profile_age_one_month" = "1 month old";
+"edit_profile_age_months_format" = "%d months old";
+"edit_profile_age_one_year" = "1 year old";
+"edit_profile_age_years_format" = "%d years old";
+"edit_profile_age_unknown" = "Unknown age";
+
+// MARK: - Onboarding ViewModel
+
+// Story recommendations - Morning (6-11 AM)
+"onboarding_story_morning_adventures" = "Morning Adventures";
+"onboarding_story_wake_up_stories" = "Wake-up Stories";
+"onboarding_story_breakfast_tales" = "Breakfast Tales";
+"onboarding_story_sunny_day_fun" = "Sunny Day Fun";
+
+// Story recommendations - Afternoon (12-17 PM)
+"onboarding_story_afternoon_play" = "Afternoon Play";
+"onboarding_story_learning_stories" = "Learning Stories";
+"onboarding_story_outdoor_adventures" = "Outdoor Adventures";
+"onboarding_story_friend_tales" = "Friend Tales";
+
+// Story recommendations - Evening (18-21 PM)
+"onboarding_story_bedtime_stories" = "Bedtime Stories";
+"onboarding_story_calm_adventures" = "Calm Adventures";
+"onboarding_story_dream_journeys" = "Dream Journeys";
+"onboarding_story_goodnight_tales" = "Goodnight Tales";
+
+// Story recommendations - Night (22-5 AM)
+"onboarding_story_peaceful_dreams" = "Peaceful Dreams";
+"onboarding_story_quiet_stories" = "Quiet Stories";
+"onboarding_story_sleep_adventures" = "Sleep Adventures";
+"onboarding_story_gentle_tales" = "Gentle Tales";
+
+// MARK: - Common UI Components
+
+// Loading states
+"loading_default_message" = "Loading...";
+
+// Notification permission prompt
+"notification_permission_enable_title" = "Enable Notifications";
+"notification_permission_learn_more" = "Learn More";
+"notification_permission_enable_button" = "Enable";
+
+// Notification permission sheet
+"notification_permission_sheet_stay_connected" = "Stay Connected";
+"notification_permission_sheet_navigation_title" = "Notifications";
+"notification_permission_sheet_skip" = "Skip";
+"notification_permission_sheet_description" = "We'll ask your permission to send notifications. You can always change this in Settings later.";
+"notification_permission_sheet_requesting" = "Requesting...";
+"notification_permission_sheet_enable_notifications" = "Enable Notifications";
+"notification_permission_sheet_not_now" = "Not Now";
+"notification_permission_sheet_denied_description" = "Notifications are currently disabled. You can enable them in Settings to get the full SoftDreams experience.";
+"notification_permission_sheet_open_settings" = "Open Settings";
+"notification_permission_sheet_continue_without" = "Continue Without Notifications";

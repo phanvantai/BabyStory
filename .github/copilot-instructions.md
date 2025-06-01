@@ -1,7 +1,7 @@
-# BabyStory iOS App - Copilot Instructions
+# SoftDreams iOS App - Copilot Instructions
 
 ## Project Overview
-BabyStory is a SwiftUI iOS application that generates personalized bedtime stories for children. The app uses AI to create custom stories based on the child's profile, interests, and preferences.
+SoftDreams is a SwiftUI iOS application that generates personalized bedtime stories for children. The app uses AI to create custom stories based on the child's profile, interests, and preferences.
 
 ## Technical Stack
 - **Platform**: iOS 17.0+
@@ -113,7 +113,7 @@ Task {
 - Image generation for stories is placeholder
 
 ## Bundle Identifier
-`com.randomtech.BabyStory`
+`com.randomtech.SoftDreams`
 
 ## Development Team
 K6GZTHQ9Z5

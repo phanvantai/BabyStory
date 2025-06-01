@@ -1,0 +1,99 @@
+import Foundation
+
+// MARK: - App Error Types
+enum AppError: LocalizedError, Equatable {
+  case storyGenerationFailed
+  case profileSaveFailed
+  case storySaveFailed
+  case invalidProfile
+  case networkUnavailable
+  case dataCorruption
+  case dataSaveFailed
+  case dataExportFailed
+  case dataImportFailed
+  
+  // Enhanced validation errors
+  case invalidName
+  case invalidDate
+  case invalidStoryOptions
+  case invalidCharacterCount
+  case profileIncomplete
+  
+  var errorDescription: String? {
+    switch self {
+    case .storyGenerationFailed:
+      return "app_error_story_generation_failed".localized
+    case .profileSaveFailed:
+      return "app_error_profile_save_failed".localized
+    case .storySaveFailed:
+      return "app_error_story_save_failed".localized
+    case .invalidProfile:
+      return "app_error_invalid_profile".localized
+    case .networkUnavailable:
+      return "app_error_network_unavailable".localized
+    case .dataCorruption:
+      return "app_error_data_corruption".localized
+    case .dataSaveFailed:
+      return "app_error_data_save_failed".localized
+    case .dataExportFailed:
+      return "app_error_data_export_failed".localized
+    case .dataImportFailed:
+      return "app_error_data_import_failed".localized
+    case .invalidName:
+      return "app_error_invalid_name".localized
+    case .invalidDate:
+      return "app_error_invalid_date".localized
+    case .invalidStoryOptions:
+      return "app_error_invalid_story_options".localized
+    case .invalidCharacterCount:
+      return "app_error_invalid_character_count".localized
+    case .profileIncomplete:
+      return "app_error_profile_incomplete".localized
+    }
+  }
+  
+  var recoverySuggestion: String? {
+    switch self {
+    case .storyGenerationFailed:
+      return "app_error_recovery_story_generation".localized
+    case .profileSaveFailed, .storySaveFailed, .dataSaveFailed:
+      return "app_error_recovery_save_retry".localized
+    case .invalidProfile, .profileIncomplete:
+      return "app_error_recovery_profile_complete".localized
+    case .networkUnavailable:
+      return "app_error_recovery_network".localized
+    case .dataCorruption:
+      return "app_error_recovery_data_corruption".localized
+    case .dataExportFailed:
+      return "app_error_recovery_storage_space".localized
+    case .dataImportFailed:
+      return "app_error_recovery_file_corruption".localized
+    case .invalidName:
+      return "app_error_recovery_name_length".localized
+    case .invalidDate:
+      return "app_error_recovery_date_validation".localized
+    case .invalidStoryOptions:
+      return "app_error_recovery_story_options".localized
+    case .invalidCharacterCount:
+      return "app_error_recovery_character_limit".localized
+    }
+  }
+}
+
+// MARK: - Error Manager
+class ErrorManager: ObservableObject {
+  @Published var currentError: AppError?
+  @Published var showError = false
+  
+  func handleError(_ error: AppError) {
+    DispatchQueue.main.async {
+      self.currentError = error
+      self.showError = true
+    }
+  }
+  
+  func clearError() {
+    currentError = nil
+    showError = false
+  }
+}
