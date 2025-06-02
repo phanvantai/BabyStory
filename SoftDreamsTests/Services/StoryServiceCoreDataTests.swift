@@ -36,14 +36,15 @@ class StoryServiceTests {
     func testSaveStory_WhenValidStory_ShouldSaveSuccessfully() async throws {
         // Given
         let story = Story(
-            id: "test-id",
+            id: UUID(),
             title: "Test Story",
             content: "Once upon a time...",
-            characterName: "Alice",
+            date: Date(),
+            isFavorite: false,
             theme: "Adventure",
-            storyLength: .medium,
-            createdAt: Date(),
-            isFavorite: false
+            length: .medium,
+            characters: ["Alice"],
+            ageRange: .toddler
         )
         
         // When
@@ -58,8 +59,8 @@ class StoryServiceTests {
     @Test
     func testFetchAllStories_WhenStoriesExist_ShouldReturnAllStories() async throws {
         // Given
-        let story1 = Story(id: "1", title: "Story 1", content: "Content 1", characterName: "Alice", theme: "Adventure", storyLength: .short, createdAt: Date(), isFavorite: false)
-        let story2 = Story(id: "2", title: "Story 2", content: "Content 2", characterName: "Bob", theme: "Fantasy", storyLength: .long, createdAt: Date(), isFavorite: true)
+        let story1 = Story(id: UUID(), title: "Story 1", content: "Content 1", theme: "Adventure", length: .short, ageRange: .toddler)
+      let story2 = Story(id: UUID(), title: "Story 2", content: "Content 2", isFavorite: true, theme: "Fantasy", length: .long, ageRange: .toddler)
         
         try await storyService.saveStory(story1)
         try await storyService.saveStory(story2)
@@ -76,11 +77,12 @@ class StoryServiceTests {
     @Test
     func testDeleteStory_WhenStoryExists_ShouldRemoveStory() async throws {
         // Given
-        let story = Story(id: "delete-test", title: "To Delete", content: "Content", characterName: "Alice", theme: "Adventure", storyLength: .medium, createdAt: Date(), isFavorite: false)
+        let storyId = UUID()
+        let story = Story(id: storyId, title: "To Delete", content: "Content", theme: "Adventure", length: .medium, ageRange: .toddler)
         try await storyService.saveStory(story)
         
         // When
-        try await storyService.deleteStory(withId: "delete-test")
+        try await storyService.deleteStory(withId: storyId.uuidString)
         
         // Then
         let stories = try await storyService.fetchAllStories()
@@ -90,15 +92,16 @@ class StoryServiceTests {
     @Test
     func testToggleFavorite_WhenStoryExists_ShouldUpdateFavoriteStatus() async throws {
         // Given
-        let story = Story(id: "favorite-test", title: "Test", content: "Content", characterName: "Alice", theme: "Adventure", storyLength: .medium, createdAt: Date(), isFavorite: false)
+        let storyId = UUID()
+      let story = Story(id: storyId, title: "Test", content: "Content", isFavorite: false, theme: "Adventure", length: .medium, ageRange: .toddler)
         try await storyService.saveStory(story)
         
         // When
-        try await storyService.toggleFavorite(storyId: "favorite-test")
+        try await storyService.toggleFavorite(storyId: storyId.uuidString)
         
         // Then
         let updatedStories = try await storyService.fetchAllStories()
-        let updatedStory = updatedStories.first { $0.id == "favorite-test" }
+        let updatedStory = updatedStories.first { $0.id == storyId }
         #expect(updatedStory?.isFavorite == true)
     }
 }

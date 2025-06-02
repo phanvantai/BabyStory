@@ -35,8 +35,7 @@ class ServiceFactory {
       case .userDefaults:
         return UserDefaultsStoryService()
       case .coreData:
-        // TODO: Implement Core Data service
-        fatalError("Core Data not implemented yet")
+        return CoreDataStoryService()
       case .cloudKit:
         // TODO: Implement CloudKit service
         fatalError("CloudKit not implemented yet")

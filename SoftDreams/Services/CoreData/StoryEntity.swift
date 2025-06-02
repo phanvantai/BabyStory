@@ -19,10 +19,25 @@ public class StoryEntity: NSManagedObject {
       isFavorite: self.isFavorite,
       theme: self.theme ?? "",
       length: StoryLength(rawValue: self.length ?? "") ?? .medium,
-      characters: self.characters?.components(separatedBy: ",") ?? [],
+      characters: self.characters?.components(separatedBy: ",").filter { !$0.isEmpty } ?? [],
       ageRange: BabyStage(rawValue: self.ageRange ?? "") ?? .toddler,
-      tags: self.tags?.components(separatedBy: ",") ?? []
+      readingTime: self.readingTime > 0 ? self.readingTime : nil,
+      tags: self.tags?.components(separatedBy: ",").filter { !$0.isEmpty } ?? []
     )
+  }
+  
+  func updateFromModel(_ story: Story) {
+    self.id = story.id
+    self.title = story.title
+    self.content = story.content
+    self.date = story.date
+    self.isFavorite = story.isFavorite
+    self.theme = story.theme
+    self.length = story.length.rawValue
+    self.characters = story.characters.joined(separator: ",")
+    self.ageRange = story.ageRange.rawValue
+    self.readingTime = story.readingTime ?? 0
+    self.tags = story.tags.joined(separator: ",")
   }
 }
 
@@ -45,6 +60,8 @@ extension StoryEntity {
   @NSManaged public var characters: String?
   // age range
   @NSManaged public var ageRange: String?
+  // reading time in seconds
+  @NSManaged public var readingTime: Double
   // tags
   @NSManaged public var tags: String?
   
