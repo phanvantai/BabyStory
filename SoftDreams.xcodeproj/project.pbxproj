@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E5C20B6B2DEDB2B000A2FDCE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D1D99CC12DE8C9E100B95CCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,6 +23,7 @@
 /* Begin PBXFileReference section */
 		D16879A62DE638F100FF3944 /* SoftDreams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftDreams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1D99CBD2DE8C9E100B95CCE /* SoftDreamsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoftDreamsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -52,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5C20B6B2DEDB2B000A2FDCE /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +76,7 @@
 			children = (
 				D16879A82DE638F100FF3944 /* SoftDreams */,
 				D1D99CBE2DE8C9E100B95CCE /* SoftDreamsTests */,
+				E5C20B692DEDB2B000A2FDCE /* Frameworks */,
 				D16879A72DE638F100FF3944 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -81,6 +88,14 @@
 				D1D99CBD2DE8C9E100B95CCE /* SoftDreamsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E5C20B692DEDB2B000A2FDCE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
