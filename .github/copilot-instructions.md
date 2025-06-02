@@ -87,6 +87,7 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 - Mirror the main app folder structure
 - Group related tests in the same file
 - Use `@Test` attribute for Swift Testing framework
+- **All new mocks for testing should be placed in `SoftDreamsTests/Mocks/` folder for consistency**
 
 ### When Adding New Features:
 1. **WRITE TESTS FIRST** (TDD Red Phase)

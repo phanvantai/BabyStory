@@ -30,7 +30,7 @@ class ServiceFactory {
   /// Create a story service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to StoryServiceProtocol
-  func createStoryService(storageType: StorageType = .userDefaults) -> StoryServiceProtocol {
+  func createStoryService(storageType: StorageType = .coreData) -> StoryServiceProtocol {
     switch storageType {
       case .userDefaults:
         return UserDefaultsStoryService()

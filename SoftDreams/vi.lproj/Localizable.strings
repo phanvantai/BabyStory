@@ -280,6 +280,11 @@
 "home_favorites" = "Yêu Thích";
 "home_favorites_subtitle" = "Những câu chuyện được yêu thích nhất";
 
+// Library View
+"library_stories_count" = "%d câu chuyện kỳ diệu";
+"library_empty_title" = "Chưa Có Câu Chuyện Nào";
+"library_empty_description" = "Tạo câu chuyện kỳ diệu đầu tiên để xem tại đây!";
+
 // Story Time Card
 "home_story_time" = "Giờ Kể Chuyện";
 "home_next_story_time" = "Giờ kể chuyện tiếp theo";

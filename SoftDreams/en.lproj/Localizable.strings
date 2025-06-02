@@ -280,6 +280,11 @@
 "home_favorites" = "Favorites";
 "home_favorites_subtitle" = "Most loved stories";
 
+// Library View
+"library_stories_count" = "%d magical stories";
+"library_empty_title" = "No Stories Yet";
+"library_empty_description" = "Create your first magical story to see it here!";
+
 // Story Time Card
 "home_story_time" = "Story Time";
 "home_next_story_time" = "Next story time";
