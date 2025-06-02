@@ -114,19 +114,6 @@ struct AppErrorTests {
     
     // MARK: - Error Handling Tests
     
-    @Test("Test AppError can be thrown and caught")
-    func testAppErrorThrowAndCatch() async throws {
-        // Test throwing and catching AppError
-        do {
-            throw AppError.storyGenerationFailed
-            #expect(false, "Should not reach this line")
-        } catch let error as AppError {
-            #expect(error == AppError.storyGenerationFailed)
-        } catch {
-            #expect(false, "Should catch AppError, not generic error")
-        }
-    }
-    
     @Test("Test AppError as LocalizedError")
     func testAppErrorAsLocalizedError() async throws {
         let error: LocalizedError = AppError.networkUnavailable

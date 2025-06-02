@@ -101,9 +101,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .infant,
-            dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
-            gender: .boy,
-            interests: ["Animals", "Music"]
+            interests: ["Animals", "Music"], dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
+            gender: .male
         )
         
         try storageManager.saveProfile(profile)
@@ -125,9 +124,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Expecting Parent",
             babyStage: .pregnancy,
-            dueDate: futureDate,
-            gender: .notSpecified,
-            interests: ["Gentle Stories", "Classical Music"]
+            interests: ["Gentle Stories", "Classical Music"], dueDate: futureDate,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profile)
@@ -181,9 +179,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .infant,
-            dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
-            gender: .boy,
-            interests: ["Animals", "Music"]
+            interests: ["Animals", "Music"], dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
+            gender: .male
         )
         
         try storageManager.saveProfile(profile)
@@ -205,9 +202,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Expecting Parent",
             babyStage: .pregnancy,
-            dueDate: futureDate,
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: futureDate,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profile)
@@ -225,9 +221,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .pregnancy,
-            dueDate: Calendar.current.date(byAdding: .day, value: 10, to: Date()),
-            gender: .girl,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: Calendar.current.date(byAdding: .day, value: 10, to: Date()),
+            gender: .female
         )
         
         // Should not crash
@@ -250,9 +245,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Expecting Parent",
             babyStage: .pregnancy,
-            dueDate: futureDate,
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: futureDate,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profile)
@@ -277,9 +271,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Overdue Parent",
             babyStage: .pregnancy,
-            dueDate: pastDate,
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: pastDate,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profile)
@@ -297,9 +290,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Test Parent",
             babyStage: .pregnancy,
-            dueDate: Calendar.current.date(byAdding: .day, value: 15, to: Date()),
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: Calendar.current.date(byAdding: .day, value: 15, to: Date()),
+            gender: .notSpecified
         )
         
         // Mark various notifications as sent
@@ -309,9 +301,8 @@ struct DueDateNotificationServiceTests {
         let profile2 = UserProfile(
             name: "Another Parent",
             babyStage: .pregnancy,
-            dueDate: Calendar.current.date(byAdding: .day, value: 20, to: Date()),
-            gender: .girl,
-            interests: ["Classical Music"]
+            interests: ["Classical Music"], dueDate: Calendar.current.date(byAdding: .day, value: 20, to: Date()),
+            gender: .female
         )
         
         service.markNotificationAsSent(for: profile2, type: .onDueDate)
@@ -331,9 +322,8 @@ struct DueDateNotificationServiceTests {
         let profileWithNilDueDate = UserProfile(
             name: "Nil Due Date",
             babyStage: .pregnancy,
-            dueDate: nil,
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: nil,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profileWithNilDueDate)
@@ -344,9 +334,8 @@ struct DueDateNotificationServiceTests {
         let profileWithTodayDueDate = UserProfile(
             name: "Today Due Date",
             babyStage: .pregnancy,
-            dueDate: todayDate,
-            gender: .notSpecified,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: todayDate,
+            gender: .notSpecified
         )
         
         try storageManager.saveProfile(profileWithTodayDueDate)
@@ -370,9 +359,8 @@ struct DueDateNotificationServiceTests {
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .pregnancy,
-            dueDate: Calendar.current.date(byAdding: .day, value: 10, to: Date()),
-            gender: .boy,
-            interests: ["Gentle Stories"]
+            interests: ["Gentle Stories"], dueDate: Calendar.current.date(byAdding: .day, value: 10, to: Date()),
+            gender: .male
         )
         
         // Should not crash even with corrupted history data

@@ -162,7 +162,6 @@ final class BabyStageTests: XCTestCase {
         // Test that interests become more complex as stages progress
         let pregnancyCount = BabyStage.pregnancy.availableInterests.count
         let newbornCount = BabyStage.newborn.availableInterests.count
-        let infantCount = BabyStage.infant.availableInterests.count
         let toddlerCount = BabyStage.toddler.availableInterests.count
         let preschoolerCount = BabyStage.preschooler.availableInterests.count
         

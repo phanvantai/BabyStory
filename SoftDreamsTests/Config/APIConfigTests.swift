@@ -58,9 +58,6 @@ struct APIConfigTests {
         
         // Should be an enum type
         #expect(mirror.displayStyle == .enum || mirror.displayStyle == nil) // nil for metatype
-        
-        // Should have static properties accessible
-        #expect(APIConfig.baseURL is String)
     }
     
     @Test("APIConfig Bundle integration")

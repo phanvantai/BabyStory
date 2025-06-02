@@ -16,14 +16,14 @@ class ServiceFactory {
   /// - Returns: A service conforming to UserProfileServiceProtocol
   func createUserProfileService(storageType: StorageType = .userDefaults) -> UserProfileServiceProtocol {
     switch storageType {
-    case .userDefaults:
-      return UserDefaultsUserProfileService()
-    case .coreData:
-      // TODO: Implement Core Data service
-      fatalError("Core Data not implemented yet")
-    case .cloudKit:
-      // TODO: Implement CloudKit service
-      fatalError("CloudKit not implemented yet")
+      case .userDefaults:
+        return UserDefaultsUserProfileService()
+      case .coreData:
+        // TODO: Implement Core Data service
+        fatalError("Core Data not implemented yet")
+      case .cloudKit:
+        // TODO: Implement CloudKit service
+        fatalError("CloudKit not implemented yet")
     }
   }
   
@@ -32,14 +32,14 @@ class ServiceFactory {
   /// - Returns: A service conforming to StoryServiceProtocol
   func createStoryService(storageType: StorageType = .userDefaults) -> StoryServiceProtocol {
     switch storageType {
-    case .userDefaults:
-      return UserDefaultsStoryService()
-    case .coreData:
-      // TODO: Implement Core Data service
-      fatalError("Core Data not implemented yet")
-    case .cloudKit:
-      // TODO: Implement CloudKit service
-      fatalError("CloudKit not implemented yet")
+      case .userDefaults:
+        return UserDefaultsStoryService()
+      case .coreData:
+        // TODO: Implement Core Data service
+        fatalError("Core Data not implemented yet")
+      case .cloudKit:
+        // TODO: Implement CloudKit service
+        fatalError("CloudKit not implemented yet")
     }
   }
   
@@ -48,14 +48,14 @@ class ServiceFactory {
   /// - Returns: A service conforming to ThemeServiceProtocol
   func createThemeService(storageType: StorageType = .userDefaults) -> ThemeServiceProtocol {
     switch storageType {
-    case .userDefaults:
-      return UserDefaultsThemeService()
-    case .coreData:
-      // TODO: Implement Core Data service
-      fatalError("Core Data not implemented yet")
-    case .cloudKit:
-      // TODO: Implement CloudKit service
-      fatalError("CloudKit not implemented yet")
+      case .userDefaults:
+        return UserDefaultsThemeService()
+      case .coreData:
+        // TODO: Implement Core Data service
+        fatalError("Core Data not implemented yet")
+      case .cloudKit:
+        // TODO: Implement CloudKit service
+        fatalError("CloudKit not implemented yet")
     }
   }
   
@@ -64,14 +64,14 @@ class ServiceFactory {
   /// - Returns: A service conforming to SettingsServiceProtocol
   func createSettingsService(storageType: StorageType = .userDefaults) -> SettingsServiceProtocol {
     switch storageType {
-    case .userDefaults:
-      return UserDefaultsSettingsService()
-    case .coreData:
-      // TODO: Implement Core Data service
-      fatalError("Core Data not implemented yet")
-    case .cloudKit:
-      // TODO: Implement CloudKit service
-      fatalError("CloudKit not implemented yet")
+      case .userDefaults:
+        return UserDefaultsSettingsService()
+      case .coreData:
+        // TODO: Implement Core Data service
+        fatalError("Core Data not implemented yet")
+      case .cloudKit:
+        // TODO: Implement CloudKit service
+        fatalError("CloudKit not implemented yet")
     }
   }
   
@@ -94,22 +94,26 @@ class ServiceFactory {
   /// Create a story generation service instance
   /// - Parameter serviceType: The type of story generation service to use
   /// - Returns: A service conforming to StoryGenerationServiceProtocol
-  func createStoryGenerationService(serviceType: StoryGenerationServiceType = .mock) -> StoryGenerationServiceProtocol {
+  func createStoryGenerationService(serviceType: StoryGenerationServiceType = .openAI) -> StoryGenerationServiceProtocol {
     switch serviceType {
-    case .mock:
-      return MockStoryGenerationService()
-    case .openAI:
-      // Try to create OpenAI service with stored API key
-      if let openAIService = OpenAIStoryGenerationService.createWithStoredAPIKey() {
-        return openAIService
-      } else {
-        // Fallback to mock service if no API key is available
-        Logger.info("OpenAI API key not available, falling back to mock service", category: .storyGeneration)
-        return MockStoryGenerationService()
-      }
-    case .localAI:
-      // TODO: Implement local AI service
-      fatalError("Local AI service not implemented yet")
+      case .openAI:
+        // Try to create OpenAI service with stored API key
+        if let openAIService = OpenAIStoryGenerationService.createWithStoredAPIKey() {
+          return openAIService
+        } else {
+          // Fallback to mock service if no API key is available
+          Logger.info("OpenAI API key not available, falling back to mock service", category: .storyGeneration)
+          fatalError("OpenAI API key not available, please set it in settings or use mock service")
+        }
+      case .claude:
+        // Try to create Claude service with stored API key
+        if let claudeService = AnthropicClaudeStoryGenerationService.createWithStoredAPIKey() {
+          return claudeService
+        } else {
+          // Fallback to mock service if no API key is available
+          Logger.info("Claude API key not available, falling back to mock service", category: .storyGeneration)
+          fatalError("Claude API key not available, please set it in settings or use mock service")
+        }
     }
   }
 }
@@ -123,7 +127,6 @@ enum StorageType {
 
 // MARK: - Story Generation Service Type Enum
 enum StoryGenerationServiceType {
-  case mock
   case openAI
-  case localAI
+  case claude
 }

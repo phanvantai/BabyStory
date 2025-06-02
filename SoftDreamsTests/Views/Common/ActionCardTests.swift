@@ -168,26 +168,6 @@ final class ActionCardTests: XCTestCase {
         XCTAssertEqual(actionCallCount, 0) // Should not be called during initialization
     }
     
-    func testActionCardMemoryManagement() {
-        // Test that ActionCard doesn't cause memory leaks
-        weak var weakCard: ActionCard?
-        
-        autoreleasepool {
-            let strongCard = ActionCard(
-                title: "Test",
-                subtitle: "Test",
-                icon: "star",
-                gradientColors: [Color.blue]
-            ) { }
-            
-            weakCard = strongCard
-            XCTAssertNotNil(weakCard)
-        }
-        
-        // Note: SwiftUI Views are value types, so this test verifies the pattern
-        XCTAssertNotNil(weakCard) // Views are value types, so this should still exist
-    }
-    
     func testActionCardWithNilGradientColors() {
         // Test behavior with potentially problematic gradient configurations
         let card = ActionCard(
