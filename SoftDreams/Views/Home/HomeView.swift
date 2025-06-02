@@ -60,7 +60,7 @@ struct HomeView: View {
                 showCustomStory: true,
                 showLibrary: true,
                 showProgress: false, // Disabled for now, will be added later
-                showFavorites: true
+                showFavorites: false // Disabled for now, will be added later
               )
             }
             
@@ -100,11 +100,8 @@ struct HomeView: View {
       }
       .navigationDestination(isPresented: $showStory) {
         if let story = generatedStory {
-          StoryView(story: story, onSave: {
-            viewModel.saveStory(story)
-            libraryVM.loadStories()
-          }, showSave: true)
-          .customBackButton(label: "home_back_button".localized)
+          StoryView(story: story)
+            .customBackButton(label: "home_back_button".localized)
         } else {
           Text("home_no_story_generated".localized)
             .customBackButton(label: "home_home_button".localized)

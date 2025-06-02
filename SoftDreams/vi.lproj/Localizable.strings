@@ -497,3 +497,7 @@
 "notification_permission_sheet_denied_description" = "Thông báo hiện đang bị tắt. Bạn có thể bật chúng trong Cài đặt để có trải nghiệm SoftDreams đầy đủ.";
 "notification_permission_sheet_open_settings" = "Mở Cài Đặt";
 "notification_permission_sheet_continue_without" = "Tiếp Tục Không Có Thông Báo";
+
+// Story View
+"story_listen_to_story" = "Nghe Truyện";
+"story_illustration_placeholder" = "Hình Minh Họa Truyện";

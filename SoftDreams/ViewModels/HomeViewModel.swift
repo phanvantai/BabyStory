@@ -36,15 +36,7 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-  func saveStory(_ story: Story) {
-    do {
-      stories.append(story)
-      try StorageManager.shared.saveStories(stories)
-      error = nil
-    } catch {
-      self.error = .storySaveFailed
-    }
-  }
+
   
   // MARK: - Story Generation Methods
   @MainActor
@@ -95,16 +87,7 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-  // MARK: - Enhanced Storage Methods
-  func saveStoryToLibrary(_ story: Story) {
-    do {
-      try StorageManager.shared.saveStory(story)
-      refresh() // Refresh to get updated stories list
-      error = nil
-    } catch {
-      self.error = .storySaveFailed
-    }
-  }
+
   
   // MARK: - Convenience Properties
   var hasCompletedOnboarding: Bool {

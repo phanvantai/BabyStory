@@ -11,7 +11,7 @@ struct StoryOptionsGrid: View {
     var showCustomStory: Bool = true
     var showLibrary: Bool = true
     var showProgress: Bool = false // Disabled by default, will add later
-    var showFavorites: Bool = true
+    var showFavorites: Bool = false
     
     var body: some View {
         VStack(spacing: 16) {

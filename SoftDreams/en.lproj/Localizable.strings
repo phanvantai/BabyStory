@@ -497,3 +497,7 @@
 "notification_permission_sheet_denied_description" = "Notifications are currently disabled. You can enable them in Settings to get the full SoftDreams experience.";
 "notification_permission_sheet_open_settings" = "Open Settings";
 "notification_permission_sheet_continue_without" = "Continue Without Notifications";
+
+// Story View
+"story_listen_to_story" = "Listen to Story";
+"story_illustration_placeholder" = "Story Illustration";

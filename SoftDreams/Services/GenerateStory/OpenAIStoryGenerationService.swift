@@ -15,7 +15,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
   // MARK: - Initialization
   init(
     apiKey: String,
-    model: String = "gpt-4o",
+    model: String = "gpt-3.5-turbo",
     maxTokens: Int = 1500,
     temperature: Double = 0.85,
     session: URLSession = .shared,
