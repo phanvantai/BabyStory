@@ -114,6 +114,9 @@ class ServiceFactory {
           Logger.info("Claude API key not available, falling back to mock service", category: .storyGeneration)
           fatalError("Claude API key not available, please set it in settings or use mock service")
         }
+      case .gemini:
+        // fatal error for Gemini as it's not implemented yet
+        fatalError("Gemini story generation service not implemented yet")
     }
   }
 }
@@ -129,4 +132,5 @@ enum StorageType {
 enum StoryGenerationServiceType {
   case openAI
   case claude
+  case gemini
 }

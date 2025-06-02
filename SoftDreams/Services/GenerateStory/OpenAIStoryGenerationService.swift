@@ -6,7 +6,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
   
   // MARK: - Properties
   private let apiKey: String
-  private let baseURL = "https://api.openai.com/v1/chat/completions" // Hardcoded for testing
+  private let baseURL: String
   private let model: String
   private let maxTokens: Int
   private let temperature: Double
@@ -18,13 +18,29 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
     model: String = "gpt-4o",
     maxTokens: Int = 1500,
     temperature: Double = 0.85,
-    session: URLSession = .shared
+    session: URLSession = .shared,
+    baseURL: String? = nil
   ) {
     self.apiKey = apiKey
     self.model = model
     self.maxTokens = maxTokens
     self.temperature = temperature
     self.session = session
+    
+    // Use provided baseURL or get from configuration
+    if let providedURL = baseURL {
+      self.baseURL = providedURL
+    } else {
+      let configuredBaseURL = APIConfig.openAIBaseUrl
+      // Ensure we have the full chat/completions endpoint
+      if configuredBaseURL.hasSuffix("/chat/completions") {
+        self.baseURL = configuredBaseURL
+      } else {
+        self.baseURL = configuredBaseURL + "/chat/completions"
+      }
+    }
+    
+    print("OpenAIStoryGenerationService initialized with baseURL: \(self.baseURL)")
   }
   
   // MARK: - StoryGenerationServiceProtocol Implementation
