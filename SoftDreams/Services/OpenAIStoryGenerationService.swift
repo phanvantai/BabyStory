@@ -6,7 +6,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
   
   // MARK: - Properties
   private let apiKey: String
-  private let baseURL = "https://api.openai.com/v1/chat/completions"
+  private let baseURL = "https://api.openai.com/v1/chat/completions" // Hardcoded for testing
   private let model: String
   private let maxTokens: Int
   private let temperature: Double
@@ -15,9 +15,9 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
   // MARK: - Initialization
   init(
     apiKey: String,
-    model: String = "gpt-3.5-turbo",
+    model: String = "gpt-4o",
     maxTokens: Int = 1500,
-    temperature: Double = 0.7,
+    temperature: Double = 0.85,
     session: URLSession = .shared
   ) {
     self.apiKey = apiKey
@@ -36,7 +36,6 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
     guard canGenerateStory(for: profile, with: options) else {
       throw StoryGenerationError.invalidProfile
     }
-    
     guard !apiKey.isEmpty else {
       Logger.error("OpenAI: API key is missing", category: .storyGeneration)
       throw StoryGenerationError.serviceUnavailable
@@ -44,6 +43,10 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
     
     do {
       let prompt = buildPrompt(for: profile, with: options)
+      
+      // Log request summary
+      Logger.info("OpenAI: Request summary - Model: \(model), Max Tokens: \(maxTokens), Temperature: \(temperature), Profile: \(profile.displayName), Theme: \(options.effectiveTheme), Length: \(options.length)", category: .storyGeneration)
+      
       let response = try await makeOpenAIRequest(prompt: prompt)
       let story = createStory(from: response, for: profile, with: options)
       
@@ -215,17 +218,16 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
       return "English - Use simple, clear English appropriate for children (fallback language)"
     }
   }
-  
-  private func makeOpenAIRequest(prompt: String) async throws -> String {
+   private func makeOpenAIRequest(prompt: String) async throws -> String {
     guard let url = URL(string: baseURL) else {
       throw StoryGenerationError.serviceUnavailable
     }
-    
+
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
+
     let requestBody = OpenAIRequest(
       model: model,
       messages: [
@@ -235,11 +237,31 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
       maxTokens: maxTokens,
       temperature: temperature
     )
-    
+
     do {
       let encoder = JSONEncoder()
       encoder.keyEncodingStrategy = .convertToSnakeCase
-      request.httpBody = try encoder.encode(requestBody)
+      encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+      let requestData = try encoder.encode(requestBody)
+      request.httpBody = requestData
+      
+      // Log the full request details
+      Logger.info("OpenAI: Making request to \(baseURL)", category: .storyGeneration)
+      Logger.info("OpenAI: Request method: \(request.httpMethod ?? "Unknown")", category: .storyGeneration)
+      
+      // Log headers (excluding sensitive Authorization header)
+      if let headers = request.allHTTPHeaderFields {
+        let sanitizedHeaders = headers.mapValues { key in
+          return key.lowercased().contains("authorization") ? "[REDACTED]" : headers[key] ?? ""
+        }
+        Logger.info("OpenAI: Request headers: \(sanitizedHeaders)", category: .storyGeneration)
+      }
+      
+      // Log the full request body (formatted JSON)
+      if let requestString = String(data: requestData, encoding: .utf8) {
+        Logger.info("OpenAI: Request body:\n\(requestString)", category: .storyGeneration)
+      }
+      
     } catch {
       Logger.error("OpenAI: Failed to encode request - \(error)", category: .storyGeneration)
       throw StoryGenerationError.generationFailed
@@ -264,6 +286,24 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
           return
         }
         
+        Logger.info("OpenAI: Received HTTP status code: \(httpResponse.statusCode)", category: .storyGeneration)
+        
+        // Log response headers for debugging
+        Logger.info("OpenAI: Response headers: \(httpResponse.allHeaderFields)", category: .storyGeneration)
+        
+        // Log response body for all cases (but truncate if too long for successful responses)
+        if let responseString = String(data: data, encoding: .utf8) {
+          if httpResponse.statusCode == 200 {
+            // For successful responses, truncate if very long to avoid log spam
+            let truncatedResponse = responseString.count > 2000 ? 
+              String(responseString.prefix(2000)) + "... [truncated]" : responseString
+            Logger.info("OpenAI: Response body: \(truncatedResponse)", category: .storyGeneration)
+          } else {
+            // For error responses, log the full response
+            Logger.info("OpenAI: Full response body: \(responseString)", category: .storyGeneration)
+          }
+        }
+
         switch httpResponse.statusCode {
         case 200:
           do {
@@ -273,10 +313,10 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
             continuation.resume(throwing: error)
           }
         case 401:
-          Logger.error("OpenAI: Invalid API key", category: .storyGeneration)
+          Logger.error("OpenAI: Invalid API key (401)", category: .storyGeneration)
           continuation.resume(throwing: StoryGenerationError.serviceUnavailable)
         case 429:
-          Logger.error("OpenAI: Rate limit exceeded", category: .storyGeneration)
+          Logger.error("OpenAI: Rate limit exceeded (429)", category: .storyGeneration)
           continuation.resume(throwing: StoryGenerationError.quotaExceeded)
         case 500...599:
           Logger.error("OpenAI: Server error (\(httpResponse.statusCode))", category: .storyGeneration)

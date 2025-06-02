@@ -28,5 +28,9 @@ enum APIConfig {
   
   static let anthropicBaseUrl = Bundle.main.infoDictionary?["ANTHROPIC_API_BASE_URL"] as? String ?? "https://api.anthropic.com/v1"
   
-  static let openAIBaseUrl = Bundle.main.infoDictionary?["OPENAI_API_BASE_URL"] as? String ?? "https://api.openai.com/v1"
+  static var openAIBaseUrl: String {
+    let configuredUrl = Bundle.main.infoDictionary?["OPENAI_API_BASE_URL"] as? String
+    let finalUrl = configuredUrl ?? "https://api.openai.com/v1"
+    return finalUrl
+  }
 }
