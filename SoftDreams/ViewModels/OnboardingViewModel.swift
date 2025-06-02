@@ -51,6 +51,14 @@ class OnboardingViewModel: ObservableObject {
     return minDate...maxDate
   }
   
+  // Due date range
+  var dueDateRange: ClosedRange<Date> {
+    let calendar = Calendar.current
+    let minDate = Date() // Today
+    let maxDate = calendar.date(byAdding: .year, value: 1, to: Date()) ?? Date()
+    return minDate...maxDate
+  }
+  
   // Computed age from date of birth for display
   var currentAge: Int? {
     guard let dateOfBirth = dateOfBirth else { return nil }
@@ -179,6 +187,66 @@ class OnboardingViewModel: ObservableObject {
     } else {
       interests.append(interest)
     }
+  }
+  
+  // MARK: - Step Validation and Navigation
+  
+  func canProceedFromStep(_ step: Int) -> Bool {
+    switch step {
+    case 0:
+      return hasSelectedBabyStatus
+    case 1:
+      return isValidName
+    case 2:
+      return !interests.isEmpty
+    case 3:
+      return true // Story time selection always allows proceeding
+    default:
+      return false
+    }
+  }
+  
+  func isStepValid(_ step: Int) -> Bool {
+    return step >= 0 && step <= 3
+  }
+  
+  func nextStep() {
+    if canProceedFromStep(step) && step < 3 {
+      step += 1
+    }
+  }
+  
+  func previousStep() {
+    if step > 0 {
+      step -= 1
+    }
+  }
+  
+  // MARK: - Baby Status Selection
+  
+  func selectPregnancy() {
+    updateBabyStage(.pregnancy)
+  }
+  
+  func selectBornBaby(stage: BabyStage) {
+    updateBabyStage(stage)
+  }
+  
+  // MARK: - Profile Creation
+  
+  func createUserProfile() -> UserProfile {
+    return UserProfile(
+      name: name,
+      babyStage: babyStage,
+      interests: interests,
+      storyTime: storyTime,
+      dueDate: isPregnancy ? dueDate : nil,
+      parentNames: isPregnancy ? parentNames.filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty } : [],
+      dateOfBirth: isPregnancy ? nil : dateOfBirth,
+      lastUpdate: Date(),
+      gender: gender,
+      language: selectedLanguage
+    )
   }
   
   func saveProfile() {
