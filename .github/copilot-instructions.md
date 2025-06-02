@@ -10,6 +10,8 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 - **Architecture**: MVVM (Model-View-ViewModel)
 - **Data Persistence**: UserDefaults
 - **Target Devices**: iPhone and iPad
+- **Testing Framework**: Swift Testing
+- **Development Approach**: Test-Driven Development (TDD)
 
 ## Key Features
 1. **Onboarding Flow**: Multi-step setup for child profile and preferences
@@ -51,20 +53,65 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 
 ## Development Guidelines
 
+### Test-Driven Development (TDD) Requirements
+**ALL new features and code changes MUST follow TDD practices:**
+
+1. **Red Phase**: Write failing tests first
+   - Create comprehensive test cases that define the expected behavior
+   - Tests should fail initially (red state)
+   - Cover edge cases, error conditions, and happy paths
+
+2. **Green Phase**: Write minimal code to make tests pass
+   - Implement only the code necessary to pass the tests
+   - Focus on functionality, not optimization
+
+3. **Refactor Phase**: Improve code while maintaining test coverage
+   - Clean up code structure and design
+   - Ensure all tests continue to pass
+   - Optimize performance if needed
+
+### Testing Standards
+- **Minimum 80% code coverage** for all new code
+- **Unit tests** for all ViewModels, Models, and Services
+- **Integration tests** for data persistence and API interactions
+- **UI tests** for critical user flows (onboarding, story generation)
+- **Protocol compliance tests** for all protocol implementations
+
+### Test Naming Convention
+- Test files: `[Feature/Component]Tests.swift`
+- Test methods: Use descriptive names that explain the scenario
+- Example: `testOnboardingViewModel_WhenValidProfileData_ShouldSaveSuccessfully()`
+
+### Test Organization
+- Place test files in `SoftDreamsTests/` folder
+- Mirror the main app folder structure
+- Group related tests in the same file
+- Use `@Test` attribute for Swift Testing framework
+
 ### When Adding New Features:
-1. Create appropriate models in `Models/` folder
-2. Implement ViewModels with `@Published` properties
-3. Create SwiftUI views following existing patterns
-4. Update `UserDefaultsManager` if persistence is needed
-5. Follow the established navigation patterns
-6. Place feature-specific components in `Views/[Feature]/Components/` folder
-7. Only add components to `Views/Common/` if they are truly reusable across multiple features
+1. **WRITE TESTS FIRST** (TDD Red Phase)
+   - Create test file in appropriate `SoftDreamsTests/` subfolder
+   - Write failing tests that define expected behavior
+   - Test both success and failure scenarios
+2. **Implement minimal code** to pass tests (TDD Green Phase)
+3. **Refactor and optimize** while maintaining test coverage (TDD Refactor Phase)
+4. Create appropriate models in `Models/` folder
+5. Implement ViewModels with `@Published` properties
+6. Create SwiftUI views following existing patterns
+7. Update `UserDefaultsManager` if persistence is needed
+8. Follow the established navigation patterns
+9. Place feature-specific components in `Views/[Feature]/Components/` folder
+10. Only add components to `Views/Common/` if they are truly reusable across multiple features
 
 ### When Modifying Existing Code:
+- **WRITE TESTS FIRST** if tests don't exist for the code being modified
+- Ensure existing tests pass before making changes
+- Add new tests for any new functionality or edge cases
 - Maintain consistency with existing code style
 - Update related ViewModels when changing data models
 - Ensure proper error handling for async operations
 - Test onboarding flow after profile-related changes
+- Verify test coverage remains above 80%
 
 ### UI/UX Considerations:
 - Maintain child-friendly design patterns
@@ -105,6 +152,11 @@ Task {
 - Verify story generation and saving functionality
 - Test data persistence across app launches
 - Validate parental control features
+- **REMEMBER**: Always follow TDD - write tests before implementing features
+- Maintain comprehensive test coverage for all business logic
+- Test error handling and edge cases thoroughly
+- Use Swift Testing framework with `@Test` attributes
+- Mock external dependencies in unit tests
 
 ## Future Development Notes
 - Story generation currently uses placeholder/mock implementation
