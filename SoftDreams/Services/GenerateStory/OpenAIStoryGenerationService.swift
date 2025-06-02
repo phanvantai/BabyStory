@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - OpenAI Story Generation Service
 /// OpenAI implementation of StoryGenerationServiceProtocol for AI-powered story generation
-class OpenAIStoryGenerationService: StoryGenerationServiceProtocol {
+class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked Sendable {
   
   // MARK: - Properties
   private let apiKey: String

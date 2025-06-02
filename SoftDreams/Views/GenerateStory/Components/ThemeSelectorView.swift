@@ -10,7 +10,7 @@ struct ThemeSelectorView: View {
         Image(systemName: "sparkles")
           .foregroundColor(.pink)
           .font(.title3)
-        Text("Story Theme")
+        Text("generate_story_theme_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()

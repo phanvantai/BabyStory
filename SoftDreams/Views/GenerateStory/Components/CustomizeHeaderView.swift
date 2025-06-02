@@ -23,13 +23,13 @@ struct CustomizeHeaderView: View {
       
       VStack(spacing: 8) {
         GradientText(
-          "Customize Your Story",
+          "generate_story_customize_title".localized,
           font: .system(size: 28, weight: .bold, design: .rounded),
           colors: [Color.purple, Color.blue]
         )
         .multilineTextAlignment(.center)
         
-        Text("Create the perfect adventure")
+        Text("generate_story_customize_subtitle".localized)
           .font(.body)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)

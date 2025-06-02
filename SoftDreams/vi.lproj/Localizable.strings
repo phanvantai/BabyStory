@@ -506,3 +506,30 @@
 // Story View
 "story_listen_to_story" = "Nghe Truyện";
 "story_illustration_placeholder" = "Hình Minh Họa Truyện";
+
+// MARK: - Generate Story
+
+// Customize Header
+"generate_story_customize_title" = "Tùy Chỉnh Câu Chuyện";
+"generate_story_customize_subtitle" = "Tạo cuộc phiêu lưu hoàn hảo";
+
+// Story Length Selector
+"generate_story_length_title" = "Độ Dài Câu Chuyện";
+"generate_story_length_quick_tale" = "Câu Chuyện Ngắn";
+"generate_story_length_perfect_story" = "Câu Chuyện Hoàn Hảo";
+"generate_story_length_extended_adventure" = "Cuộc Phiêu Lưu Dài";
+
+// Theme Selector
+"generate_story_theme_title" = "Chủ Đề Câu Chuyện";
+
+// Characters Input
+"generate_story_characters_title" = "Nhân Vật";
+"generate_story_characters_placeholder" = "Thêm nhân vật (ví dụ: công chúa dũng cảm, rồng thân thiện)";
+"generate_story_characters_help_text" = "Phân tách nhiều nhân vật bằng dấu phẩy";
+
+// Generate Button
+"generate_story_create_button" = "Tạo Câu Chuyện Của Tôi";
+"generate_story_generating_button" = "Đang Tạo Câu Chuyện...";
+
+// Navigation
+"generate_story_customize_nav_title" = "Tùy Chỉnh";

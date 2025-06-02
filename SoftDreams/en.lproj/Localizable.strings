@@ -506,3 +506,30 @@
 // Story View
 "story_listen_to_story" = "Listen to Story";
 "story_illustration_placeholder" = "Story Illustration";
+
+// MARK: - Generate Story
+
+// Customize Header
+"generate_story_customize_title" = "Customize Your Story";
+"generate_story_customize_subtitle" = "Create the perfect adventure";
+
+// Story Length Selector
+"generate_story_length_title" = "Story Length";
+"generate_story_length_quick_tale" = "Quick Tale";
+"generate_story_length_perfect_story" = "Perfect Story";
+"generate_story_length_extended_adventure" = "Extended Adventure";
+
+// Theme Selector
+"generate_story_theme_title" = "Story Theme";
+
+// Characters Input
+"generate_story_characters_title" = "Characters";
+"generate_story_characters_placeholder" = "Add characters (e.g., brave princess, friendly dragon)";
+"generate_story_characters_help_text" = "Separate multiple characters with commas";
+
+// Generate Button
+"generate_story_create_button" = "Create My Story";
+"generate_story_generating_button" = "Creating Story...";
+
+// Navigation
+"generate_story_customize_nav_title" = "Customize";

@@ -49,12 +49,15 @@ struct CustomizeStoryView: View {
           
           // Generate Button
           AnimatedEntrance(delay: 1.0) {
-            GenerateButtonView(onGenerate: {
-              if !charactersText.isEmpty {
-                viewModel.options.characters = charactersText.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-              }
-              onGenerate()
-            })
+            GenerateButtonView(
+              onGenerate: {
+                if !charactersText.isEmpty {
+                  viewModel.options.characters = charactersText.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+                }
+                onGenerate()
+              },
+              isGenerating: viewModel.isGenerating
+            )
           }
           
           Spacer(minLength: 50)
@@ -91,6 +94,6 @@ struct CustomizeStoryView: View {
     ) {
       print("Generate story tapped in preview")
     }
-    .navigationTitle("Customize")
+    .navigationTitle("generate_story_customize_nav_title".localized)
   }
 }

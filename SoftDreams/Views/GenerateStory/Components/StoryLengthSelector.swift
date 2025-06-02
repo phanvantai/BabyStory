@@ -9,7 +9,7 @@ struct StoryLengthSelector: View {
         Image(systemName: "clock.fill")
           .foregroundColor(.orange)
           .font(.title3)
-        Text("Story Length")
+        Text("generate_story_length_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
@@ -116,11 +116,11 @@ struct StoryLengthSelector: View {
   private func lengthTitle(for length: StoryLength) -> String {
     switch length {
     case .short:
-      return "Quick Tale"
+      return "generate_story_length_quick_tale".localized
     case .medium:
-      return "Perfect Story"
+      return "generate_story_length_perfect_story".localized
     case .long:
-      return "Extended Adventure"
+      return "generate_story_length_extended_adventure".localized
     }
   }
 }

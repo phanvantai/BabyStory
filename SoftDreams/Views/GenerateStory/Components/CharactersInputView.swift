@@ -10,20 +10,20 @@ struct CharactersInputView: View {
         Image(systemName: "person.2.fill")
           .foregroundColor(.cyan)
           .font(.title3)
-        Text("Characters")
+        Text("generate_story_characters_title".localized)
           .font(.headline)
           .fontWeight(.semibold)
         Spacer()
       }
       
       VStack(spacing: 12) {
-        TextField("Add characters (e.g., brave princess, friendly dragon)", text: $charactersText)
+        TextField("generate_story_characters_placeholder".localized, text: $charactersText)
           .textFieldStyle(CustomTextFieldStyle())
           .onChange(of: charactersText) { oldValue, newValue in
             onTextChanged(newValue)
           }
         
-        Text("Separate multiple characters with commas")
+        Text("generate_story_characters_help_text".localized)
           .font(.caption)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)

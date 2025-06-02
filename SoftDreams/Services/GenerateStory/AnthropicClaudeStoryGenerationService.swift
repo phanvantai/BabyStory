@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Anthropic Claude Story Generation Service
 /// Anthropic Claude implementation of StoryGenerationServiceProtocol for AI-powered story generation
-class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol {
+class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @unchecked Sendable {
   
   // MARK: - Properties
   private let apiKey: String
