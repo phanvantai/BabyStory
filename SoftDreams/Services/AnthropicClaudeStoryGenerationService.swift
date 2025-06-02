@@ -27,7 +27,7 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol {
     self.maxTokens = maxTokens
     self.temperature = temperature
     self.session = session
-    self.baseURL = baseURL ?? AnthropicAPIConfig.baseURL + "/messages"
+    self.baseURL = APIConfig.anthropicBaseUrl + "/messages"
   }
   
   // MARK: - StoryGenerationServiceProtocol Implementation
@@ -440,7 +440,8 @@ extension AnthropicClaudeStoryGenerationService {
   /// - Returns: Configured Claude service or nil if no API key is available
   static func createWithStoredAPIKey() -> AnthropicClaudeStoryGenerationService? {
     // Get API key from configuration (xcconfig -> Info.plist)
-    if let apiKey = AnthropicAPIConfig.apiKey, !apiKey.isEmpty {
+    let apiKey = APIConfig.anthropicAPIKey
+    if !apiKey.isEmpty {
       return AnthropicClaudeStoryGenerationService(apiKey: apiKey)
     }
     

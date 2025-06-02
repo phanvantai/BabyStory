@@ -7,3 +7,9 @@
 
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
+
+ANTHROPIC_API_BASE_URL = https://api.anthropic.com/v1
+ANTHROPIC_API_KEY = $(ANTHROPIC_API_KEY)
+
+OPENAI_API_BASE_URL = https://api.openai.com/v1
+OPENAI_API_KEY = $(OPENAI_API_KEY)

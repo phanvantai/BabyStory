@@ -429,12 +429,11 @@ extension OpenAIStoryGenerationService {
   /// - Returns: Configured OpenAI service or nil if no API key is available
   static func createWithStoredAPIKey() -> OpenAIStoryGenerationService? {
     // Get API key from configuration (xcconfig -> Info.plist)
-    do {
-      let apiKey = APIConfig.apiKey
+    let apiKey = APIConfig.openAIAPIKey
+    if !apiKey.isEmpty {
       return OpenAIStoryGenerationService(apiKey: apiKey)
-    } catch {
-      Logger.error("OpenAI: No API key found in configuration: \(error.localizedDescription)", category: .storyGeneration)
-      return nil
     }
+    Logger.error("OpenAI: No API key found in configuration", category: .storyGeneration)
+    return nil
   }
 }
