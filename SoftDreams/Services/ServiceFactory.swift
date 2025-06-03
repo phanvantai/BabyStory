@@ -14,97 +14,46 @@ class ServiceFactory {
   /// Create a user profile service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to UserProfileServiceProtocol
-  func createUserProfileService(storageType: StorageType = .userDefaults) -> UserProfileServiceProtocol {
-    switch storageType {
-      case .userDefaults:
-        return UserDefaultsUserProfileService()
-      case .coreData:
-        // TODO: Implement Core Data service
-        fatalError("Core Data not implemented yet")
-      case .cloudKit:
-        // TODO: Implement CloudKit service
-        fatalError("CloudKit not implemented yet")
-    }
+  func createUserProfileService() -> UserProfileServiceProtocol {
+    return UserDefaultsUserProfileService()
   }
   
   /// Create a story service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to StoryServiceProtocol
-  func createStoryService(storageType: StorageType = .coreData) -> StoryServiceProtocol {
-    switch storageType {
-      case .userDefaults:
-        return UserDefaultsStoryService()
-      case .coreData:
-        return CoreDataStoryService()
-      case .cloudKit:
-        // TODO: Implement CloudKit service
-        fatalError("CloudKit not implemented yet")
-    }
+  func createStoryService() -> StoryServiceProtocol {
+    return CoreDataStoryService()
   }
   
   /// Create a theme service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to ThemeServiceProtocol
-  func createThemeService(storageType: StorageType = .userDefaults) -> ThemeServiceProtocol {
-    switch storageType {
-      case .userDefaults:
-        return UserDefaultsThemeService()
-      case .coreData:
-        // TODO: Implement Core Data service
-        fatalError("Core Data not implemented yet")
-      case .cloudKit:
-        // TODO: Implement CloudKit service
-        fatalError("CloudKit not implemented yet")
-    }
-  }
-  
-  /// Create a settings service instance
-  /// - Parameter storageType: The type of storage to use
-  /// - Returns: A service conforming to SettingsServiceProtocol
-  func createSettingsService(storageType: StorageType = .userDefaults) -> SettingsServiceProtocol {
-    switch storageType {
-      case .userDefaults:
-        return UserDefaultsSettingsService()
-      case .coreData:
-        // TODO: Implement Core Data service
-        fatalError("Core Data not implemented yet")
-      case .cloudKit:
-        // TODO: Implement CloudKit service
-        fatalError("CloudKit not implemented yet")
-    }
+  func createThemeService() -> ThemeServiceProtocol {
+    return UserDefaultsThemeService()
   }
   
   /// Create a due date notification service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A DueDateNotificationService instance
-  func createDueDateNotificationService(storageType: StorageType = .userDefaults) -> DueDateNotificationService {
-    let userProfileService = createUserProfileService(storageType: storageType)
+  func createDueDateNotificationService() -> DueDateNotificationService {
+    let userProfileService = createUserProfileService()
     return DueDateNotificationService(userProfileService: userProfileService)
   }
   
   /// Create an auto profile update service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to AutoProfileUpdateServiceProtocol
-  func createAutoProfileUpdateService(storageType: StorageType = .userDefaults) -> AutoProfileUpdateServiceProtocol {
-    let userProfileService = createUserProfileService(storageType: storageType)
-    let notificationService = createDueDateNotificationService(storageType: storageType)
+  func createAutoProfileUpdateService() -> AutoProfileUpdateServiceProtocol {
+    let userProfileService = createUserProfileService()
+    let notificationService = createDueDateNotificationService()
     return AutoProfileUpdateService(userProfileService: userProfileService, notificationService: notificationService)
   }
   
   /// Create an auto update settings service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A service conforming to AutoUpdateSettingsServiceProtocol
-  func createAutoUpdateSettingsService(storageType: StorageType = .userDefaults) -> AutoUpdateSettingsServiceProtocol {
-    switch storageType {
-      case .userDefaults:
-        return UserDefaultsAutoUpdateSettingsService()
-      case .coreData:
-        // TODO: Implement Core Data service
-        fatalError("Core Data not implemented yet")
-      case .cloudKit:
-        // TODO: Implement CloudKit service
-        fatalError("CloudKit not implemented yet")
-    }
+  func createAutoUpdateSettingsService() -> AutoUpdateSettingsServiceProtocol {
+    return UserDefaultsAutoUpdateSettingsService()
   }
   
   /// Create a story time notification service instance
@@ -141,13 +90,6 @@ class ServiceFactory {
         fatalError("Gemini story generation service not implemented yet")
     }
   }
-}
-
-// MARK: - Storage Type Enum
-enum StorageType {
-  case userDefaults
-  case coreData
-  case cloudKit
 }
 
 // MARK: - Story Generation Service Type Enum

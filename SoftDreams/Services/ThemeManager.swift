@@ -8,35 +8,6 @@
 import SwiftUI
 import UIKit
 
-// MARK: - Theme Mode Enum
-enum ThemeMode: String, CaseIterable, Codable {
-  case system = "system"
-  case light = "light"
-  case dark = "dark"
-  
-  var displayName: String {
-    switch self {
-    case .system:
-      return "theme_mode_system".localized
-    case .light:
-      return "theme_mode_light".localized
-    case .dark:
-      return "theme_mode_dark".localized
-    }
-  }
-  
-  var icon: String {
-    switch self {
-    case .system:
-      return "gear"
-    case .light:
-      return "sun.max.fill"
-    case .dark:
-      return "moon.fill"
-    }
-  }
-}
-
 // MARK: - Theme Manager
 class ThemeManager: ObservableObject {
   static let shared = ThemeManager()

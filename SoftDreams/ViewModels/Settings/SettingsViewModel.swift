@@ -3,7 +3,6 @@ import SwiftUI
 
 class SettingsViewModel: ObservableObject {
   @Published var profile: UserProfile?
-  @Published var narrationEnabled: Bool = true
   @Published var error: AppError?
   
   // App info properties
@@ -15,7 +14,6 @@ class SettingsViewModel: ObservableObject {
   
   // Injected services
   private let userProfileService: UserProfileServiceProtocol
-  private let settingsService: SettingsServiceProtocol
   private let notificationService: DueDateNotificationService
   
   // App info service
@@ -23,12 +21,10 @@ class SettingsViewModel: ObservableObject {
   
   init(
     userProfileService: UserProfileServiceProtocol? = nil,
-    settingsService: SettingsServiceProtocol? = nil,
     notificationService: DueDateNotificationService? = nil
   ) {
     // Initialize services with dependency injection
     self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
-    self.settingsService = settingsService ?? ServiceFactory.shared.createSettingsService()
     self.notificationService = notificationService ?? ServiceFactory.shared.createDueDateNotificationService()
     
     // Initialize app info properties
@@ -36,7 +32,6 @@ class SettingsViewModel: ObservableObject {
     self.appVersion = appInfo.appVersion
     
     loadProfile()
-    loadSettings()
   }
   
   func loadProfile() {
@@ -56,17 +51,6 @@ class SettingsViewModel: ObservableObject {
     }
   }
   
-  func loadSettings() {
-    Logger.info("Loading settings", category: .settings)
-    do {
-      narrationEnabled = try settingsService.loadSetting(Bool.self, forKey: StorageKeys.narrationEnabled) ?? true
-      error = nil
-    } catch {
-      Logger.error("Failed to load settings: \(error.localizedDescription)", category: .settings)
-      self.error = error as? AppError ?? .dataCorruption
-    }
-  }
-  
   func saveProfile(_ profile: UserProfile) {
     do {
       self.profile = profile
@@ -81,17 +65,6 @@ class SettingsViewModel: ObservableObject {
   func openSupportWebsite() {
     if UIApplication.shared.canOpenURL(supportURL) {
       UIApplication.shared.open(supportURL)
-    }
-  }
-  
-  // MARK: - Settings Management
-  func saveNarrationEnabled(_ enabled: Bool) {
-    do {
-      narrationEnabled = enabled
-      try settingsService.saveSetting(enabled, forKey: StorageKeys.narrationEnabled)
-      error = nil
-    } catch {
-      self.error = .dataSaveFailed
     }
   }
 
