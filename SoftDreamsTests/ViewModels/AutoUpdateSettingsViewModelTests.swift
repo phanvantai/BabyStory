@@ -6,6 +6,7 @@
 //
 
 import Testing
+import Foundation
 @testable import SoftDreams
 
 @MainActor
@@ -25,8 +26,7 @@ struct AutoUpdateSettingsViewModelTests {
         // When
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // Then
@@ -51,8 +51,7 @@ struct AutoUpdateSettingsViewModelTests {
         // When
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // Then
@@ -72,8 +71,7 @@ struct AutoUpdateSettingsViewModelTests {
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         mockSettingsService.saveSettingsCalled = false
@@ -95,8 +93,7 @@ struct AutoUpdateSettingsViewModelTests {
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         mockSettingsService.saveSettingsCalled = false
@@ -118,13 +115,33 @@ struct AutoUpdateSettingsViewModelTests {
         let mockProfileService = MockUserProfileService()
         let mockAutoUpdateService = MockAutoProfileUpdateService()
         
-        let updateResult = AutoUpdateResult(isSuccess: true, hasUpdates: true, updateCount: 3, errorMessage: nil)
+        // Setup a successful update result with 3 updates
+        var updateResult = AutoUpdateResult()
+        updateResult.stageProgression = StageProgressionUpdate(
+            previousStage: .newborn,
+            newStage: .infant,
+            ageInMonths: 8,
+            growthMessage: "Test growth message"
+        )
+        updateResult.interestUpdate = InterestUpdate(
+            previousInterests: ["Old Interest"],
+            newInterests: ["New Interest 1", "New Interest 2"],
+            removedInterests: ["Old Interest"],
+            addedInterests: ["New Interest 1", "New Interest 2"]
+        )
+        updateResult.profileMetadata = ProfileMetadataUpdate(
+            previousLastUpdate: Date().addingTimeInterval(-86400),
+            newLastUpdate: Date()
+        )
         mockAutoUpdateService.performAutoUpdateResult = updateResult
+        
+        // Setup mock profile service to return a valid profile
+        let testProfile = UserProfile(name: "Test User")
+        mockProfileService.loadProfileResult = .success(testProfile)
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // When
@@ -144,13 +161,17 @@ struct AutoUpdateSettingsViewModelTests {
         let mockProfileService = MockUserProfileService()
         let mockAutoUpdateService = MockAutoProfileUpdateService()
         
-        let updateResult = AutoUpdateResult(isSuccess: true, hasUpdates: false, updateCount: 0, errorMessage: nil)
+        // Setup a successful result but with no updates (default AutoUpdateResult)
+        let updateResult = AutoUpdateResult()
         mockAutoUpdateService.performAutoUpdateResult = updateResult
+        
+        // Setup mock profile service to return a valid profile
+        let testProfile = UserProfile(name: "Test User")
+        mockProfileService.loadProfileResult = .success(testProfile)
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // When
@@ -168,13 +189,18 @@ struct AutoUpdateSettingsViewModelTests {
         let mockProfileService = MockUserProfileService()
         let mockAutoUpdateService = MockAutoProfileUpdateService()
         
-        let updateResult = AutoUpdateResult(isSuccess: false, hasUpdates: false, updateCount: 0, errorMessage: "Network error")
+        // Setup a failed update result with an error
+        var updateResult = AutoUpdateResult()
+        updateResult.error = AppError.dataCorruption // Set an error to simulate failure
         mockAutoUpdateService.performAutoUpdateResult = updateResult
+        
+        // Setup mock profile service to return a valid profile
+        let testProfile = UserProfile(name: "Test User")
+        mockProfileService.loadProfileResult = .success(testProfile)
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // When
@@ -196,19 +222,14 @@ struct AutoUpdateSettingsViewModelTests {
         
         let testDate = Date()
         let mockProfile = UserProfile(
-            name: "Test",
-            age: 5,
-            interests: [],
-            avatar: "test",
-            language: .english,
-            lastUpdate: testDate
+          name: "Test User",
+          lastUpdate: testDate
         )
         mockProfileService.loadProfileResult = .success(mockProfile)
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // When
@@ -226,12 +247,11 @@ struct AutoUpdateSettingsViewModelTests {
         let mockProfileService = MockUserProfileService()
         let mockAutoUpdateService = MockAutoProfileUpdateService()
         
-        mockProfileService.loadProfileResult = .failure(AppError.dataNotFound)
+      mockProfileService.loadProfileResult = .failure(AppError.dataCorruption)
         
         let viewModel = AutoUpdateSettingsViewModel(
             settingsService: mockSettingsService,
-            profileService: mockProfileService,
-            autoUpdateService: mockAutoUpdateService
+            autoUpdateService: mockAutoUpdateService, userProfileService: mockProfileService
         )
         
         // When

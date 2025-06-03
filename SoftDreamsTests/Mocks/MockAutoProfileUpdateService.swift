@@ -16,4 +16,21 @@ class MockAutoProfileUpdateService: AutoProfileUpdateServiceProtocol {
         performAutoUpdateCalled = true
         return performAutoUpdateResult
     }
+    
+    func performAutoUpdate(profile: UserProfile?) async -> AutoUpdateResult {
+        performAutoUpdateCalled = true
+        return performAutoUpdateResult
+    }
+    
+    func updateProfileIfNeeded() async {
+        let _ = await performAutoUpdate()
+    }
+    
+    func setupDueDateNotifications() async {
+        // Mock implementation
+    }
+    
+    func needsAutoUpdate(profile: UserProfile?) -> Bool {
+        return false
+    }
 }

@@ -48,4 +48,30 @@ class UserDefaultsAutoUpdateSettingsService: AutoUpdateSettingsServiceProtocol {
     func markAsInitialized() {
         userDefaults.set(true, forKey: Keys.initialized)
     }
+    
+    // MARK: - Individual Setting Methods (for View Model convenience)
+    
+    func isAutoUpdateEnabled() -> Bool {
+        return getAutoUpdateEnabled()
+    }
+    
+    func isStageProgressionEnabled() -> Bool {
+        return getStageProgressionEnabled()
+    }
+    
+    func isInterestUpdatesEnabled() -> Bool {
+        return getInterestUpdatesEnabled()
+    }
+    
+    func saveAutoUpdateEnabled(_ enabled: Bool) {
+        userDefaults.set(enabled, forKey: Keys.autoUpdateEnabled)
+    }
+    
+    func saveStageProgressionEnabled(_ enabled: Bool) {
+        userDefaults.set(enabled, forKey: Keys.stageProgressionEnabled)
+    }
+    
+    func saveInterestUpdatesEnabled(_ enabled: Bool) {
+        userDefaults.set(enabled, forKey: Keys.interestUpdatesEnabled)
+    }
 }

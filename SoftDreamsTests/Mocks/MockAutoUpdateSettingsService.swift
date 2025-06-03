@@ -45,4 +45,33 @@ class MockAutoUpdateSettingsService: AutoUpdateSettingsServiceProtocol {
     func markAsInitialized() {
         hasInitializedSettingsResult = true
     }
+    
+    // MARK: - Individual Setting Methods (for View Model convenience)
+    
+    func isAutoUpdateEnabled() -> Bool {
+        return getAutoUpdateEnabled()
+    }
+    
+    func isStageProgressionEnabled() -> Bool {
+        return getStageProgressionEnabled()
+    }
+    
+    func isInterestUpdatesEnabled() -> Bool {
+        return getInterestUpdatesEnabled()
+    }
+    
+    func saveAutoUpdateEnabled(_ enabled: Bool) {
+        saveSettingsCalled = true
+        savedAutoUpdateEnabled = enabled
+    }
+    
+    func saveStageProgressionEnabled(_ enabled: Bool) {
+        saveSettingsCalled = true
+        savedStageProgressionEnabled = enabled
+    }
+    
+    func saveInterestUpdatesEnabled(_ enabled: Bool) {
+        saveSettingsCalled = true
+        savedInterestUpdatesEnabled = enabled
+    }
 }
