@@ -84,11 +84,27 @@ class ServiceFactory {
   
   /// Create an auto profile update service instance
   /// - Parameter storageType: The type of storage to use
-  /// - Returns: An AutoProfileUpdateService instance
-  func createAutoProfileUpdateService(storageType: StorageType = .userDefaults) -> AutoProfileUpdateService {
+  /// - Returns: A service conforming to AutoProfileUpdateServiceProtocol
+  func createAutoProfileUpdateService(storageType: StorageType = .userDefaults) -> AutoProfileUpdateServiceProtocol {
     let userProfileService = createUserProfileService(storageType: storageType)
     let notificationService = createDueDateNotificationService(storageType: storageType)
     return AutoProfileUpdateService(userProfileService: userProfileService, notificationService: notificationService)
+  }
+  
+  /// Create an auto update settings service instance
+  /// - Parameter storageType: The type of storage to use
+  /// - Returns: A service conforming to AutoUpdateSettingsServiceProtocol
+  func createAutoUpdateSettingsService(storageType: StorageType = .userDefaults) -> AutoUpdateSettingsServiceProtocol {
+    switch storageType {
+      case .userDefaults:
+        return UserDefaultsAutoUpdateSettingsService()
+      case .coreData:
+        // TODO: Implement Core Data service
+        fatalError("Core Data not implemented yet")
+      case .cloudKit:
+        // TODO: Implement CloudKit service
+        fatalError("CloudKit not implemented yet")
+    }
   }
   
   /// Create a story generation service instance

@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - Auto Profile Update Service
 /// Service responsible for automatically updating user profile information based on age progression and other criteria
-class AutoProfileUpdateService {
+class AutoProfileUpdateService: AutoProfileUpdateServiceProtocol {
   
   // MARK: - Properties
   private let userProfileService: UserProfileServiceProtocol

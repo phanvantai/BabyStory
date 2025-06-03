@@ -137,21 +137,22 @@ struct AutoUpdateSettingsView: View {
 // MARK: - Auto Update Settings ViewModel
 
 class AutoUpdateSettingsViewModel: ObservableObject {
+  // MARK: - Published Properties
   @Published var autoUpdateEnabled: Bool {
     didSet {
-      saveSettings()
+      settingsService.saveAutoUpdateEnabled(autoUpdateEnabled)
     }
   }
   
   @Published var stageProgressionEnabled: Bool {
     didSet {
-      saveSettings()
+      settingsService.saveStageProgressionEnabled(stageProgressionEnabled)
     }
   }
   
   @Published var interestUpdatesEnabled: Bool {
     didSet {
-      saveSettings()
+      settingsService.saveInterestUpdatesEnabled(interestUpdatesEnabled)
     }
   }
   
@@ -159,11 +160,15 @@ class AutoUpdateSettingsViewModel: ObservableObject {
   @Published var showUpdateResult = false
   @Published var updateResultMessage = ""
   
-  private let autoUpdateService = AutoProfileUpdateService()
+  // MARK: - Dependencies
+  private let settingsService: AutoUpdateSettingsServiceProtocol
+  private let autoUpdateService: AutoProfileUpdateServiceProtocol
+  private let userProfileService: UserProfileServiceProtocol
   
+  // MARK: - Computed Properties
   var lastUpdateInfo: String? {
     do {
-      if let profile = try StorageManager.shared.loadProfile() {
+      if let profile = try userProfileService.loadProfile() {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
@@ -175,36 +180,23 @@ class AutoUpdateSettingsViewModel: ObservableObject {
     return nil
   }
   
-  init() {
-    // Load settings from UserDefaults with sensible defaults
-    // Check if this is the first time by looking for a key that indicates settings have been initialized
-    let hasInitializedSettings = UserDefaults.standard.object(forKey: "auto_update_settings_initialized") != nil
+  // MARK: - Initialization
+  init(
+    settingsService: AutoUpdateSettingsServiceProtocol? = nil,
+    autoUpdateService: AutoProfileUpdateServiceProtocol? = nil,
+    userProfileService: UserProfileServiceProtocol? = nil
+  ) {
+    self.settingsService = settingsService ?? ServiceFactory.shared.createAutoUpdateSettingsService()
+    self.autoUpdateService = autoUpdateService ?? ServiceFactory.shared.createAutoProfileUpdateService()
+    self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
     
-    if !hasInitializedSettings {
-      // First time - set user-friendly defaults
-      self.autoUpdateEnabled = true
-      self.stageProgressionEnabled = true
-      self.interestUpdatesEnabled = true
-      
-      // Mark as initialized and save defaults
-      UserDefaults.standard.set(true, forKey: "auto_update_settings_initialized")
-      UserDefaults.standard.set(true, forKey: "auto_update_enabled")
-      UserDefaults.standard.set(true, forKey: "stage_progression_enabled")
-      UserDefaults.standard.set(true, forKey: "interest_updates_enabled")
-    } else {
-      // Load existing settings
-      self.autoUpdateEnabled = UserDefaults.standard.bool(forKey: "auto_update_enabled")
-      self.stageProgressionEnabled = UserDefaults.standard.bool(forKey: "stage_progression_enabled")
-      self.interestUpdatesEnabled = UserDefaults.standard.bool(forKey: "interest_updates_enabled")
-    }
+    // Load current settings
+    self.autoUpdateEnabled = self.settingsService.isAutoUpdateEnabled()
+    self.stageProgressionEnabled = self.settingsService.isStageProgressionEnabled()
+    self.interestUpdatesEnabled = self.settingsService.isInterestUpdatesEnabled()
   }
   
-  private func saveSettings() {
-    UserDefaults.standard.set(autoUpdateEnabled, forKey: "auto_update_enabled")
-    UserDefaults.standard.set(stageProgressionEnabled, forKey: "stage_progression_enabled")
-    UserDefaults.standard.set(interestUpdatesEnabled, forKey: "interest_updates_enabled")
-  }
-  
+  // MARK: - Public Methods
   @MainActor
   func performManualUpdate() async {
     isCheckingForUpdates = true

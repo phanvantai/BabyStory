@@ -15,6 +15,10 @@ class MockUserProfileService: UserProfileServiceProtocol {
     var shouldFailLoad = false
     var shouldFailUpdate = false
     
+    // For testing purposes
+    var loadProfileResult: Result<UserProfile?, AppError>?
+    var loadProfileCalled = false
+    
     func saveProfile(_ profile: UserProfile) throws {
         if shouldFailSave {
             throw AppError.profileSaveFailed
@@ -23,6 +27,17 @@ class MockUserProfileService: UserProfileServiceProtocol {
     }
     
     func loadProfile() throws -> UserProfile? {
+        loadProfileCalled = true
+        
+        if let result = loadProfileResult {
+            switch result {
+            case .success(let profile):
+                return profile
+            case .failure(let error):
+                throw error
+            }
+        }
+        
         if shouldFailLoad {
             throw AppError.dataCorruption
         }
