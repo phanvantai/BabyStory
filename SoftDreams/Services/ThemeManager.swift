@@ -41,20 +41,36 @@ enum ThemeMode: String, CaseIterable, Codable {
 class ThemeManager: ObservableObject {
   static let shared = ThemeManager()
   
+  // MARK: - Dependencies
+  private let themeService: ThemeServiceProtocol
+  
   @Published var currentTheme: ThemeMode {
     didSet {
       // Only update if theme actually changed
       guard oldValue != currentTheme else { return }
-      StorageManager.shared.saveTheme(currentTheme) // Save theme to persistent storage
+      themeService.saveTheme(currentTheme) // Save theme to persistent storage
       updateColorScheme()
     }
   }
   
   @Published var preferredColorScheme: ColorScheme?
   
-  init() {
-    // Load saved theme from StorageManager
-    self.currentTheme = StorageManager.shared.loadTheme()
+  // MARK: - Initializers
+  
+  /// Initialize with default theme service (for shared instance)
+  convenience init() {
+    self.init(themeService: ServiceFactory.shared.createThemeService())
+  }
+  
+  /// Initialize with custom theme service (for dependency injection and testing)
+  /// - Parameter themeService: The theme service to use for persistence
+  init(themeService: ThemeServiceProtocol) {
+    self.themeService = themeService
+    
+    // Load saved theme from theme service
+    self.currentTheme = themeService.loadTheme()
+    
+    // Update color scheme based on loaded theme
     updateColorScheme()
     
     // Register for system appearance changes
@@ -78,6 +94,15 @@ class ThemeManager: ObservableObject {
     // Clean up notification observer
     NotificationCenter.default.removeObserver(self)
   }
+  
+  // MARK: - Public Methods
+  
+  /// Handle system appearance changes (exposed for testing)
+  func handleSystemAppearanceChange() {
+    systemAppearanceChanged()
+  }
+  
+  // MARK: - Private Methods
   
   @objc private func systemAppearanceChanged() {
     // When the app becomes active, update the color scheme only if using system theme

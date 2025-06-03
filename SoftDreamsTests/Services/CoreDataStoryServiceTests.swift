@@ -10,9 +10,9 @@ import CoreData
 @testable import SoftDreams
 
 @MainActor
-class StoryServiceTests {
+class CoreDataStoryServiceTests {
     
-    private var storyService: StoryService!
+    private var storyService: CoreDataStoryService!
     private var context: NSManagedObjectContext!
     
     init() {
@@ -29,7 +29,7 @@ class StoryServiceTests {
         }
         
         context = container.viewContext
-        storyService = StoryService(context: context)
+        storyService = CoreDataStoryService(context: context)
     }
     
     @Test

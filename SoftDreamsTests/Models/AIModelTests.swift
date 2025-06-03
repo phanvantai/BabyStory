@@ -2,7 +2,7 @@
 //  AIModelTests.swift
 //  SoftDreamsTests
 //
-//  Created by GitHub Copilot on 3/6/25.
+//  Created by Tai Phan Van on 3/6/25.
 //
 
 import Testing

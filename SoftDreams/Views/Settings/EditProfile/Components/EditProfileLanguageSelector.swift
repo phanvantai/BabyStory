@@ -2,7 +2,7 @@
 //  EditProfileLanguageSelector.swift
 //  SoftDreams
 //
-//  Created by GitHub Copilot
+//  Created by Tai Phan Van
 //
 
 import SwiftUI
