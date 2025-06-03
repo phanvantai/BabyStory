@@ -5,10 +5,19 @@ class HomeViewModel: ObservableObject {
   @Published var stories: [Story] = []
   @Published var error: AppError?
   
-  // Auto-update properties
-  private let autoUpdateService = AutoProfileUpdateService()
+  // Dependencies
+  private let userProfileService: UserProfileServiceProtocol
+  private let storyService: StoryServiceProtocol
+  private let autoUpdateService: AutoProfileUpdateService
   
-  init() {
+  init(
+    userProfileService: UserProfileServiceProtocol? = nil,
+    storyService: StoryServiceProtocol? = nil
+  ) {
+    self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
+    self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
+    self.autoUpdateService = AutoProfileUpdateService(storageManager: StorageManager.shared)
+    
     // Don't automatically refresh in init to avoid race conditions
     // Let AppView handle the initial data loading flow
   }
@@ -16,8 +25,8 @@ class HomeViewModel: ObservableObject {
   func refresh() {
     Logger.info("Refreshing home view data", category: .userProfile)
     do {
-      profile = try StorageManager.shared.loadProfile()
-      stories = try StorageManager.shared.loadStories()
+      profile = try userProfileService.loadProfile()
+      stories = try storyService.loadStories()
       error = nil
       
       // Log current app state
@@ -36,15 +45,7 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-  func saveStory(_ story: Story) {
-    do {
-      stories.append(story)
-      try StorageManager.shared.saveStories(stories)
-      error = nil
-    } catch {
-      self.error = .storySaveFailed
-    }
-  }
+
   
   // MARK: - Story Generation Methods
   @MainActor
@@ -95,29 +96,26 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-  // MARK: - Enhanced Storage Methods
-  func saveStoryToLibrary(_ story: Story) {
-    do {
-      try StorageManager.shared.saveStory(story)
-      refresh() // Refresh to get updated stories list
-      error = nil
-    } catch {
-      self.error = .storySaveFailed
-    }
-  }
+
   
   // MARK: - Convenience Properties
   var hasCompletedOnboarding: Bool {
-    return StorageManager.shared.hasCompletedOnboarding
+    return (try? userProfileService.loadProfile()) != nil
   }
   
   var totalStoriesCount: Int {
-    return StorageManager.shared.totalStoriesCount
+    return (try? storyService.loadStories().count) ?? 0
   }
   
   func getStoriesCreatedToday() -> [Story] {
     do {
-      return try StorageManager.shared.getStoriesCreatedToday()
+      let allStories = try storyService.loadStories()
+      let calendar = Calendar.current
+      let today = Date()
+      
+      return allStories.filter { story in
+        calendar.isDate(story.date, inSameDayAs: today)
+      }
     } catch {
       self.error = error as? AppError ?? .dataCorruption
       return []
@@ -148,7 +146,7 @@ class HomeViewModel: ObservableObject {
     if result.isSuccess && result.hasUpdates {
       // Refresh profile with updates
       do {
-        profile = try StorageManager.shared.loadProfile()
+        profile = try userProfileService.loadProfile()
         
         Logger.info("Auto-update completed successfully", category: .autoUpdate)
       } catch {

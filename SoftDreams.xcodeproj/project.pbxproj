@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E5C20B6B2DEDB2B000A2FDCE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		D1D99CC12DE8C9E100B95CCE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -19,11 +23,25 @@
 /* Begin PBXFileReference section */
 		D16879A62DE638F100FF3944 /* SoftDreams.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftDreams.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1D99CBD2DE8C9E100B95CCE /* SoftDreamsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SoftDreamsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		E5C207152DED8FC800A2FDCE /* Exceptions for "SoftDreams" folder in "SoftDreams" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D16879A52DE638F100FF3944 /* SoftDreams */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D16879A82DE638F100FF3944 /* SoftDreams */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				E5C207152DED8FC800A2FDCE /* Exceptions for "SoftDreams" folder in "SoftDreams" target */,
+			);
 			path = SoftDreams;
 			sourceTree = "<group>";
 		};
@@ -39,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E5C20B6B2DEDB2B000A2FDCE /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,6 +76,7 @@
 			children = (
 				D16879A82DE638F100FF3944 /* SoftDreams */,
 				D1D99CBE2DE8C9E100B95CCE /* SoftDreamsTests */,
+				E5C20B692DEDB2B000A2FDCE /* Frameworks */,
 				D16879A72DE638F100FF3944 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -68,6 +88,14 @@
 				D1D99CBD2DE8C9E100B95CCE /* SoftDreamsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		E5C20B692DEDB2B000A2FDCE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E5C20B6A2DEDB2B000A2FDCE /* CoreData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -334,7 +362,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"SoftDreams/Preview Content\"";
 				DEVELOPMENT_TEAM = K6GZTHQ9Z5;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SoftDreams/Info.plist;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "SoftDreams sends story time reminders, profile updates, and other helpful notifications to enhance your personalized storytelling experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -358,7 +387,7 @@
 		D16879B62DE638F200FF3944 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = D16879A82DE638F100FF3944 /* SoftDreams */;
-			baseConfigurationReferenceRelativePath = Config/Production.xcconfig;
+			baseConfigurationReferenceRelativePath = Config/Base.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -367,7 +396,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"SoftDreams/Preview Content\"";
 				DEVELOPMENT_TEAM = K6GZTHQ9Z5;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = SoftDreams/Info.plist;
 				INFOPLIST_KEY_NSUserNotificationsUsageDescription = "SoftDreams sends story time reminders, profile updates, and other helpful notifications to enhance your personalized storytelling experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

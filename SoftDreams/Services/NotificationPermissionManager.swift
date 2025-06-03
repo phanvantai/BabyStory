@@ -137,7 +137,7 @@ class NotificationPermissionManager: ObservableObject {
 // MARK: - Supporting Types
 
 /// Context for when permission is being requested
-struct PermissionContext {
+struct PermissionContext: Equatable {
     let reason: String
     let benefits: [String]
     let showForDenied: Bool

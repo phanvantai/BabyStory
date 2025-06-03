@@ -21,7 +21,7 @@ struct StoryIllustrationView: View {
           .frame(width: 80, height: 80)
           .foregroundColor(.white)
         
-        Text("Story Illustration")
+        Text("story_illustration_placeholder".localized)
           .font(.subheadline)
           .foregroundColor(.white.opacity(0.8))
       }

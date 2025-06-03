@@ -17,13 +17,13 @@ struct LibraryView: View {
               HStack {
                 VStack(alignment: .leading, spacing: 4) {
                   GradientText(
-                    "Story Library",
+                    "home_story_library".localized,
                     colors: [.blue, .purple]
                   )
                   .font(.largeTitle)
                   .fontWeight(.bold)
                   
-                  Text("\(viewModel.stories.count) magical stories")
+                  Text(String(format: "library_stories_count".localized, viewModel.stories.count))
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 }
@@ -45,11 +45,11 @@ struct LibraryView: View {
                     .font(.system(size: 60))
                     .foregroundColor(.blue.opacity(0.5))
                   
-                  Text("No Stories Yet")
+                  Text("library_empty_title".localized)
                     .font(.title2)
                     .fontWeight(.semibold)
                   
-                  Text("Create your first magical story to see it here!")
+                  Text("library_empty_description".localized)
                     .font(.body)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)

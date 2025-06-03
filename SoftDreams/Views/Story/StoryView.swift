@@ -2,8 +2,6 @@ import SwiftUI
 
 struct StoryView: View {
   let story: Story
-  var onSave: (() -> Void)? = nil
-  var showSave: Bool = false
   var showListen: Bool = false
   
   var body: some View {
@@ -33,11 +31,7 @@ struct StoryView: View {
           
           // Action buttons
           AnimatedEntrance(delay: 0.8) {
-            StoryActionButtonsView(
-              showListen: showListen,
-              showSave: showSave,
-              onSave: onSave
-            )
+            StoryActionButtonsView(showListen: showListen)
           }
           
           Spacer(minLength: 50)
@@ -57,13 +51,9 @@ struct StoryView: View {
   }
 }
 
-#Preview("Story View - With Save") {
+#Preview("Story View - Long Story") {
   NavigationStack {
-    StoryView(
-      story: Story.mockLongStory,
-      onSave: { print("Save tapped") },
-      showSave: true
-    )
+    StoryView(story: Story.mockLongStory)
   }
 }
 
@@ -73,7 +63,7 @@ struct StoryView: View {
   }
 }
 
-#Preview("Story View - Has Listen Button") {
+#Preview("Story View - With Listen Button") {
   NavigationStack {
     StoryView(
       story: Story.mockStory,

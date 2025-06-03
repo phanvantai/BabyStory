@@ -2,8 +2,6 @@ import SwiftUI
 
 struct StoryActionButtonsView: View {
   var showListen: Bool
-  var showSave: Bool
-  var onSave: (() -> Void)?
   
   var body: some View {
     VStack(spacing: 16) {
@@ -12,52 +10,23 @@ struct StoryActionButtonsView: View {
           HStack(spacing: 12) {
             Image(systemName: "play.circle.fill")
               .font(.title2)
-            Text("Listen to Story")
+            Text("story_listen_to_story".localized)
               .font(.headline)
               .fontWeight(.semibold)
           }
         }
         .buttonStyle(PrimaryButtonStyle(colors: [Color.blue, Color.purple]))
       }
-      
-      if showSave, let onSave = onSave {
-        Button(action: onSave) {
-          HStack(spacing: 12) {
-            Image(systemName: "star.fill")
-              .font(.title3)
-            Text("Save to Library")
-              .font(.headline)
-              .fontWeight(.medium)
-          }
-        }
-        .buttonStyle(SecondaryButtonStyle())
-      }
     }
   }
 }
 
-#Preview("Action Buttons - All") {
-  StoryActionButtonsView(
-    showListen: true,
-    showSave: true,
-    onSave: { print("Save tapped") }
-  )
-  .padding()
+#Preview("Action Buttons - Listen") {
+  StoryActionButtonsView(showListen: true)
+    .padding()
 }
 
-#Preview("Action Buttons - Listen Only") {
-  StoryActionButtonsView(
-    showListen: true,
-    showSave: false
-  )
-  .padding()
-}
-
-#Preview("Action Buttons - Save Only") {
-  StoryActionButtonsView(
-    showListen: false,
-    showSave: true,
-    onSave: { print("Save tapped") }
-  )
-  .padding()
+#Preview("Action Buttons - No Buttons") {
+  StoryActionButtonsView(showListen: false)
+    .padding()
 }
