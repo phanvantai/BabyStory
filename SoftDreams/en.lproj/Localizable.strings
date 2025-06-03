@@ -533,3 +533,32 @@
 
 // Navigation
 "generate_story_customize_nav_title" = "Customize";
+
+// MARK: - AI Models
+
+// AI Providers
+"ai_provider_openai" = "OpenAI";
+"ai_provider_anthropic" = "Anthropic";
+"ai_provider_google" = "Google";
+
+// AI Model Names
+"ai_model_gpt35_turbo_name" = "GPT-3.5 Turbo";
+"ai_model_gpt4o_name" = "GPT-4o";
+"ai_model_claude3_haiku_name" = "Claude 3 Haiku";
+"ai_model_claude3_sonnet_name" = "Claude 3 Sonnet";
+"ai_model_gemini_pro_name" = "Gemini Pro";
+
+// AI Model Descriptions
+"ai_model_gpt35_turbo_description" = "Fast and simple storytelling for everyday bedtime stories";
+"ai_model_gpt4o_description" = "Rich, imaginative, and emotionally expressive stories that captivate young minds";
+"ai_model_claude3_haiku_description" = "Quick and gentle stories with a warm, nurturing tone perfect for bedtime";
+"ai_model_claude3_sonnet_description" = "Beautifully crafted, gentle stories with warmth and emotional depth";
+"ai_model_gemini_pro_description" = "Creative and varied storytelling with engaging adventures and learning moments";
+
+// AI Model Settings
+"ai_model_selection_title" = "Story Style";
+"ai_model_selection_description" = "Choose the AI model that will create your bedtime stories";
+"ai_model_premium_badge" = "Premium";
+"ai_model_free_badge" = "Free";
+"ai_model_premium_required" = "Premium subscription required";
+"ai_model_upgrade_prompt" = "Upgrade to unlock different story styles and premium models";
