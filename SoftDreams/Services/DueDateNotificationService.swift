@@ -12,8 +12,8 @@ import UserNotifications
 class DueDateNotificationService {
     
     // MARK: - Properties
-    private let storageManager: StorageManager
-    private let permissionManager: NotificationPermissionManager
+    private let userProfileService: UserProfileServiceProtocol
+    private let permissionManager: any NotificationPermissionManagerProtocol
     private let userDefaultsKey = "DueDateNotificationHistory"
     
     // Debouncing mechanism to prevent duplicate scheduling
@@ -51,8 +51,9 @@ class DueDateNotificationService {
     }
     
     // MARK: - Initialization
-    init(storageManager: StorageManager = StorageManager.shared, permissionManager: NotificationPermissionManager = NotificationPermissionManager.shared) {
-        self.storageManager = storageManager
+    init(userProfileService: UserProfileServiceProtocol, 
+         permissionManager: any NotificationPermissionManagerProtocol = NotificationPermissionManager.shared) {
+        self.userProfileService = userProfileService
         self.permissionManager = permissionManager
     }
     
@@ -124,7 +125,7 @@ class DueDateNotificationService {
         let now = Date()
         
         do {
-            guard let profile = try storageManager.loadProfile(),
+            guard let profile = try userProfileService.loadProfile(),
                   profile.isPregnancy,
                   let dueDate = profile.dueDate else {
                 Logger.debug("No pregnancy profile with due date found, skipping notification scheduling", category: .notification)
@@ -181,7 +182,7 @@ class DueDateNotificationService {
     /// Handles when user updates their profile manually (cancels future notifications)
     func handleProfileUpdate() {
         do {
-            guard let profile = try storageManager.loadProfile() else { return }
+            guard let profile = try userProfileService.loadProfile() else { return }
             
             // If no longer pregnancy, cancel all notifications
             if !profile.isPregnancy {

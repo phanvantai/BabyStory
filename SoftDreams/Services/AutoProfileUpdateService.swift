@@ -12,13 +12,13 @@ import Foundation
 class AutoProfileUpdateService {
   
   // MARK: - Properties
-  private let storageManager: StorageManager
+  private let userProfileService: UserProfileServiceProtocol
   private let notificationService: DueDateNotificationService
   
   // MARK: - Initialization
-  init(storageManager: StorageManager = StorageManager.shared) {
-    self.storageManager = storageManager
-    self.notificationService = DueDateNotificationService(storageManager: storageManager)
+  init(userProfileService: UserProfileServiceProtocol? = nil, notificationService: DueDateNotificationService? = nil) {
+    self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
+    self.notificationService = notificationService ?? ServiceFactory.shared.createDueDateNotificationService()
   }
   
   // MARK: - Public Methods
@@ -35,7 +35,7 @@ class AutoProfileUpdateService {
       if let existingProfile = profile {
         currentProfile = existingProfile
       } else {
-        guard let loadedProfile = try storageManager.loadProfile() else {
+        guard let loadedProfile = try userProfileService.loadProfile() else {
           Logger.logAutoUpdateSkipped(UserProfile(name: "Unknown"), reason: "No profile found")
           return AutoUpdateResult()
         }
@@ -88,7 +88,7 @@ class AutoProfileUpdateService {
       
       // Save updated profile if changes were made
       if result.hasUpdates {
-        try storageManager.saveProfile(updatedProfile)
+        try userProfileService.saveProfile(updatedProfile)
         Logger.logAutoUpdatePerformed(from: currentProfile, to: updatedProfile)
         
         // Handle notification updates
@@ -110,6 +110,11 @@ class AutoProfileUpdateService {
     }
   }
   
+  /// Updates profile if needed - simplified interface for basic auto-update functionality
+  func updateProfileIfNeeded() async {
+    let _ = await performAutoUpdate()
+  }
+  
   /// Sets up due date notifications for the current profile
   /// Only schedules if permission is already granted, doesn't request permission
   func setupDueDateNotifications() async {
@@ -128,7 +133,7 @@ class AutoProfileUpdateService {
       if let existingProfile = profile {
         userProfile = existingProfile
       } else {
-        guard let loadedProfile = try storageManager.loadProfile() else { return false }
+        guard let loadedProfile = try userProfileService.loadProfile() else { return false }
         userProfile = loadedProfile
       }
       

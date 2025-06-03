@@ -16,7 +16,7 @@ class HomeViewModel: ObservableObject {
   ) {
     self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
     self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
-    self.autoUpdateService = AutoProfileUpdateService(storageManager: StorageManager.shared)
+    self.autoUpdateService = AutoProfileUpdateService(userProfileService: userProfileService)
     
     // Don't automatically refresh in init to avoid race conditions
     // Let AppView handle the initial data loading flow

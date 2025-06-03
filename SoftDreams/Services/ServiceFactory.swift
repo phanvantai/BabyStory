@@ -78,16 +78,17 @@ class ServiceFactory {
   /// - Parameter storageType: The type of storage to use
   /// - Returns: A DueDateNotificationService instance
   func createDueDateNotificationService(storageType: StorageType = .userDefaults) -> DueDateNotificationService {
-    let storageManager = StorageManager.shared
-    return DueDateNotificationService(storageManager: storageManager)
+    let userProfileService = createUserProfileService(storageType: storageType)
+    return DueDateNotificationService(userProfileService: userProfileService)
   }
   
   /// Create an auto profile update service instance
   /// - Parameter storageType: The type of storage to use
   /// - Returns: An AutoProfileUpdateService instance
   func createAutoProfileUpdateService(storageType: StorageType = .userDefaults) -> AutoProfileUpdateService {
-    let storageManager = StorageManager.shared
-    return AutoProfileUpdateService(storageManager: storageManager)
+    let userProfileService = createUserProfileService(storageType: storageType)
+    let notificationService = createDueDateNotificationService(storageType: storageType)
+    return AutoProfileUpdateService(userProfileService: userProfileService, notificationService: notificationService)
   }
   
   /// Create a story generation service instance

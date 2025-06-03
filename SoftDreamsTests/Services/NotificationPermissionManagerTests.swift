@@ -32,25 +32,25 @@ struct NotificationPermissionManagerTests {
     @Test("NotificationPermissionStatus enum properties")
     func testNotificationPermissionStatusProperties() {
         // Test canSendNotifications
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.authorized.canSendNotifications == true)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.provisional.canSendNotifications == true)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.unknown.canSendNotifications == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.notDetermined.canSendNotifications == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.denied.canSendNotifications == false)
+        #expect(NotificationPermissionStatus.authorized.canSendNotifications == true)
+        #expect(NotificationPermissionStatus.provisional.canSendNotifications == true)
+        #expect(NotificationPermissionStatus.unknown.canSendNotifications == false)
+        #expect(NotificationPermissionStatus.notDetermined.canSendNotifications == false)
+        #expect(NotificationPermissionStatus.denied.canSendNotifications == false)
         
         // Test needsPermissionRequest
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.notDetermined.needsPermissionRequest == true)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.authorized.needsPermissionRequest == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.denied.needsPermissionRequest == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.provisional.needsPermissionRequest == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.unknown.needsPermissionRequest == false)
+        #expect(NotificationPermissionStatus.notDetermined.needsPermissionRequest == true)
+        #expect(NotificationPermissionStatus.authorized.needsPermissionRequest == false)
+        #expect(NotificationPermissionStatus.denied.needsPermissionRequest == false)
+        #expect(NotificationPermissionStatus.provisional.needsPermissionRequest == false)
+        #expect(NotificationPermissionStatus.unknown.needsPermissionRequest == false)
         
         // Test isExplicitlyDenied
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.denied.isExplicitlyDenied == true)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.authorized.isExplicitlyDenied == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.notDetermined.isExplicitlyDenied == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.provisional.isExplicitlyDenied == false)
-        #expect(NotificationPermissionManager.NotificationPermissionStatus.unknown.isExplicitlyDenied == false)
+        #expect(NotificationPermissionStatus.denied.isExplicitlyDenied == true)
+        #expect(NotificationPermissionStatus.authorized.isExplicitlyDenied == false)
+        #expect(NotificationPermissionStatus.notDetermined.isExplicitlyDenied == false)
+        #expect(NotificationPermissionStatus.provisional.isExplicitlyDenied == false)
+        #expect(NotificationPermissionStatus.unknown.isExplicitlyDenied == false)
     }
     
     @Test("NotificationPermissionManager initialization")
@@ -74,7 +74,7 @@ struct NotificationPermissionManagerTests {
         await manager.updatePermissionStatus()
         
         // Status should be one of the defined cases
-        let validStatuses: [NotificationPermissionManager.NotificationPermissionStatus] = [
+        let validStatuses: [NotificationPermissionStatus] = [
             .unknown, .notDetermined, .denied, .authorized, .provisional
         ]
         #expect(validStatuses.contains { $0 == manager.permissionStatus })
@@ -119,7 +119,7 @@ struct NotificationPermissionManagerTests {
         // Should return a status and not crash
         let result = await manager.requestPermission()
         
-        let validStatuses: [NotificationPermissionManager.NotificationPermissionStatus] = [
+        let validStatuses: [NotificationPermissionStatus] = [
             .unknown, .notDetermined, .denied, .authorized, .provisional
         ]
         #expect(validStatuses.contains { $0 == result })
@@ -183,7 +183,7 @@ struct NotificationPermissionManagerTests {
         await manager.updatePermissionStatus()
         
         // Status should be valid regardless of whether it changed
-        let validStatuses: [NotificationPermissionManager.NotificationPermissionStatus] = [
+        let validStatuses: [NotificationPermissionStatus] = [
             .unknown, .notDetermined, .denied, .authorized, .provisional
         ]
         #expect(validStatuses.contains { $0 == manager.permissionStatus })
@@ -215,13 +215,13 @@ struct NotificationPermissionManagerTests {
         
         // Test concurrent permission requests (should handle gracefully)
         async let request1 = manager.requestPermission()
-        async let request2 = manager.updatePermissionStatus()
+      async let request2: () = manager.updatePermissionStatus()
         
         let result1 = await request1
         await request2
         
         // Should complete without crashes
-        let validStatuses: [NotificationPermissionManager.NotificationPermissionStatus] = [
+        let validStatuses: [NotificationPermissionStatus] = [
             .unknown, .notDetermined, .denied, .authorized, .provisional
         ]
         #expect(validStatuses.contains { $0 == result1 })

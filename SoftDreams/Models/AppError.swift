@@ -86,15 +86,14 @@ enum AppError: LocalizedError, Equatable {
 }
 
 // MARK: - Error Manager
+@MainActor
 class ErrorManager: ObservableObject {
   @Published var currentError: AppError?
   @Published var showError = false
   
   func handleError(_ error: AppError) {
-    DispatchQueue.main.async {
-      self.currentError = error
-      self.showError = true
-    }
+    currentError = error
+    showError = true
   }
   
   func clearError() {

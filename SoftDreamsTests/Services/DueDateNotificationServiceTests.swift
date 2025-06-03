@@ -29,14 +29,14 @@ struct DueDateNotificationServiceTests {
     func testInitialization() {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         #expect(service != nil)
         
         // Test initialization with custom dependencies
-        let storageManager = StorageManager.shared
+        let userProfileService = MockUserProfileService()
         let permissionManager = NotificationPermissionManager.shared
         let serviceWithDeps = DueDateNotificationService(
-            storageManager: storageManager,
+            userProfileService: userProfileService,
             permissionManager: permissionManager
         )
         #expect(serviceWithDeps != nil)
@@ -72,7 +72,7 @@ struct DueDateNotificationServiceTests {
     func testCancelAllDueDateNotifications() {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         
         // Should not crash when called
         service.cancelAllDueDateNotifications()
@@ -83,7 +83,7 @@ struct DueDateNotificationServiceTests {
     func testScheduleNotificationsForCurrentProfileWithNoProfile() async {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         
         // Should not crash when no profile exists
         await service.scheduleNotificationsForCurrentProfile()
@@ -94,18 +94,19 @@ struct DueDateNotificationServiceTests {
     func testScheduleNotificationsForCurrentProfileWithNonPregnancyProfile() async throws {
         setUp()
         
-        let service = DueDateNotificationService()
-        let storageManager = StorageManager.shared
+        let mockUserProfileService = MockUserProfileService()
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
         
         // Create a non-pregnancy profile
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .infant,
-            interests: ["Animals", "Music"], dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
+            interests: ["Animals", "Music"], 
+            dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
             gender: .male
         )
         
-        try storageManager.saveProfile(profile)
+        mockUserProfileService.savedProfile = profile
         
         // Should not crash and should handle gracefully
         await service.scheduleNotificationsForCurrentProfile()
@@ -116,19 +117,20 @@ struct DueDateNotificationServiceTests {
     func testScheduleNotificationsForCurrentProfileWithPregnancyProfile() async throws {
         setUp()
         
-        let service = DueDateNotificationService()
-        let storageManager = StorageManager.shared
+        let mockUserProfileService = MockUserProfileService()
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
         
         // Create a pregnancy profile with future due date
         let futureDate = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
         let profile = UserProfile(
             name: "Expecting Parent",
             babyStage: .pregnancy,
-            interests: ["Gentle Stories", "Classical Music"], dueDate: futureDate,
+            interests: ["Gentle Stories", "Classical Music"], 
+            dueDate: futureDate,
             gender: .notSpecified
         )
         
-        try storageManager.saveProfile(profile)
+        mockUserProfileService.savedProfile = profile
         
         // Should not crash
         await service.scheduleNotificationsForCurrentProfile()
@@ -139,29 +141,40 @@ struct DueDateNotificationServiceTests {
     func testSetupDueDateNotifications() async {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         
         // Should return a boolean and not crash
         let result = await service.setupDueDateNotifications()
         #expect(result == true || result == false)
     }
     
-    @Test("DueDateNotificationService requestNotificationPermission")
-    func testRequestNotificationPermission() async {
-        setUp()
-        
-        let service = DueDateNotificationService()
-        
-        // Should return a boolean and not crash
-        let result = await service.requestNotificationPermission()
-        #expect(result == true || result == false)
-    }
+   @Test("DueDateNotificationService requestNotificationPermission with mock")
+   func testRequestNotificationPermission() async {
+       setUp()
+       
+       // Create a mock permission manager that doesn't require user interaction
+       let mockPermissionManager = MockNotificationPermissionManager()
+       let service = DueDateNotificationService(
+           userProfileService: UserDefaultsUserProfileService(),
+           permissionManager: mockPermissionManager
+       )
+       
+       // Test permission granted scenario
+       mockPermissionManager.shouldGrantPermission = true
+       let resultGranted = await service.requestNotificationPermission()
+       #expect(resultGranted == true)
+       
+       // Test permission denied scenario
+       mockPermissionManager.shouldGrantPermission = false
+       let resultDenied = await service.requestNotificationPermission()
+       #expect(resultDenied == false)
+   }
     
     @Test("DueDateNotificationService shouldShowPermissionExplanation")
     func testShouldShowPermissionExplanation() {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         
         // Should return a boolean and not crash
         let result = service.shouldShowPermissionExplanation()
@@ -172,18 +185,19 @@ struct DueDateNotificationServiceTests {
     func testHandleProfileUpdateWithNonPregnancyProfile() throws {
         setUp()
         
-        let service = DueDateNotificationService()
-        let storageManager = StorageManager.shared
+        let mockUserProfileService = MockUserProfileService()
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
         
         // Create a non-pregnancy profile
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .infant,
-            interests: ["Animals", "Music"], dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
+            interests: ["Animals", "Music"], 
+            dateOfBirth: Calendar.current.date(byAdding: .month, value: -6, to: Date()),
             gender: .male
         )
         
-        try storageManager.saveProfile(profile)
+        mockUserProfileService.savedProfile = profile
         
         // Should not crash
         service.handleProfileUpdate()
@@ -194,19 +208,20 @@ struct DueDateNotificationServiceTests {
     func testHandleProfileUpdateWithPregnancyProfile() throws {
         setUp()
         
-        let service = DueDateNotificationService()
-        let storageManager = StorageManager.shared
+        let mockUserProfileService = MockUserProfileService()
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
         
         // Create a pregnancy profile
         let futureDate = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
         let profile = UserProfile(
             name: "Expecting Parent",
             babyStage: .pregnancy,
-            interests: ["Gentle Stories"], dueDate: futureDate,
+            interests: ["Gentle Stories"], 
+            dueDate: futureDate,
             gender: .notSpecified
         )
         
-        try storageManager.saveProfile(profile)
+        mockUserProfileService.savedProfile = profile
         
         // Should not crash
         service.handleProfileUpdate()
@@ -217,7 +232,7 @@ struct DueDateNotificationServiceTests {
     func testMarkNotificationAsSent() throws {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         let profile = UserProfile(
             name: "Test Baby",
             babyStage: .pregnancy,
@@ -226,9 +241,9 @@ struct DueDateNotificationServiceTests {
         )
         
         // Should not crash
-        service.markNotificationAsSent(for: profile, type: .threeDaysBefore)
-        service.markNotificationAsSent(for: profile, type: .onDueDate)
-        service.markNotificationAsSent(for: profile, type: .twoDaysAfter)
+        service.markNotificationAsSent(for: profile, type: DueDateNotificationService.NotificationIdentifier.threeDaysBefore)
+        service.markNotificationAsSent(for: profile, type: DueDateNotificationService.NotificationIdentifier.onDueDate)
+        service.markNotificationAsSent(for: profile, type: DueDateNotificationService.NotificationIdentifier.twoDaysAfter)
         
         #expect(true)
     }
@@ -237,7 +252,7 @@ struct DueDateNotificationServiceTests {
     func testDebouncingMechanism() async throws {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         let storageManager = StorageManager.shared
         
         // Create a pregnancy profile
@@ -263,7 +278,7 @@ struct DueDateNotificationServiceTests {
     func testServiceWithPastDueDate() async throws {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         let storageManager = StorageManager.shared
         
         // Create a pregnancy profile with past due date
@@ -286,7 +301,7 @@ struct DueDateNotificationServiceTests {
     func testNotificationHistoryManagement() throws {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         let profile = UserProfile(
             name: "Test Parent",
             babyStage: .pregnancy,
@@ -295,7 +310,7 @@ struct DueDateNotificationServiceTests {
         )
         
         // Mark various notifications as sent
-        service.markNotificationAsSent(for: profile, type: .threeDaysBefore)
+        service.markNotificationAsSent(for: profile, type: DueDateNotificationService.NotificationIdentifier.threeDaysBefore)
         
         // Create another profile and mark different notification
         let profile2 = UserProfile(
@@ -305,7 +320,7 @@ struct DueDateNotificationServiceTests {
             gender: .female
         )
         
-        service.markNotificationAsSent(for: profile2, type: .onDueDate)
+        service.markNotificationAsSent(for: profile2, type: DueDateNotificationService.NotificationIdentifier.onDueDate)
         
         // Should handle multiple profiles in history
         #expect(true)
@@ -315,7 +330,7 @@ struct DueDateNotificationServiceTests {
     func testEdgeCases() async throws {
         setUp()
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         let storageManager = StorageManager.shared
         
         // Test with profile that has nil due date but is pregnancy stage
@@ -351,7 +366,7 @@ struct DueDateNotificationServiceTests {
         // Manually corrupt the notification history key
         UserDefaults.standard.set("invalid_json", forKey: "DueDateNotificationHistory")
         
-        let service = DueDateNotificationService()
+        let service = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
         
         // Should handle corrupted data gracefully
         await service.scheduleNotificationsForCurrentProfile()
@@ -364,8 +379,58 @@ struct DueDateNotificationServiceTests {
         )
         
         // Should not crash even with corrupted history data
-        service.markNotificationAsSent(for: profile, type: .threeDaysBefore)
+        service.markNotificationAsSent(for: profile, type: DueDateNotificationService.NotificationIdentifier.threeDaysBefore)
         
         #expect(true)
+    }
+    
+    // MARK: - New Dependency Injection Tests
+    
+    @Test("DueDateNotificationService with mock user profile service - no profile")
+    func testWithMockUserProfileServiceNoProfile() async {
+        setUp()
+        
+        let mockUserProfileService = MockUserProfileService()
+        mockUserProfileService.savedProfile = nil
+        
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
+        
+        // Should handle gracefully when no profile exists
+        await service.scheduleNotificationsForCurrentProfile()
+        #expect(true)
+    }
+    
+    @Test("DueDateNotificationService with mock user profile service - error handling")
+    func testWithMockUserProfileServiceErrorHandling() async {
+        setUp()
+        
+        let mockUserProfileService = MockUserProfileService()
+        mockUserProfileService.shouldFailLoad = true
+        
+        let service = DueDateNotificationService(userProfileService: mockUserProfileService)
+        
+        // Should handle errors gracefully
+        await service.scheduleNotificationsForCurrentProfile()
+        service.handleProfileUpdate()
+        #expect(true)
+    }
+    
+    @Test("DueDateNotificationService dependency injection verification")
+    func testDependencyInjectionVerification() {
+        setUp()
+        
+        let mockUserProfileService = MockUserProfileService()
+        let mockPermissionManager = NotificationPermissionManager.shared
+        
+        let service = DueDateNotificationService(
+            userProfileService: mockUserProfileService,
+            permissionManager: mockPermissionManager
+        )
+        
+        #expect(service != nil)
+        
+        // Test that default initialization still works
+        let defaultService = DueDateNotificationService(userProfileService: UserDefaultsUserProfileService())
+        #expect(defaultService != nil)
     }
 }
