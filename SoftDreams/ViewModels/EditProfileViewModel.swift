@@ -23,8 +23,13 @@ class EditProfileViewModel: ObservableObject {
   @Published var showTimePicker: Bool = false
   
   private var originalProfile: UserProfile?
+  private let userProfileService: UserProfileServiceProtocol
+  private let storyTimeNotificationService: StoryTimeNotificationServiceProtocol
   
-  init() {
+  init(userProfileService: UserProfileServiceProtocol? = nil,
+       storyTimeNotificationService: StoryTimeNotificationServiceProtocol? = nil) {
+    self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
+    self.storyTimeNotificationService = storyTimeNotificationService ?? ServiceFactory.shared.createStoryTimeNotificationService()
     loadCurrentProfile()
   }
   
@@ -104,21 +109,21 @@ class EditProfileViewModel: ObservableObject {
     guard let original = originalProfile else { return true }
     
     return name != original.name ||
-           babyStage != original.babyStage ||
-           gender != original.gender ||
-           interests != original.interests ||
-           parentNames != original.parentNames ||
-           dateOfBirth != original.dateOfBirth ||
-           dueDate != original.dueDate ||
-           language != original.language ||
-           !Calendar.current.isDate(storyTime, equalTo: original.storyTime, toGranularity: .minute)
+    babyStage != original.babyStage ||
+    gender != original.gender ||
+    interests != original.interests ||
+    parentNames != original.parentNames ||
+    dateOfBirth != original.dateOfBirth ||
+    dueDate != original.dueDate ||
+    language != original.language ||
+    !Calendar.current.isDate(storyTime, equalTo: original.storyTime, toGranularity: .minute)
   }
   
   // MARK: - Methods
   func loadCurrentProfile() {
     Logger.info("Loading current profile for editing", category: .userProfile)
     do {
-      if let profile = try StorageManager.shared.loadProfile() {
+      if let profile = try userProfileService.loadProfile() {
         originalProfile = profile
         
         // Populate fields
@@ -208,19 +213,19 @@ class EditProfileViewModel: ObservableObject {
       interests.append(interest)
     }
   }
-   func saveProfile() async -> Bool {
+  func saveProfile() async -> Bool {
     guard canSave else {
       error = .invalidProfile
       return false
     }
-
+    
     await MainActor.run {
       isLoading = true
       error = nil
     }
-
+    
     Logger.info("Saving updated profile", category: .userProfile)
-
+    
     do {
       let updatedProfile = UserProfile(
         name: name,
@@ -234,9 +239,9 @@ class EditProfileViewModel: ObservableObject {
         gender: gender,
         language: language
       )
-
-      try StorageManager.shared.saveProfile(updatedProfile)
-
+      
+      try userProfileService.saveProfile(updatedProfile)
+      
       // Update LanguageManager if language changed
       if let originalLanguage = originalProfile?.language, originalLanguage != language {
         await MainActor.run {
@@ -244,8 +249,20 @@ class EditProfileViewModel: ObservableObject {
           Logger.info("Language updated to: \(language.code)", category: .userProfile)
         }
       }
-
-      // Handle notification updates based on profile changes
+      
+      // Handle story time notification updates
+      if let original = originalProfile {
+        if !Calendar.current.isDate(original.storyTime, equalTo: storyTime, toGranularity: .minute) {
+          // Story time has changed, update notifications
+          Logger.info("Story time changed from \(original.storyTime.formatted(date: .omitted, time: .shortened)) to \(storyTime.formatted(date: .omitted, time: .shortened)), updating notifications", category: .notification)
+          _ = await storyTimeNotificationService.scheduleStoryTimeReminder(for: storyTime, babyName: original.displayName)
+        }
+      } else {
+        // New profile, schedule notifications
+        _ = await storyTimeNotificationService.scheduleStoryTimeReminder(for: storyTime, babyName: updatedProfile.displayName)
+      }
+      
+      // Handle due date notification updates
       let notificationService = ServiceFactory.shared.createDueDateNotificationService()
       
       // Check if this is a significant change that affects notifications
@@ -264,12 +281,12 @@ class EditProfileViewModel: ObservableObject {
         // Still pregnancy but profile manually updated - handle notification update
         notificationService.handleProfileUpdate()
       }
-
+      
       await MainActor.run {
         isLoading = false
         Logger.info("Profile updated successfully for: \(name)", category: .userProfile)
       }
-
+      
       return true
     } catch {
       await MainActor.run {

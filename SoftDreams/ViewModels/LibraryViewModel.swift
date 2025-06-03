@@ -4,13 +4,17 @@ class LibraryViewModel: ObservableObject {
   @Published var stories: [Story] = []
   @Published var error: AppError?
   
-  init() {
+  // MARK: - Initialization
+  private let storyService: StoryServiceProtocol
+  
+  init(storyService: StoryServiceProtocol? = nil) {
+    self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
     loadStories()
   }
   
   func loadStories() {
     do {
-      stories = try StorageManager.shared.loadStories()
+      stories = try storyService.loadStories()
       error = nil
     } catch {
       self.error = error as? AppError ?? .dataCorruption
@@ -21,7 +25,7 @@ class LibraryViewModel: ObservableObject {
     do {
       if let index = stories.firstIndex(where: { $0.id == story.id }) {
         stories[index].isFavorite.toggle()
-        try StorageManager.shared.saveStories(stories)
+        try storyService.saveStories(stories)
         error = nil
       }
     } catch {
@@ -32,7 +36,7 @@ class LibraryViewModel: ObservableObject {
   // MARK: - Enhanced Storage Methods
   func deleteStory(_ story: Story) {
     do {
-      try StorageManager.shared.deleteStory(withId: story.id)
+      try storyService.deleteStory(withId: story.id.uuidString)
       loadStories() // Refresh the list
       error = nil
     } catch {
@@ -42,17 +46,7 @@ class LibraryViewModel: ObservableObject {
   
   func saveStory(_ story: Story) {
     do {
-      try StorageManager.shared.saveStory(story)
-      loadStories() // Refresh the list
-      error = nil
-    } catch {
-      self.error = .storySaveFailed
-    }
-  }
-  
-  func toggleFavoriteById(_ storyId: UUID) {
-    do {
-      try StorageManager.shared.toggleStoryFavorite(withId: storyId)
+      try storyService.saveStory(story)
       loadStories() // Refresh the list
       error = nil
     } catch {
@@ -66,29 +60,10 @@ class LibraryViewModel: ObservableObject {
   }
   
   var totalStoriesCount: Int {
-    return StorageManager.shared.totalStoriesCount
+    return (try? storyService.getStoryCount()) ?? 0
   }
   
   var favoriteStoriesCount: Int {
-    return StorageManager.shared.favoriteStoriesCount
-  }
-  
-  // MARK: - Recent Stories
-  func getRecentStories(days: Int = 7) -> [Story] {
-    do {
-      return try StorageManager.shared.getRecentStories(days: days)
-    } catch {
-      self.error = error as? AppError ?? .dataCorruption
-      return []
-    }
-  }
-  
-  func getStoriesCreatedToday() -> [Story] {
-    do {
-      return try StorageManager.shared.getStoriesCreatedToday()
-    } catch {
-      self.error = error as? AppError ?? .dataCorruption
-      return []
-    }
+    return favoriteStories.count
   }
 }

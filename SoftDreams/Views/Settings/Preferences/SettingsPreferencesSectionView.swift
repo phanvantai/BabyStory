@@ -12,9 +12,6 @@ struct SettingsPreferencesSectionView: View {
   @ObservedObject var viewModel: SettingsViewModel
   @Environment(\.dismiss) private var dismiss
   
-  // Feature flags for future implementation
-  private let showVoiceNarration = false // TODO: Enable when implementing voice narration
-  
   var body: some View {
     AnimatedEntrance(delay: 0.5) {
       VStack(spacing: 16) {
@@ -62,27 +59,6 @@ struct SettingsPreferencesSectionView: View {
             .padding(.vertical, 8)
           }
           .buttonStyle(PlainButtonStyle())
-          
-          // Voice Narration Toggle (temporarily hidden)
-          if showVoiceNarration {
-            Divider()
-              .background(Color(UIColor.separator))
-            
-            HStack {
-              VStack(alignment: .leading, spacing: 4) {
-                Text("settings_voice_narration_title".localized)
-                  .font(.body)
-                  .fontWeight(.medium)
-                Text("settings_voice_narration_description".localized)
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-              }
-              Spacer()
-              Toggle("", isOn: $viewModel.narrationEnabled)
-                .toggleStyle(SwitchToggleStyle(tint: .green))
-            }
-            .padding(.vertical, 8)
-          }
         }
       }
       .padding(20)

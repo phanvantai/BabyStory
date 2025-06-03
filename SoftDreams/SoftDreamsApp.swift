@@ -34,18 +34,6 @@ struct SoftDreamsApp: App {
     
     // Set up notification categories with actions
     setupNotificationCategories()
-    
-    // Setup due date notifications only for existing users (not during onboarding)
-    Task {
-      // Only setup notifications if onboarding has been completed
-      if StorageManager.shared.hasCompletedOnboarding {
-        Logger.info("Setting up due date notifications for existing user", category: .notification)
-        let autoUpdateService = AutoProfileUpdateService()
-        await autoUpdateService.setupDueDateNotifications()
-      } else {
-        Logger.info("Skipping notification setup - onboarding not completed", category: .notification)
-      }
-    }
   }
   
   private func setupNotificationCategories() {

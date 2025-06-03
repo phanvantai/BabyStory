@@ -201,6 +201,3 @@ extension CoreDataStoryService {
     }
   }
 }
-
-// MARK: - Type Alias for Tests
-typealias StoryService = CoreDataStoryService

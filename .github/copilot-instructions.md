@@ -17,7 +17,7 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 1. **Onboarding Flow**: Multi-step setup for child profile and preferences
 2. **Story Generation**: AI-powered custom story creation
 3. **Library**: Save and manage favorite stories
-4. **Settings**: Profile management and parental controls
+4. **Settings**: Profile management and app preferences
 5. **Customization**: Story length, theme, and character options
 
 ## Code Style Guidelines
@@ -118,7 +118,6 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 - Maintain child-friendly design patterns
 - Use appropriate button styles (`.borderedProminent`, `.bordered`)
 - Implement proper accessibility features
-- Consider parental control requirements
 
 ## Common Patterns
 
@@ -152,7 +151,6 @@ Task {
 - Test onboarding flow completion
 - Verify story generation and saving functionality
 - Test data persistence across app launches
-- Validate parental control features
 - **REMEMBER**: Always follow TDD - write tests before implementing features
 - Maintain comprehensive test coverage for all business logic
 - Test error handling and edge cases thoroughly

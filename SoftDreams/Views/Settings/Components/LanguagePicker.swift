@@ -2,17 +2,14 @@
 //  LanguagePicker.swift
 //  SoftDreams
 //
-//  Created by GitHub Copilot
+//  Created by Tai Phan Van
 //
 
 import SwiftUI
 
 struct LanguagePicker: View {
+  @StateObject private var viewModel = LanguagePickerViewModel()
   @EnvironmentObject var languageManager: LanguageManager
-  
-  private var selectedLanguage: Language {
-    Language.allCases.first { $0.code == languageManager.currentLanguage } ?? Language.preferred
-  }
   
   var body: some View {
     VStack(spacing: 12) {
@@ -29,11 +26,13 @@ struct LanguagePicker: View {
       Menu {
         ForEach(Language.allCases, id: \.self) { language in
           Button(action: {
-            selectLanguage(language)
+            Task {
+              await viewModel.selectLanguage(language)
+            }
           }) {
             HStack {
               Text(language.displayName)
-              if selectedLanguage == language {
+              if viewModel.selectedLanguage == language {
                 Spacer()
                 Image(systemName: "checkmark")
               }
@@ -42,7 +41,7 @@ struct LanguagePicker: View {
         }
       } label: {
         HStack {
-          Text(selectedLanguage.displayName)
+          Text(viewModel.selectedLanguage.displayName)
             .foregroundColor(.primary)
           Spacer()
           Image(systemName: "chevron.up.chevron.down")
@@ -58,29 +57,19 @@ struct LanguagePicker: View {
             .stroke(AppTheme.defaultCardBorder, lineWidth: 1)
         )
       }
-    }
-  }
-  
-  private func selectLanguage(_ language: Language) {
-    // Update LanguageManager for immediate UI changes
-    languageManager.updateLanguage(language.code)
-    
-    // Update UserProfile if it exists
-    Task {
-      await updateProfileLanguage(language)
-    }
-  }
-  
-  @MainActor
-  private func updateProfileLanguage(_ language: Language) async {
-    do {
-      if var profile = try StorageManager.shared.loadProfile() {
-        profile.language = language
-        try StorageManager.shared.saveProfile(profile)
-        Logger.info("Profile language updated to: \(language.code)", category: .userProfile)
+      
+      // Show error message if any
+      if let errorMessage = viewModel.errorMessage {
+        Text(errorMessage)
+          .font(.caption)
+          .foregroundColor(.red)
+          .onAppear {
+            // Auto-clear error after a delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+              viewModel.clearError()
+            }
+          }
       }
-    } catch {
-      Logger.error("Failed to update profile language: \(error.localizedDescription)", category: .userProfile)
     }
   }
 }

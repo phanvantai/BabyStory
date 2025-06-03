@@ -220,24 +220,7 @@
 "settings_story_time_title" = "Giờ Kể Chuyện";
 "settings_preferred_story_time" = "Giờ Kể Chuyện Ưa Thích";
 
-// Parental Lock
-"parental_lock_title" = "Khóa Phụ Huynh";
-"parental_lock_enter_passcode" = "Nhập mã PIN 4 chữ số của bạn";
-"parental_lock_enter_passcode_placeholder" = "Nhập mã PIN";
-"parental_lock_on" = "Khóa ĐANG BẬT";
-"parental_lock_off" = "Khóa ĐANG TẮT";
-"parental_lock_enable" = "Bật Khóa";
-"parental_lock_disable" = "Tắt Khóa";
-"parental_lock_enabled_success" = "Khóa Đã Được Bật Thành Công";
-"parental_lock_disabled_success" = "Khóa Đã Được Tắt Thành Công";
-"parental_lock_incorrect_passcode" = "Mã PIN Không Đúng";
-"parental_lock_about_title" = "Về Khóa Phụ Huynh";
-"parental_lock_about_description" = "Khi được bật, tính năng này ngăn trẻ em truy cập cài đặt hoặc thực hiện thay đổi trong ứng dụng.";
 "done" = "Xong";
-
-// Parental Controls Section
-"settings_parental_controls_title" = "Kiểm Soát Phụ Huynh";
-"settings_parental_controls_description" = "Quản lý quyền truy cập và hạn chế";
 
 // Language Settings
 "settings_language_title" = "Ngôn Ngữ";
@@ -413,6 +396,11 @@
 "due_date_notification_body_on_due_date" = "Hôm nay là ngày sinh dự kiến của bé %@! Đừng quên cập nhật hồ sơ khi bé chào đời.";
 "due_date_notification_body_two_days_after" = "Bé %@ thế nào rồi? Vui lòng cập nhật hồ sơ để tiếp tục tận hưởng những câu chuyện được cá nhân hóa.";
 
+// MARK: - Story Time Notifications
+"story_time_notification_title" = "Sắp Đến Giờ Đọc Truyện! 📚";
+"story_time_notification_body" = "Sắp đến giờ đọc truyện trước khi đi ngủ. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+"story_time_notification_body_personalized" = "Sắp đến giờ đọc truyện của %@. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+
 // MARK: - Notification Permission Manager
 
 // Permission context reasons
@@ -533,3 +521,32 @@
 
 // Navigation
 "generate_story_customize_nav_title" = "Tùy Chỉnh";
+
+// MARK: - AI Models
+
+// AI Providers
+"ai_provider_openai" = "OpenAI";
+"ai_provider_anthropic" = "Anthropic";
+"ai_provider_google" = "Google";
+
+// AI Model Names
+"ai_model_gpt35_turbo_name" = "GPT-3.5 Turbo";
+"ai_model_gpt4o_name" = "GPT-4o";
+"ai_model_claude3_haiku_name" = "Claude 3 Haiku";
+"ai_model_claude3_sonnet_name" = "Claude 3 Sonnet";
+"ai_model_gemini_pro_name" = "Gemini Pro";
+
+// AI Model Descriptions
+"ai_model_gpt35_turbo_description" = "Kể chuyện nhanh và đơn giản cho những câu chuyện ru ngủ hàng ngày";
+"ai_model_gpt4o_description" = "Những câu chuyện phong phú, đầy tưởng tượng và cảm xúc, quyến rũ tâm trí trẻ thơ";
+"ai_model_claude3_haiku_description" = "Những câu chuyện nhanh và nhẹ nhàng với giọng điệu ấm áp, nuôi dưỡng hoàn hảo cho giờ đi ngủ";
+"ai_model_claude3_sonnet_description" = "Những câu chuyện được tạo ra một cách tuyệt đẹp, nhẹ nhàng với sự ấm áp và chiều sâu cảm xúc";
+"ai_model_gemini_pro_description" = "Kể chuyện sáng tạo và đa dạng với những cuộc phiêu lưu hấp dẫn và khoảnh khắc học hỏi";
+
+// AI Model Settings
+"ai_model_selection_title" = "Phong Cách Câu Chuyện";
+"ai_model_selection_description" = "Chọn mô hình AI sẽ tạo ra những câu chuyện ru ngủ của bạn";
+"ai_model_premium_badge" = "Cao Cấp";
+"ai_model_free_badge" = "Miễn Phí";
+"ai_model_premium_required" = "Cần đăng ký cao cấp";
+"ai_model_upgrade_prompt" = "Nâng cấp để mở khóa các phong cách câu chuyện khác nhau và mô hình cao cấp";

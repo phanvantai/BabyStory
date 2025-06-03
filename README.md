@@ -13,7 +13,6 @@ A personalized bedtime story generator iOS app that creates magical, AI-powered 
 - **👶 Age-Appropriate Content**: Stories tailored to different developmental stages from pregnancy to preschooler
 - **📖 Story Library**: Save and organize your child's favorite stories for repeated reading
 - **🎨 Custom Themes**: Choose from various story themes, lengths, and character types
-- **👨‍👩‍👧‍👦 Parental Controls**: Secure settings management with parental lock functionality
 - **📱 Universal App**: Designed for both iPhone and iPad with responsive layouts
 
 ## 🏗️ Architecture
@@ -133,9 +132,8 @@ graph TD
 - **Organization**: Easy browsing and story management
 - **Quick Access**: Recently read and favorited stories
 
-### 🔒 Parental Controls
+### 🔐 Privacy & Security
 
-- **Secure Settings**: Parental lock for profile and preference changes
 - **Content Control**: Safe, monitored story generation
 - **Privacy**: Local data storage with no external sharing
 
@@ -183,7 +181,6 @@ class FeatureViewModel: ObservableObject {
 - Test onboarding flow completion
 - Verify story generation and saving
 - Test data persistence across app launches
-- Validate parental control features
 
 ## 🎯 Future Roadmap
 
@@ -212,7 +209,6 @@ We welcome contributions! Please follow these steps:
 - Follow MVVM architecture consistently
 - Test on both iPhone and iPad
 - Ensure accessibility compliance
-- Consider parental control requirements
 
 ## 📄 License
 
