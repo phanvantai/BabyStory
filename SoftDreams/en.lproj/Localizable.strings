@@ -220,24 +220,7 @@
 "settings_story_time_title" = "Story Time";
 "settings_preferred_story_time" = "Preferred Story Time";
 
-// Parental Lock
-"parental_lock_title" = "Parental Lock";
-"parental_lock_enter_passcode" = "Enter your 4-digit passcode";
-"parental_lock_enter_passcode_placeholder" = "Enter passcode";
-"parental_lock_on" = "Lock is ON";
-"parental_lock_off" = "Lock is OFF";
-"parental_lock_enable" = "Enable Lock";
-"parental_lock_disable" = "Disable Lock";
-"parental_lock_enabled_success" = "Lock Enabled Successfully";
-"parental_lock_disabled_success" = "Lock Disabled Successfully";
-"parental_lock_incorrect_passcode" = "Incorrect Passcode";
-"parental_lock_about_title" = "About Parental Lock";
-"parental_lock_about_description" = "When enabled, this prevents children from accessing settings or making changes to the app.";
 "done" = "Done";
-
-// Parental Controls Section
-"settings_parental_controls_title" = "Parental Controls";
-"settings_parental_controls_description" = "Manage access and restrictions";
 
 // Language Settings
 "settings_language_title" = "Language";

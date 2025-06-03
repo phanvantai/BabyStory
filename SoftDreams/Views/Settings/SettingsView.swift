@@ -4,10 +4,6 @@ struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
   @Environment(\.dismiss) private var dismiss
   @State private var showEditProfile = false
-  @State private var showParentalLock = false
-  
-  // Feature flag for future implementation
-  private let showParentalControls = false // TODO: Enable when implementing parental controls
   
   var body: some View {
     NavigationStack {
@@ -29,11 +25,6 @@ struct SettingsView: View {
             // Notifications Section
             SettingsNotificationsSectionView(viewModel: viewModel)
             
-            // Parental Controls Section (temporarily hidden)
-            if showParentalControls {
-              SettingsParentalControlsSectionView(showParentalLock: $showParentalLock)
-            }
-            
             // Support Section
             SettingsSupportSectionView(viewModel: viewModel)
             
@@ -47,10 +38,6 @@ struct SettingsView: View {
       .navigationBarTitleDisplayMode(.inline)
       .sheet(isPresented: $showEditProfile) {
         EditProfileView()
-      }
-      // Sheet for parental lock (accessible when feature is enabled)
-      .sheet(isPresented: $showParentalLock) {
-        ParentalLockView(viewModel: viewModel)
       }
     }
   }

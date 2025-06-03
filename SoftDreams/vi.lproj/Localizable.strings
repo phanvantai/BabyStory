@@ -220,24 +220,7 @@
 "settings_story_time_title" = "Giờ Kể Chuyện";
 "settings_preferred_story_time" = "Giờ Kể Chuyện Ưa Thích";
 
-// Parental Lock
-"parental_lock_title" = "Khóa Phụ Huynh";
-"parental_lock_enter_passcode" = "Nhập mã PIN 4 chữ số của bạn";
-"parental_lock_enter_passcode_placeholder" = "Nhập mã PIN";
-"parental_lock_on" = "Khóa ĐANG BẬT";
-"parental_lock_off" = "Khóa ĐANG TẮT";
-"parental_lock_enable" = "Bật Khóa";
-"parental_lock_disable" = "Tắt Khóa";
-"parental_lock_enabled_success" = "Khóa Đã Được Bật Thành Công";
-"parental_lock_disabled_success" = "Khóa Đã Được Tắt Thành Công";
-"parental_lock_incorrect_passcode" = "Mã PIN Không Đúng";
-"parental_lock_about_title" = "Về Khóa Phụ Huynh";
-"parental_lock_about_description" = "Khi được bật, tính năng này ngăn trẻ em truy cập cài đặt hoặc thực hiện thay đổi trong ứng dụng.";
 "done" = "Xong";
-
-// Parental Controls Section
-"settings_parental_controls_title" = "Kiểm Soát Phụ Huynh";
-"settings_parental_controls_description" = "Quản lý quyền truy cập và hạn chế";
 
 // Language Settings
 "settings_language_title" = "Ngôn Ngữ";

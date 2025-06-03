@@ -65,7 +65,30 @@ Implement a freemium model that offers value to free users and unlocks premium f
 
 - [x] Implement `StoryGenerationConfig` model ✅ **COMPLETED**
 - [ ] Add story usage tracking logic  
-- [ ] Add model selection in settings and lock model selector in UI for free users  
+  - [ ] Persist `StoryGenerationConfig` to local storage (`UserDefaults`)
+  - [ ] Load it on app startup and inject into the story generation flow
+  - [ ] On story creation:
+    - [ ] Call `resetDailyCountIfNeeded()`
+    - [ ] Check `canGenerateNewStory` before proceeding
+    - [ ] If valid, call `incrementStoryCount()`
+    - [ ] Save the updated config after changes
+  - [ ] If over limit, show paywall or upsell
+  - [ ] Optionally: log usage events via analytics
+
+- [ ] Lock model selector in UI for free users  
+  - [ ] Disable selection or show premium badge for locked models
+  - [ ] Auto-select `gpt-3.5-turbo` if user is free tier
+
 - [ ] Design and show upsell when story limit is hit  
+  - [ ] Detect when `canGenerateNewStory == false`
+  - [ ] Show modal or full-screen paywall with messaging
+
 - [ ] Add paywall screen with benefits list  
+  - [ ] Compare Free vs Premium features
+  - [ ] Monthly / yearly subscription CTA
+  - [ ] Explain access to model options, voice mode, extra daily stories
+
 - [ ] Add voice mode (text-to-speech) for premium users  
+  - [ ] Use `AVSpeechSynthesizer` or 3rd-party API
+  - [ ] Lock access behind premium check
+  - [ ] Add playback UI to story viewer

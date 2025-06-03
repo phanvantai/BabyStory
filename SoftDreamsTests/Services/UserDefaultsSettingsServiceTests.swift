@@ -18,8 +18,6 @@ struct UserDefaultsSettingsServiceTests {
             "test_float_setting",
             "test_complex_setting",
             StorageKeys.narrationEnabled,
-            StorageKeys.parentalLockEnabled,
-            StorageKeys.parentalPasscode,
             "nonexistent_key"
         ]
         for key in keys {
@@ -207,14 +205,10 @@ struct UserDefaultsSettingsServiceTests {
         
         // Set up some app-specific settings
         try service.saveSetting(true, forKey: StorageKeys.narrationEnabled)
-        try service.saveSetting(false, forKey: StorageKeys.parentalLockEnabled)
-        try service.saveSetting("1234", forKey: StorageKeys.parentalPasscode)
         
         let allSettings = try service.getAllSettings()
         
         #expect(allSettings[StorageKeys.narrationEnabled] as? Bool == true)
-        #expect(allSettings[StorageKeys.parentalLockEnabled] as? Bool == false)
-        #expect(allSettings[StorageKeys.parentalPasscode] as? String == "1234")
     }
     
     @Test("Get all settings when empty")
@@ -234,18 +228,12 @@ struct UserDefaultsSettingsServiceTests {
         
         // Set up some settings
         try service.saveSetting(true, forKey: StorageKeys.narrationEnabled)
-        try service.saveSetting(true, forKey: StorageKeys.parentalLockEnabled)
-        try service.saveSetting("1234", forKey: StorageKeys.parentalPasscode)
         
         #expect(service.settingExists(forKey: StorageKeys.narrationEnabled))
-        #expect(service.settingExists(forKey: StorageKeys.parentalLockEnabled))
-        #expect(service.settingExists(forKey: StorageKeys.parentalPasscode))
         
         try service.resetAllSettings()
         
         #expect(service.settingExists(forKey: StorageKeys.narrationEnabled) == false)
-        #expect(service.settingExists(forKey: StorageKeys.parentalLockEnabled) == false)
-        #expect(service.settingExists(forKey: StorageKeys.parentalPasscode) == false)
     }
     
     // MARK: - Error Handling Tests

@@ -97,30 +97,6 @@ class StorageManager {
     }
   }
   
-  func saveParentalLockEnabled(_ enabled: Bool) throws {
-    try settingService.saveSetting(enabled, forKey: StorageKeys.parentalLockEnabled)
-  }
-  
-  func loadParentalLockEnabled() -> Bool {
-    do {
-      return try settingService.loadSetting(Bool.self, forKey: StorageKeys.parentalLockEnabled) ?? false
-    } catch {
-      return false // Default value
-    }
-  }
-  
-  func saveParentalPasscode(_ passcode: String) throws {
-    try settingService.saveSetting(passcode, forKey: StorageKeys.parentalPasscode)
-  }
-  
-  func loadParentalPasscode() -> String? {
-    do {
-      return try settingService.loadSetting(String.self, forKey: StorageKeys.parentalPasscode)
-    } catch {
-      return nil
-    }
-  }
-  
   // Generic setting management
   func saveSetting<T: Codable>(_ value: T, forKey key: String) throws {
     try settingService.saveSetting(value, forKey: key)

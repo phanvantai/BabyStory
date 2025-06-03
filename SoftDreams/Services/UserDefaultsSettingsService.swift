@@ -6,8 +6,6 @@ enum StorageKeys {
   static let selectedTheme = "selectedTheme"
   static let themeSettings = "themeSettings"
   static let narrationEnabled = "narrationEnabled"
-  static let parentalLockEnabled = "parentalLockEnabled"
-  static let parentalPasscode = "parentalPasscode"
 }
 
 // MARK: - UserDefaults Settings Service
@@ -90,9 +88,7 @@ class UserDefaultsSettingsService: SettingsServiceProtocol {
   
   func resetAllSettings() throws {
     let settingsKeys = [
-      StorageKeys.narrationEnabled,
-      StorageKeys.parentalLockEnabled,
-      StorageKeys.parentalPasscode
+      StorageKeys.narrationEnabled
     ]
     removeSettings(forKeys: settingsKeys)
   }
@@ -104,14 +100,6 @@ class UserDefaultsSettingsService: SettingsServiceProtocol {
     
     if defaults.object(forKey: StorageKeys.narrationEnabled) != nil {
       settings[StorageKeys.narrationEnabled] = defaults.bool(forKey: StorageKeys.narrationEnabled)
-    }
-    
-    if defaults.object(forKey: StorageKeys.parentalLockEnabled) != nil {
-      settings[StorageKeys.parentalLockEnabled] = defaults.bool(forKey: StorageKeys.parentalLockEnabled)
-    }
-    
-    if let passcode = defaults.string(forKey: StorageKeys.parentalPasscode) {
-      settings[StorageKeys.parentalPasscode] = passcode
     }
     
     return settings
