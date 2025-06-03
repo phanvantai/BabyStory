@@ -413,6 +413,11 @@
 "due_date_notification_body_on_due_date" = "Hôm nay là ngày sinh dự kiến của bé %@! Đừng quên cập nhật hồ sơ khi bé chào đời.";
 "due_date_notification_body_two_days_after" = "Bé %@ thế nào rồi? Vui lòng cập nhật hồ sơ để tiếp tục tận hưởng những câu chuyện được cá nhân hóa.";
 
+// MARK: - Story Time Notifications
+"story_time_notification_title" = "Sắp Đến Giờ Đọc Truyện! 📚";
+"story_time_notification_body" = "Sắp đến giờ đọc truyện trước khi đi ngủ. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+"story_time_notification_body_personalized" = "Sắp đến giờ đọc truyện của %@. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+
 // MARK: - Notification Permission Manager
 
 // Permission context reasons

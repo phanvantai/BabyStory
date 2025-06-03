@@ -107,6 +107,12 @@ class ServiceFactory {
     }
   }
   
+  /// Create a story time notification service instance
+  /// - Returns: A service conforming to StoryTimeNotificationServiceProtocol
+  func createStoryTimeNotificationService() -> StoryTimeNotificationServiceProtocol {
+    return StoryTimeNotificationService()
+  }
+  
   /// Create a story generation service instance
   /// - Parameter serviceType: The type of story generation service to use
   /// - Returns: A service conforming to StoryGenerationServiceProtocol

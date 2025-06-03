@@ -413,6 +413,11 @@
 "due_date_notification_body_on_due_date" = "Baby %@ is due today! Don't forget to update your profile when baby arrives.";
 "due_date_notification_body_two_days_after" = "How is baby %@? Please update your profile to continue enjoying personalized stories.";
 
+// MARK: - Story Time Notifications
+"story_time_notification_title" = "Story Time Coming Up! 📚";
+"story_time_notification_body" = "It's almost time for your bedtime story. Get ready for a magical adventure!";
+"story_time_notification_body_personalized" = "It's almost time for %@'s bedtime story. Get ready for a magical adventure!";
+
 // MARK: - Notification Permission Manager
 
 // Permission context reasons

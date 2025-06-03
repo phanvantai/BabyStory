@@ -21,7 +21,17 @@ class OnboardingViewModel: ObservableObject {
   @Published var showNotificationPermissionPrompt: Bool = false
   @Published var notificationPermissionContext: PermissionContext = .pregnancyReminders
   
-  init() {
+  // Services
+  private let userProfileService: UserProfileServiceProtocol
+  private let storyTimeNotificationService: StoryTimeNotificationServiceProtocol
+  private let dueDateNotificationService: DueDateNotificationService
+  
+  init(userProfileService: UserProfileServiceProtocol? = nil,
+       storyTimeNotificationService: StoryTimeNotificationServiceProtocol? = nil,
+       dueDateNotificationService: DueDateNotificationService? = nil) {
+    self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
+    self.storyTimeNotificationService = storyTimeNotificationService ?? ServiceFactory.shared.createStoryTimeNotificationService()
+    self.dueDateNotificationService = dueDateNotificationService ?? ServiceFactory.shared.createDueDateNotificationService()
     // Don't initialize values until user makes their choice
     // The user will first select pregnancy vs born baby status
   }
@@ -264,19 +274,37 @@ class OnboardingViewModel: ObservableObject {
         gender: gender,
         language: selectedLanguage
       )
-      try StorageManager.shared.saveProfile(profile)
+      try userProfileService.saveProfile(profile)
       error = nil
       Logger.info("Onboarding profile save completed successfully", category: .onboarding)
+      
+      // Schedule story time notifications
+      Task {
+        let permissionManager = NotificationPermissionManager.shared
+        await permissionManager.updatePermissionStatus()
+        
+        if permissionManager.permissionStatus.canSendNotifications {
+          // Schedule story time notification directly if permission already granted
+          let result = await storyTimeNotificationService.scheduleStoryTimeReminder(for: storyTime, babyName: profile.displayName)
+          Logger.info("Story time notification scheduled for \(storyTime.formatted(date: .omitted, time: .shortened)) is \(result)", category: .notification)
+        } else if permissionManager.shouldShowPermissionExplanation(for: .storyTime) {
+          // Show permission prompt for story time
+          await MainActor.run {
+            notificationPermissionContext = .storyTime
+            showNotificationPermissionPrompt = true
+          }
+        }
+      }
       
       // Setup due date notifications for pregnancy profiles
       if isPregnancy {
         Task {
-          let notificationService = ServiceFactory.shared.createDueDateNotificationService()
-          let permissionAlreadyGranted = await notificationService.setupDueDateNotifications()
+          let permissionAlreadyGranted = await dueDateNotificationService.setupDueDateNotifications()
           
-          if !permissionAlreadyGranted && notificationService.shouldShowPermissionExplanation() {
+          if !permissionAlreadyGranted && dueDateNotificationService.shouldShowPermissionExplanation() {
             // Show permission prompt on main thread
             await MainActor.run {
+              notificationPermissionContext = .pregnancyReminders
               showNotificationPermissionPrompt = true
             }
           }
@@ -330,8 +358,23 @@ class OnboardingViewModel: ObservableObject {
   /// Handles when user grants notification permission
   func handleNotificationPermissionGranted() {
     Task {
-      let notificationService = ServiceFactory.shared.createDueDateNotificationService()
-      _ = await notificationService.requestNotificationPermission()
+      // Request permission
+      let permissionManager = NotificationPermissionManager.shared
+      let status = await permissionManager.requestPermission()
+      
+      if status.canSendNotifications {
+        Logger.info("Notification permission granted during onboarding", category: .notification)
+        
+        // Schedule notifications based on context
+        if notificationPermissionContext == .pregnancyReminders && isPregnancy {
+          await dueDateNotificationService.scheduleNotificationsForCurrentProfile()
+        } else if notificationPermissionContext == .storyTime {
+          _ = await storyTimeNotificationService.scheduleStoryTimeReminder(
+            for: storyTime,
+            babyName:
+              isPregnancy ? ("user_profile_baby_prefix".localized + name) : name)
+        }
+      }
     }
     showNotificationPermissionPrompt = false
   }
