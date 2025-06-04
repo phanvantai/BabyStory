@@ -480,16 +480,5 @@ private struct OpenAIChoice: Codable {
 // MARK: - Configuration Extension
 
 extension OpenAIStoryGenerationService {
-  
-  /// Create an OpenAI service with API key from configuration
-  /// - Returns: Configured OpenAI service or nil if no API key is available
-  static func createWithStoredAPIKey() -> OpenAIStoryGenerationService? {
-    // Get API key from configuration (xcconfig -> Info.plist)
-    let apiKey = APIConfig.openAIAPIKey
-    if !apiKey.isEmpty {
-      return OpenAIStoryGenerationService(apiKey: apiKey)
-    }
-    Logger.error("OpenAI: No API key found in configuration", category: .storyGeneration)
-    return nil
-  }
+  // Remove the createWithStoredAPIKey method as it's no longer needed
 }

@@ -10,11 +10,11 @@ struct TodaysAdventureCard: View {
   private var timeOfDayIcon: String {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
-      case 6..<10:
+      case 5..<12:
         return "sunrise.fill"
-      case 10..<16:
+      case 12..<17:
         return "sun.max.fill"
-      case 16..<21:
+      case 17..<20:
         return "sunset.fill"
       default:
         return "moon.stars.fill"
@@ -24,12 +24,12 @@ struct TodaysAdventureCard: View {
   private var timeOfDayColor: Color {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
-      case 6..<12:
+      case 5..<12:
         return .orange
-      case 12..<18:
+      case 12..<17:
         return .yellow
-      case 18..<21:
-        return .orange
+      case 17..<20:
+        return .pink
       default:
         return .purple
     }
@@ -47,10 +47,45 @@ struct TodaysAdventureCard: View {
         Spacer()
       }
       
+      if let config = storyGenVM.storyGenerationConfig {
+        if !config.canGenerateNewStory {
+          HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+              .foregroundColor(.orange)
+            Text("home_story_limit_reached".localized)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+          .padding(.horizontal, 12)
+          .background(Color.orange.opacity(0.1))
+          .cornerRadius(8)
+        } else if config.storiesRemainingToday == 1 {
+          HStack(spacing: 8) {
+            Image(systemName: "sparkles")
+              .foregroundColor(.purple)
+            Text("home_one_story_remaining".localized)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+          .padding(.horizontal, 12)
+          .background(Color.purple.opacity(0.1))
+          .cornerRadius(8)
+        }
+      }
+      
       Button(action: {
-        homeVM.generateTodaysStory(using: storyGenVM, appViewModel: appViewModel) { story in
-          if let story = story {
-            onStoryGenerated(story)
+        // Check if user is free tier and at limit
+        if let config = storyGenVM.storyGenerationConfig,
+           !config.canGenerateNewStory,
+           config.subscriptionTier == .free {
+          storyGenVM.showPaywall = true
+        } else {
+          homeVM.generateTodaysStory(using: storyGenVM, appViewModel: appViewModel) { story in
+            if let story = story {
+              onStoryGenerated(story)
+            }
           }
         }
       }) {

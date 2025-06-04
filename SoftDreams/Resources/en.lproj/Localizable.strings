@@ -550,3 +550,30 @@
 "ai_model_free_badge" = "Free";
 "ai_model_premium_required" = "Premium subscription required";
 "ai_model_upgrade_prompt" = "Upgrade to unlock different story styles and premium models";
+
+/* Story Limit Warnings */
+"home_story_limit_reached" = "You've reached your daily story limit";
+"home_one_story_remaining" = "Only 1 story remaining today";
+
+// MARK: - Paywall
+
+"paywall_ready_for_more" = "Ready for More Stories?";
+"paywall_stories_created_today" = "You've created %d amazing stories today. Upgrade to Premium for unlimited creativity!";
+"paywall_select_plan" = "Select a Plan";
+"paywall_start_trial" = "Start Free Trial";
+"paywall_cancel_anytime" = "Cancel anytime";
+"paywall_terms_agreement" = "By starting your trial, you agree to our";
+"paywall_terms_of_service" = "Terms of Service";
+"paywall_and" = "and";
+"paywall_privacy_policy" = "Privacy Policy";
+"paywall_purchase_error" = "Purchase Error";
+"paywall_ok" = "OK";
+"paywall_restore_purchases" = "Restore Purchases";
+
+// MARK: - Story Usage Limit
+
+"story_usage_title" = "Today's Story Usage";
+"story_usage_count" = "%d/%d stories";
+"story_usage_free_plan" = "Free Plan";
+"story_usage_premium_plan" = "Premium Plan";
+"save_33" = "Save 33%";

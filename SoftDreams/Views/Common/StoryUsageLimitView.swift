@@ -13,13 +13,13 @@ struct StoryUsageLimitView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
       HStack {
-        Text("Story Usage")
+        Text("story_usage_title".localized)
           .font(.headline)
           .foregroundStyle(.primary)
         
         Spacer()
         
-        Text("\(storiesGenerated) / \(dailyLimit)")
+        Text(String(format: "story_usage_count".localized, storiesGenerated, dailyLimit))
           .font(.subheadline)
           .foregroundStyle(.secondary)
       }
@@ -44,9 +44,8 @@ struct StoryUsageLimitView: View {
       HStack {
         Spacer()
         
-        Text(tier == .free ? "Free Plan" : "Premium Plan")
+        Text(tier == .free ? "story_usage_free_plan".localized : "story_usage_premium_plan".localized)
           .font(.caption)
-        //                    .foregroundStyle(tier == .free ? .secondary : .blue)
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
           .background(

@@ -17,7 +17,7 @@ enum SubscriptionTier: String, CaseIterable, Codable {
         case .free:
             return 3
         case .premium:
-            return 10
+            return 20
         }
     }
     
@@ -27,7 +27,7 @@ enum SubscriptionTier: String, CaseIterable, Codable {
         case .free:
             return [.gpt35Turbo]
         case .premium:
-            return [.gpt35Turbo, .gpt4o, .claude3Sonnet]
+            return [.gpt35Turbo, .gpt4o]
         }
     }
     

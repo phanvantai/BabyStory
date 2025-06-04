@@ -67,6 +67,18 @@ struct HomeView: View {
             
             // Quick stats or story time reminder
             if let profile = viewModel.profile {
+              AnimatedEntrance(delay: 0.6) {
+                if let config = appViewModel.storyGenerationConfig,
+                   !config.canGenerateNewStory {
+                  StoryUsageLimitView(
+                    storiesGenerated: config.storiesGeneratedToday,
+                    dailyLimit: config.dailyStoryLimit,
+                    tier: config.subscriptionTier
+                  )
+                  .padding(.horizontal, 4)
+                }
+              }
+              
               AnimatedEntrance(delay: 0.7) {
                 StoryTimeCard(
                   storyTime: profile.storyTime,
@@ -120,8 +132,35 @@ struct HomeView: View {
       .sheet(isPresented: $showSettings) {
         SettingsView(viewModel: settingsVM)
       }
+      .sheet(isPresented: $storyGenVM.showPaywall, onDismiss: {
+        storyGenVM.showPaywall = false
+      }) {
+        if let config = appViewModel.storyGenerationConfig {
+          PaywallView(
+            onClose: { storyGenVM.showPaywall = false },
+            onUpgrade: {
+              // Update the story generation config after successful purchase
+              if let updatedConfig = storyGenVM.storyGenerationConfig {
+                appViewModel.updateStoryGenerationConfig(updatedConfig)
+              }
+              storyGenVM.showPaywall = false
+            },
+            config: config
+          )
+        }
+      }
       .onAppear {
         libraryVM.loadStories()
+        // Inject story generation config from app view model
+        if let config = appViewModel.storyGenerationConfig {
+          storyGenVM.storyGenerationConfig = config
+        }
+      }
+      .onChange(of: appViewModel.storyGenerationConfig) { oldValue, newValue in
+        // Update story generation config when it changes in app view model
+        if let newConfig = newValue {
+          storyGenVM.storyGenerationConfig = newConfig
+        }
       }
     }
   }

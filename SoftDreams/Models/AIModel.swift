@@ -138,7 +138,7 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     
     /// All available free models
     static var freeModels: [AIModel] {
-        return allCases.filter { !$0.isPremium }
+      return [.gpt35Turbo] //allCases.filter { !$0.isPremium }
     }
     
     /// All available premium models

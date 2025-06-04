@@ -100,6 +100,10 @@ class HomeViewModel: ObservableObject {
             self.error = storyError
             completion(nil)
           } else {
+            // Update the app view model with the new config after successful generation
+            if let appVM = appViewModel, let updatedConfig = storyGenVM.storyGenerationConfig {
+              appVM.updateStoryGenerationConfig(updatedConfig)
+            }
             completion(storyGenVM.generatedStory)
           }
         } else {

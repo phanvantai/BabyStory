@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 class StoryGenerationViewModel: ObservableObject {
   @Published var options = StoryOptions(length: .medium, theme: "Adventure", characters: [])
@@ -9,12 +10,36 @@ class StoryGenerationViewModel: ObservableObject {
   @Published var autoSaveToLibrary = true
   
   // MARK: - Dependencies
-  private let storyGenerationService: StoryGenerationServiceProtocol
+  private var storyGenerationService: StoryGenerationServiceProtocol
   private let storyService: StoryServiceProtocol
   private let storyGenerationConfigService: StoryGenerationConfigServiceProtocol
   
   /// Current story generation configuration
-  @Published var storyGenerationConfig: StoryGenerationConfig?
+  @Published var storyGenerationConfig: StoryGenerationConfig? {
+    didSet {
+      if let config = storyGenerationConfig {
+        // Capture the provider value before the concurrent operation
+        let provider = config.selectedModel.provider
+        let serviceType: StoryGenerationServiceType
+        switch provider {
+        case .openAI:
+          serviceType = .openAI
+        case .anthropic:
+          serviceType = .claude
+        case .google:
+          serviceType = .gemini
+        }
+        // Create service on background thread since it's a heavy operation
+        Task.detached {
+          let newService = ServiceFactory.shared.createStoryGenerationService(serviceType: serviceType)
+          // Update service on main thread
+          await MainActor.run {
+            self.storyGenerationService = newService
+          }
+        }
+      }
+    }
+  }
   
   /// Flag indicating if a paywall needs to be shown
   @Published var showPaywall: Bool = false
@@ -30,6 +55,17 @@ class StoryGenerationViewModel: ObservableObject {
     self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
     self.storyGenerationConfigService = storyGenerationConfigService ?? ServiceFactory.shared.createStoryGenerationConfigService()
     self.storyGenerationConfig = storyGenerationConfig
+    
+    // Observe story generation config changes
+    if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
+      Task { @MainActor in
+        for await _ in appVM.objectWillChange.values {
+          if let newConfig = appVM.storyGenerationConfig {
+            self.storyGenerationConfig = newConfig
+          }
+        }
+      }
+    }
   }
   
   /// Generates a story with custom options for the given user profile
@@ -48,6 +84,21 @@ class StoryGenerationViewModel: ObservableObject {
     
     let storyOptions = options ?? self.options
     Logger.info("Generating story with theme: \(storyOptions.theme), length: \(storyOptions.length), characters: \(storyOptions.characters.joined(separator: ", "))", category: .storyGeneration)
+    
+    // Ensure we have the correct service for the selected model
+    if let config = storyGenerationConfig {
+      let provider = config.selectedModel.provider
+      let serviceType: StoryGenerationServiceType
+      switch provider {
+      case .openAI:
+        serviceType = .openAI
+      case .anthropic:
+        serviceType = .claude
+      case .google:
+        serviceType = .gemini
+      }
+      storyGenerationService = ServiceFactory.shared.createStoryGenerationService(serviceType: serviceType)
+    }
     
     await performStoryGeneration { [self] in
       try await storyGenerationService.generateStory(for: profile, with: storyOptions)
@@ -83,6 +134,20 @@ class StoryGenerationViewModel: ObservableObject {
       
       if autoSaveToLibrary {
         await autoSaveStory(story)
+      }
+      
+      // Update story generation config after successful generation
+      if var config = storyGenerationConfig {
+        // Capture the config value before the concurrent operation
+        
+        config.incrementStoryCount()
+        let letConfig = config
+        // Update config on main thread
+        await MainActor.run {
+          self.storyGenerationConfig = letConfig
+        }
+        // Save the updated config
+        try? storyGenerationConfigService.saveConfig(config)
       }
     } catch let storyError as StoryGenerationError {
       await finishGeneration(with: mapStoryGenerationError(storyError))
@@ -169,6 +234,15 @@ class StoryGenerationViewModel: ObservableObject {
     if !config.canGenerateNewStory {
       // User has reached their daily limit
       Logger.info("Daily story limit reached: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit) stories", category: .storyGeneration)
+      
+      // Log detailed limit information
+      Logger.info("""
+        Story limit details:
+        - Stories generated: \(config.storiesGeneratedToday)
+        - Daily limit: \(config.dailyStoryLimit)
+        - Subscription tier: \(config.subscriptionTier.rawValue)
+        - Last reset date: \(config.lastResetDate)
+        """, category: .storyGeneration)
       
       // Update UI to show paywall
       await MainActor.run {

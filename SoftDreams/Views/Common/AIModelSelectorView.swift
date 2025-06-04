@@ -10,7 +10,7 @@ struct AIModelSelectorView: View {
     }
     
     private var lockedModels: [AIModel] {
-        return AIModel.allCases.filter { !subscriptionTier.availableModels.contains($0) }
+      return [.gpt4o, .gpt35Turbo].filter { !subscriptionTier.availableModels.contains($0) }
     }
     
     var body: some View {

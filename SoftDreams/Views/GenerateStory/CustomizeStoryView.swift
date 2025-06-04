@@ -6,7 +6,6 @@ struct CustomizeStoryView: View {
   @State private var charactersText: String = ""
   @State private var selectedTheme: StoryTheme = .adventure
   @State private var showContent = false
-  @State private var showUpgradeSheet = false
   
   var body: some View {
     ZStack {
@@ -26,12 +25,14 @@ struct CustomizeStoryView: View {
           // Story Usage Limit Section
           if let config = viewModel.storyGenerationConfig {
             AnimatedEntrance(delay: 0.3) {
-              StoryUsageLimitView(
-                storiesGenerated: config.storiesGeneratedToday,
-                dailyLimit: config.dailyStoryLimit,
-                tier: config.subscriptionTier
-              )
-              .padding(.horizontal, 4)
+              VStack(spacing: 16) {
+                StoryUsageLimitView(
+                  storiesGenerated: config.storiesGeneratedToday,
+                  dailyLimit: config.dailyStoryLimit,
+                  tier: config.subscriptionTier
+                )
+                .padding(.horizontal, 4)
+              }
             }
           }
           
@@ -90,7 +91,15 @@ struct CustomizeStoryView: View {
                 if !charactersText.isEmpty {
                   viewModel.options.characters = charactersText.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
                 }
-                onGenerate()
+                
+                // Check if user is free tier and at limit
+                if let config = viewModel.storyGenerationConfig,
+                   !config.canGenerateNewStory,
+                   config.subscriptionTier == .free {
+                  viewModel.showPaywall = true
+                } else {
+                  onGenerate()
+                }
               },
               isGenerating: viewModel.isGenerating
             )
@@ -112,26 +121,29 @@ struct CustomizeStoryView: View {
       // Initialize characters text from viewModel
       charactersText = viewModel.options.characters.joined(separator: ", ")
     }
-    // Listen for paywall trigger
-    .onChange(of: viewModel.showPaywall) { oldValue, newValue in
-      if newValue {
-        showUpgradeSheet = true
-        viewModel.showPaywall = false // Reset flag after handling
-      }
-    }
-    // Show paywall sheet when needed
-    .sheet(isPresented: $showUpgradeSheet) {
+    .sheet(isPresented: $viewModel.showPaywall, onDismiss: {
+      viewModel.showPaywall = false
+    }) {
       if let config = viewModel.storyGenerationConfig {
         PaywallView(
-          onClose: { showUpgradeSheet = false },
+          onClose: { viewModel.showPaywall = false },
           onUpgrade: {
-            handleUpgradeSubscription()
-            showUpgradeSheet = false
+            // Update the story generation config after successful purchase
+            if var updatedConfig = viewModel.storyGenerationConfig {
+              updatedConfig.upgradeSubscription(to: .premium)
+              
+              // Update the config through AppViewModel to ensure it's properly saved
+              if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
+                appVM.updateStoryGenerationConfig(updatedConfig)
+                
+                // Also update our local copy
+                viewModel.storyGenerationConfig = updatedConfig
+              }
+            }
+            viewModel.showPaywall = false
           },
           config: config
         )
-        .presentationDetents([.medium, .large])
-        .presentationDragIndicator(.visible)
       }
     }
   }

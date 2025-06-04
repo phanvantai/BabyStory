@@ -435,17 +435,5 @@ private struct ClaudeContent: Codable {
 // MARK: - Configuration Extension
 
 extension AnthropicClaudeStoryGenerationService {
-  
-  /// Create a Claude service with API key from configuration
-  /// - Returns: Configured Claude service or nil if no API key is available
-  static func createWithStoredAPIKey() -> AnthropicClaudeStoryGenerationService? {
-    // Get API key from configuration (xcconfig -> Info.plist)
-    let apiKey = APIConfig.anthropicAPIKey
-    if !apiKey.isEmpty {
-      return AnthropicClaudeStoryGenerationService(apiKey: apiKey)
-    }
-    
-    Logger.error("Claude: No API key found in configuration", category: .storyGeneration)
-    return nil
-  }
+  // Remove the createWithStoredAPIKey method as it's no longer needed
 }
