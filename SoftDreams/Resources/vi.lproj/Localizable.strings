@@ -346,24 +346,30 @@
 "app_error_data_save_failed" = "Không thể lưu dữ liệu. Vui lòng thử lại.";
 "app_error_data_export_failed" = "Không thể xuất dữ liệu. Vui lòng thử lại.";
 "app_error_data_import_failed" = "Không thể nhập dữ liệu. Vui lòng kiểm tra tệp và thử lại.";
+"app_error_invalid_data" = "Định dạng dữ liệu không hợp lệ. Vui lòng thử lại.";
+"app_error_daily_story_limit_reached" = "Bạn đã đạt đến giới hạn câu chuyện hàng ngày.";
+"app_error_invalid_configuration" = "Cấu hình tạo câu chuyện không hợp lệ.";
 "app_error_invalid_name" = "Vui lòng nhập tên hợp lệ.";
 "app_error_invalid_date" = "Vui lòng chọn ngày hợp lệ.";
-"app_error_invalid_story_options" = "Tùy chọn câu chuyện không hợp lệ. Vui lòng kiểm tra lựa chọn của bạn.";
-"app_error_invalid_character_count" = "Đã chọn quá nhiều nhân vật. Vui lòng chọn tối đa 5 nhân vật.";
+"app_error_invalid_story_options" = "Tùy chọn câu chuyện không hợp lệ. Vui lòng kiểm tra lại.";
+"app_error_invalid_character_count" = "Quá nhiều nhân vật được chọn. Vui lòng chọn tối đa 5 nhân vật.";
 "app_error_profile_incomplete" = "Vui lòng hoàn thành tất cả các trường hồ sơ bắt buộc.";
 
 // Recovery suggestions
 "app_error_recovery_story_generation" = "Kiểm tra kết nối internet và thử tạo câu chuyện lại.";
 "app_error_recovery_save_retry" = "Vui lòng thử lưu lại. Nếu vấn đề vẫn tiếp tục, hãy khởi động lại ứng dụng.";
 "app_error_recovery_profile_complete" = "Vui lòng hoàn thành tất cả các trường hồ sơ bắt buộc.";
-"app_error_recovery_network" = "Kết nối internet và thử lại.";
-"app_error_recovery_data_corruption" = "Khởi động lại ứng dụng. Nếu vấn đề vẫn tiếp tục, bạn có thể cần đặt lại hồ sơ.";
-"app_error_recovery_storage_space" = "Đảm bảo bạn có đủ dung lượng lưu trữ và thử lại.";
-"app_error_recovery_file_corruption" = "Đảm bảo tệp không bị hỏng và được xuất từ SoftDreams.";
-"app_error_recovery_name_length" = "Nhập tên có ít nhất 1 ký tự.";
-"app_error_recovery_date_validation" = "Chọn ngày phù hợp với độ tuổi của con bạn.";
-"app_error_recovery_story_options" = "Xem lại tùy chọn câu chuyện và thử lại.";
-"app_error_recovery_character_limit" = "Chọn ít nhân vật hơn cho câu chuyện của bạn.";
+"app_error_recovery_network" = "Vui lòng kiểm tra kết nối internet và thử lại.";
+"app_error_recovery_data_corruption" = "Vui lòng khởi động lại ứng dụng. Nếu vấn đề vẫn tiếp tục, hãy liên hệ hỗ trợ.";
+"app_error_recovery_storage_space" = "Vui lòng đảm bảo bạn có đủ dung lượng lưu trữ và thử lại.";
+"app_error_recovery_file_corruption" = "Tệp có vẻ bị hỏng. Vui lòng thử một tệp khác.";
+"app_error_recovery_data_validation" = "Vui lòng kiểm tra thông tin nhập vào và thử lại.";
+"app_error_recovery_upgrade_subscription" = "Nâng cấp gói đăng ký để tạo thêm câu chuyện.";
+"app_error_recovery_configuration" = "Vui lòng kiểm tra cài đặt tạo câu chuyện và thử lại.";
+"app_error_recovery_name_length" = "Tên phải từ 1 đến 50 ký tự.";
+"app_error_recovery_date_validation" = "Vui lòng chọn ngày hợp lệ trong phạm vi cho phép.";
+"app_error_recovery_story_options" = "Vui lòng kiểm tra tùy chọn câu chuyện và thử lại.";
+"app_error_recovery_character_limit" = "Vui lòng chọn tối đa 5 nhân vật cho câu chuyện của bạn.";
 
 // MARK: - Story Options
 
@@ -397,9 +403,9 @@
 "due_date_notification_body_two_days_after" = "Bé %@ thế nào rồi? Vui lòng cập nhật hồ sơ để tiếp tục tận hưởng những câu chuyện được cá nhân hóa.";
 
 // MARK: - Story Time Notifications
-"story_time_notification_title" = "Sắp Đến Giờ Đọc Truyện! 📚";
-"story_time_notification_body" = "Sắp đến giờ đọc truyện trước khi đi ngủ. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
-"story_time_notification_body_personalized" = "Sắp đến giờ đọc truyện của %@. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+"story_time_notification_title" = "Sắp Đến Giờ Kể Chuyện! 📚";
+"story_time_notification_body" = "Sắp đến giờ kể chuyện trước khi đi ngủ. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
+"story_time_notification_body_personalized" = "Sắp đến giờ kể chuyện của %@. Hãy chuẩn bị cho một cuộc phiêu lưu diệu kỳ!";
 
 // MARK: - Notification Permission Manager
 
@@ -492,8 +498,8 @@
 "notification_permission_sheet_continue_without" = "Tiếp Tục Không Có Thông Báo";
 
 // Story View
-"story_listen_to_story" = "Nghe Truyện";
-"story_illustration_placeholder" = "Hình Minh Họa Truyện";
+"story_listen_to_story" = "Nghe chuyện";
+"story_illustration_placeholder" = "Hình Minh Họa Câu Chuyện";
 
 // MARK: - Generate Story
 
@@ -568,12 +574,19 @@
 "paywall_privacy_policy" = "Chính Sách Bảo Mật";
 "paywall_purchase_error" = "Lỗi Mua Hàng";
 "paywall_ok" = "OK";
-"paywall_restore_purchases" = "Khôi phục mua hàng";
+"paywall_restore_purchases" = "Khôi Phục Mua Hàng";
 
 // MARK: - Story Usage Limit
 
-"story_usage_title" = "Số Lượng Truyện Hôm Nay";
-"story_usage_count" = "%d/%d truyện";
+"story_usage_title" = "Số lượng câu chuyện hôm nay";
+"story_usage_count" = "%d/%d câu chuyện";
 "story_usage_free_plan" = "Gói Miễn Phí";
 "story_usage_premium_plan" = "Gói Premium";
 "save_33" = "Tiết kiệm 33%";
+
+// MARK: - Settings Premium Section
+"settings_premium_section" = "Tính Năng Premium";
+"settings_premium_features" = "Xem Tính Năng Premium";
+"settings_premium_features_description" = "Mở khóa các mô hình AI nâng cao và nhiều câu chuyện hơn";
+"settings_restore_purchases" = "Khôi Phục Mua Hàng";
+"settings_restore_purchases_description" = "Khôi phục gói đăng ký premium trước đây của bạn";

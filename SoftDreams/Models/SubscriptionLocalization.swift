@@ -58,7 +58,7 @@ struct SubscriptionLocalization {
             features: [
                 "20 câu chuyện mỗi ngày",
                 "Truy cập các mô hình AI nâng cao",
-                //"Đọc truyện bằng giọng nói",
+                //"Đọc chuyện bằng giọng nói",
                 "Tùy chỉnh cài đặt câu chuyện",
                 //"Nhiều hồ sơ bé"
             ]

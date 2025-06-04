@@ -19,7 +19,7 @@ struct ProfileSummarySection: View {
         ProfileSummaryRow(icon: "person.circle.fill", label: "onboarding_preferences_name".localized, value: viewModel.name.isEmpty ? "onboarding_preferences_not_set".localized : viewModel.name)
         ProfileSummaryRow(icon: "heart.circle.fill", label: "onboarding_preferences_stage".localized, value: viewModel.babyStage.displayName)
         ProfileSummaryRow(icon: "person.2.fill", label: "onboarding_preferences_gender".localized, value: viewModel.gender.displayName)
-        ProfileSummaryRow(icon: "globe.fill", label: "onboarding_preferences_language".localized, value: viewModel.selectedLanguage.nativeName)
+        ProfileSummaryRow(icon: "globe", label: "onboarding_preferences_language".localized, value: viewModel.selectedLanguage.nativeName)
         if !viewModel.isPregnancy {
           ProfileSummaryRow(icon: "calendar", label: "onboarding_preferences_age".localized, value: viewModel.ageDisplayText)
         }

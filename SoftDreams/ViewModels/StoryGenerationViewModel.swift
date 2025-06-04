@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 class StoryGenerationViewModel: ObservableObject {
   @Published var options = StoryOptions(length: .medium, theme: "Adventure", characters: [])
   @Published var isLoading = false
@@ -14,33 +15,6 @@ class StoryGenerationViewModel: ObservableObject {
   private let storyService: StoryServiceProtocol
   private let storyGenerationConfigService: StoryGenerationConfigServiceProtocol
   
-  /// Current story generation configuration
-  @Published var storyGenerationConfig: StoryGenerationConfig? {
-    didSet {
-      if let config = storyGenerationConfig {
-        // Capture the provider value before the concurrent operation
-        let provider = config.selectedModel.provider
-        let serviceType: StoryGenerationServiceType
-        switch provider {
-        case .openAI:
-          serviceType = .openAI
-        case .anthropic:
-          serviceType = .claude
-        case .google:
-          serviceType = .gemini
-        }
-        // Create service on background thread since it's a heavy operation
-        Task.detached {
-          let newService = ServiceFactory.shared.createStoryGenerationService(serviceType: serviceType)
-          // Update service on main thread
-          await MainActor.run {
-            self.storyGenerationService = newService
-          }
-        }
-      }
-    }
-  }
-  
   /// Flag indicating if a paywall needs to be shown
   @Published var showPaywall: Bool = false
   
@@ -48,36 +22,40 @@ class StoryGenerationViewModel: ObservableObject {
   init(
     storyGenerationService: StoryGenerationServiceProtocol? = nil,
     storyService: StoryServiceProtocol? = nil,
-    storyGenerationConfigService: StoryGenerationConfigServiceProtocol? = nil,
-    storyGenerationConfig: StoryGenerationConfig? = nil
+    storyGenerationConfigService: StoryGenerationConfigServiceProtocol? = nil
   ) {
     self.storyGenerationService = storyGenerationService ?? ServiceFactory.shared.createStoryGenerationService(serviceType: .openAI)
     self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
     self.storyGenerationConfigService = storyGenerationConfigService ?? ServiceFactory.shared.createStoryGenerationConfigService()
-    self.storyGenerationConfig = storyGenerationConfig
-    
-    // Observe story generation config changes
-    if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
-      Task { @MainActor in
-        for await _ in appVM.objectWillChange.values {
-          if let newConfig = appVM.storyGenerationConfig {
-            self.storyGenerationConfig = newConfig
-          }
-        }
-      }
+  }
+  
+  /// Updates the story generation service based on the provided config
+  /// - Parameter config: The story generation configuration
+  private func updateService(for config: StoryGenerationConfig) {
+    let provider = config.selectedModel.provider
+    let serviceType: StoryGenerationServiceType
+    switch provider {
+    case .openAI:
+      serviceType = .openAI
+    case .anthropic:
+      serviceType = .claude
+    case .google:
+      serviceType = .gemini
     }
+    storyGenerationService = ServiceFactory.shared.createStoryGenerationService(serviceType: serviceType)
   }
   
   /// Generates a story with custom options for the given user profile
   /// - Parameters:
   ///   - profile: The user profile to generate story for
   ///   - options: Custom story options, or nil to use default options
-  func generateStory(profile: UserProfile, options: StoryOptions?) async {
+  ///   - config: The current story generation configuration
+  func generateStory(profile: UserProfile, options: StoryOptions?, config: StoryGenerationConfig) async {
     Logger.info("Starting story generation", category: .storyGeneration)
     Logger.logUserProfile(profile, action: "Using for story generation")
     
     // Check if we can generate a story based on daily limits
-    guard await checkStoryGenerationLimits() else {
+    guard await checkStoryGenerationLimits(config: config) else {
       Logger.info("Story generation blocked due to daily limit reached", category: .storyGeneration)
       return
     }
@@ -86,19 +64,7 @@ class StoryGenerationViewModel: ObservableObject {
     Logger.info("Generating story with theme: \(storyOptions.theme), length: \(storyOptions.length), characters: \(storyOptions.characters.joined(separator: ", "))", category: .storyGeneration)
     
     // Ensure we have the correct service for the selected model
-    if let config = storyGenerationConfig {
-      let provider = config.selectedModel.provider
-      let serviceType: StoryGenerationServiceType
-      switch provider {
-      case .openAI:
-        serviceType = .openAI
-      case .anthropic:
-        serviceType = .claude
-      case .google:
-        serviceType = .gemini
-      }
-      storyGenerationService = ServiceFactory.shared.createStoryGenerationService(serviceType: serviceType)
-    }
+    updateService(for: config)
     
     await performStoryGeneration { [self] in
       try await storyGenerationService.generateStory(for: profile, with: storyOptions)
@@ -106,19 +72,82 @@ class StoryGenerationViewModel: ObservableObject {
   }
   
   /// Generate a daily story with default options
-  /// - Parameter profile: The user profile to generate daily story for
-  func generateDailyStory(profile: UserProfile) async {
+  /// - Parameters:
+  ///   - profile: The user profile to generate daily story for
+  ///   - config: The current story generation configuration
+  func generateDailyStory(profile: UserProfile, config: StoryGenerationConfig) async {
     Logger.info("Starting daily story generation", category: .storyGeneration)
     
     // Check if we can generate a story based on daily limits
-    guard await checkStoryGenerationLimits() else {
+    guard await checkStoryGenerationLimits(config: config) else {
       Logger.info("Daily story generation blocked due to daily limit reached", category: .storyGeneration)
       return
     }
     
+    // Ensure we have the correct service for the selected model
+    updateService(for: config)
+    
     await performStoryGeneration { [self] in
       try await storyGenerationService.generateDailyStory(for: profile)
     }
+  }
+  
+  /// Generates a custom story with the current options and profile
+  /// - Parameters:
+  ///   - profile: The user profile to generate story for
+  ///   - appViewModel: The app view model containing the current config
+  /// - Returns: The generated story if successful, nil otherwise
+  func generateCustomStory(
+    profile: UserProfile,
+    appViewModel: AppViewModel
+  ) async -> Story? {
+    guard let config = appViewModel.storyGenerationConfig else {
+      error = .invalidConfiguration
+      return nil
+    }
+    
+    await generateStory(profile: profile, options: options, config: config)
+    
+    if error != nil {
+      return nil
+    }
+    
+    // Update the app view model with the new config after successful generation
+    if var updatedConfig = appViewModel.storyGenerationConfig {
+      updatedConfig.incrementStoryCount()
+      appViewModel.updateStoryGenerationConfig(updatedConfig)
+    }
+    
+    return generatedStory
+  }
+  
+  /// Generates today's story with default options
+  /// - Parameters:
+  ///   - profile: The user profile to generate story for
+  ///   - appViewModel: The app view model containing the current config
+  /// - Returns: The generated story if successful, nil otherwise
+  func generateTodaysStory(
+    profile: UserProfile,
+    appViewModel: AppViewModel
+  ) async -> Story? {
+    guard let config = appViewModel.storyGenerationConfig else {
+      error = .invalidConfiguration
+      return nil
+    }
+    
+    await generateDailyStory(profile: profile, config: config)
+    
+    if error != nil {
+      return nil
+    }
+    
+    // Update the app view model with the new config after successful generation
+    if var updatedConfig = appViewModel.storyGenerationConfig {
+      updatedConfig.incrementStoryCount()
+      appViewModel.updateStoryGenerationConfig(updatedConfig)
+    }
+    
+    return generatedStory
   }
   
   // MARK: - Private Helper Methods
@@ -126,40 +155,25 @@ class StoryGenerationViewModel: ObservableObject {
   /// Performs story generation with common error handling and state management
   /// - Parameter generationBlock: The story generation closure to execute
   private func performStoryGeneration(_ generationBlock: @escaping () async throws -> Story) async {
-    await startGeneration()
+    startGeneration()
     
     do {
       let story = try await generationBlock()
-      await finishGeneration(with: story)
+      finishGeneration(with: story)
       
       if autoSaveToLibrary {
         await autoSaveStory(story)
       }
-      
-      // Update story generation config after successful generation
-      if var config = storyGenerationConfig {
-        // Capture the config value before the concurrent operation
-        
-        config.incrementStoryCount()
-        let letConfig = config
-        // Update config on main thread
-        await MainActor.run {
-          self.storyGenerationConfig = letConfig
-        }
-        // Save the updated config
-        try? storyGenerationConfigService.saveConfig(config)
-      }
     } catch let storyError as StoryGenerationError {
-      await finishGeneration(with: mapStoryGenerationError(storyError))
+      finishGeneration(with: mapStoryGenerationError(storyError))
       Logger.error("Story generation failed: \(storyError.localizedDescription)", category: .storyGeneration)
     } catch {
-      await finishGeneration(with: .storyGenerationFailed)
+      finishGeneration(with: .storyGenerationFailed)
       Logger.error("Story generation failed with unexpected error: \(error.localizedDescription)", category: .storyGeneration)
     }
   }
   
   /// Updates UI state when starting story generation
-  @MainActor
   private func startGeneration() {
     isLoading = true
     isGenerating = true
@@ -168,7 +182,6 @@ class StoryGenerationViewModel: ObservableObject {
   
   /// Updates UI state when story generation completes successfully
   /// - Parameter story: The generated story
-  @MainActor
   private func finishGeneration(with story: Story) {
     generatedStory = story
     isLoading = false
@@ -178,7 +191,6 @@ class StoryGenerationViewModel: ObservableObject {
   
   /// Updates UI state when story generation fails
   /// - Parameter error: The error that occurred
-  @MainActor
   private func finishGeneration(with error: AppError) {
     self.error = error
     isLoading = false
@@ -202,7 +214,6 @@ class StoryGenerationViewModel: ObservableObject {
   /// Maps story generation errors to app errors
   /// - Parameter storyError: The story generation error to map
   /// - Returns: The corresponding app error
-  
   private func mapStoryGenerationError(_ storyError: StoryGenerationError) -> AppError {
     switch storyError {
     case .invalidProfile:
@@ -223,25 +234,25 @@ class StoryGenerationViewModel: ObservableObject {
   // MARK: - Subscription and Limits
   
   /// Check if story generation is allowed based on subscription limits
+  /// - Parameter config: The current story generation configuration
   /// - Returns: True if story generation is allowed, false otherwise
-  @MainActor
-  private func checkStoryGenerationLimits() async -> Bool {
-    var config = storyGenerationConfig ?? loadOrCreateStoryGenerationConfig()
+  private func checkStoryGenerationLimits(config: StoryGenerationConfig) async -> Bool {
+    var updatedConfig = config
     // Reset daily count if needed (e.g., it's a new day)
-    config.resetDailyCountIfNeeded()
+    updatedConfig.resetDailyCountIfNeeded()
     
     // Check if user can generate a new story
-    if !config.canGenerateNewStory {
+    if !updatedConfig.canGenerateNewStory {
       // User has reached their daily limit
-      Logger.info("Daily story limit reached: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit) stories", category: .storyGeneration)
+      Logger.info("Daily story limit reached: \(updatedConfig.storiesGeneratedToday)/\(updatedConfig.dailyStoryLimit) stories", category: .storyGeneration)
       
       // Log detailed limit information
       Logger.info("""
         Story limit details:
-        - Stories generated: \(config.storiesGeneratedToday)
-        - Daily limit: \(config.dailyStoryLimit)
-        - Subscription tier: \(config.subscriptionTier.rawValue)
-        - Last reset date: \(config.lastResetDate)
+        - Stories generated: \(updatedConfig.storiesGeneratedToday)
+        - Daily limit: \(updatedConfig.dailyStoryLimit)
+        - Subscription tier: \(updatedConfig.subscriptionTier.rawValue)
+        - Last reset date: \(updatedConfig.lastResetDate)
         """, category: .storyGeneration)
       
       // Update UI to show paywall
@@ -252,31 +263,6 @@ class StoryGenerationViewModel: ObservableObject {
       return false
     }
     
-    // User can generate a story, increment count
-    config.incrementStoryCount()
-    storyGenerationConfig = config
-    
-    // Save updated config
-    do {
-      try storyGenerationConfigService.saveConfig(config)
-      Logger.info("Updated story count: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit) stories", category: .storyGeneration)
-    } catch {
-      Logger.error("Failed to save updated story count: \(error.localizedDescription)", category: .storyGeneration)
-    }
     return true
-  }
-  
-  /// Loads or creates the story generation configuration
-  /// - Returns: The story generation configuration
-  /// - Note: This method ensures we always have a valid configuration to work with
-  func loadOrCreateStoryGenerationConfig() -> StoryGenerationConfig {
-    do {
-      return try storyGenerationConfigService.loadConfig()
-    } catch {
-      Logger.error("Failed to load story generation config, creating default: \(error.localizedDescription)", category: .storyGeneration)
-      let defaultConfig = StoryGenerationConfig(subscriptionTier: .free)
-      try? storyGenerationConfigService.saveConfig(defaultConfig)
-      return defaultConfig
-    }
   }
 }

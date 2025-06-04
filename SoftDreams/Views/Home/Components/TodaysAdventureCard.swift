@@ -47,7 +47,7 @@ struct TodaysAdventureCard: View {
         Spacer()
       }
       
-      if let config = storyGenVM.storyGenerationConfig {
+      if let config = appViewModel.storyGenerationConfig {
         if !config.canGenerateNewStory {
           HStack(spacing: 8) {
             Image(systemName: "exclamationmark.triangle.fill")
@@ -77,13 +77,14 @@ struct TodaysAdventureCard: View {
       
       Button(action: {
         // Check if user is free tier and at limit
-        if let config = storyGenVM.storyGenerationConfig,
+        if let config = appViewModel.storyGenerationConfig,
            !config.canGenerateNewStory,
            config.subscriptionTier == .free {
           storyGenVM.showPaywall = true
         } else {
-          homeVM.generateTodaysStory(using: storyGenVM, appViewModel: appViewModel) { story in
-            if let story = story {
+          Task {
+            if let profile = homeVM.profile,
+               let story = await storyGenVM.generateTodaysStory(profile: profile, appViewModel: appViewModel) {
               onStoryGenerated(story)
             }
           }

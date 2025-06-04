@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CustomizeStoryView: View {
   @ObservedObject var viewModel: StoryGenerationViewModel
+  @ObservedObject var appViewModel: AppViewModel
   var onGenerate: () -> Void
   @State private var charactersText: String = ""
   @State private var selectedTheme: StoryTheme = .adventure
@@ -23,7 +24,7 @@ struct CustomizeStoryView: View {
           }
           
           // Story Usage Limit Section
-          if let config = viewModel.storyGenerationConfig {
+          if let config = appViewModel.storyGenerationConfig {
             AnimatedEntrance(delay: 0.3) {
               VStack(spacing: 16) {
                 StoryUsageLimitView(
@@ -52,20 +53,15 @@ struct CustomizeStoryView: View {
           }
           
           // AI Model Selector (only if config is available)
-          if let config = viewModel.storyGenerationConfig {
+          if let config = appViewModel.storyGenerationConfig {
             AnimatedEntrance(delay: 0.7) {
               AIModelSelectorView(
                 selectedModel: Binding(
                   get: { config.selectedModel },
                   set: { newModel in
-                    if var updatedConfig = viewModel.storyGenerationConfig {
+                    if var updatedConfig = appViewModel.storyGenerationConfig {
                       let _ = updatedConfig.selectModel(newModel)
-                      viewModel.storyGenerationConfig = updatedConfig
-                      
-                      // Save the updated config
-                      if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
-                        appVM.updateStoryGenerationConfig(updatedConfig)
-                      }
+                      appViewModel.updateStoryGenerationConfig(updatedConfig)
                     }
                   }
                 ),
@@ -93,7 +89,7 @@ struct CustomizeStoryView: View {
                 }
                 
                 // Check if user is free tier and at limit
-                if let config = viewModel.storyGenerationConfig,
+                if let config = appViewModel.storyGenerationConfig,
                    !config.canGenerateNewStory,
                    config.subscriptionTier == .free {
                   viewModel.showPaywall = true
@@ -124,43 +120,19 @@ struct CustomizeStoryView: View {
     .sheet(isPresented: $viewModel.showPaywall, onDismiss: {
       viewModel.showPaywall = false
     }) {
-      if let config = viewModel.storyGenerationConfig {
+      if let config = appViewModel.storyGenerationConfig {
         PaywallView(
           onClose: { viewModel.showPaywall = false },
           onUpgrade: {
             // Update the story generation config after successful purchase
-            if var updatedConfig = viewModel.storyGenerationConfig {
+            if var updatedConfig = appViewModel.storyGenerationConfig {
               updatedConfig.upgradeSubscription(to: .premium)
-              
-              // Update the config through AppViewModel to ensure it's properly saved
-              if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
-                appVM.updateStoryGenerationConfig(updatedConfig)
-                
-                // Also update our local copy
-                viewModel.storyGenerationConfig = updatedConfig
-              }
+              appViewModel.updateStoryGenerationConfig(updatedConfig)
             }
             viewModel.showPaywall = false
           },
           config: config
         )
-      }
-    }
-  }
-  
-  // Handle subscription upgrade
-  private func handleUpgradeSubscription() {
-    // For demo purposes, we'll simply upgrade the user's subscription to premium
-    // In a real app, this would show the App Store's subscription UI
-    if var config = viewModel.storyGenerationConfig {
-      config.upgradeSubscription(to: .premium)
-      
-      // Update the config through AppViewModel to ensure it's properly saved
-      if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
-        appVM.updateStoryGenerationConfig(config)
-        
-        // Also update our local copy
-        viewModel.storyGenerationConfig = config
       }
     }
   }
@@ -177,7 +149,8 @@ struct CustomizeStoryView: View {
         vm.options.length = .medium
         vm.options.characters = ["brave knight", "friendly dragon"]
         return vm
-      }()
+      }(),
+      appViewModel: AppViewModel()
     ) {
       print("Generate story tapped in preview")
     }

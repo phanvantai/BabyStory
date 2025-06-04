@@ -122,7 +122,7 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     var temperature: Double {
         switch self {
         case .gpt35Turbo:
-            return 0.8 // Good creativity for basic stories
+            return 0.85 // Good creativity for basic stories
         case .gpt4o:
             return 0.85 // Higher creativity for premium experience
         case .claude3Haiku:

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 // MARK: - Service Factory
 /// Factory class for creating service instances
@@ -71,10 +72,23 @@ class ServiceFactory {
   /// Create a story generation service instance
   /// - Parameter serviceType: The type of story generation service to use
   /// - Returns: A service conforming to StoryGenerationServiceProtocol
+  @MainActor
   func createStoryGenerationService(serviceType: StoryGenerationServiceType = .openAI) -> StoryGenerationServiceProtocol {
-    // Get current config to use selected model
-    guard let config = try? UserDefaultsStoryGenerationConfigService().loadConfig() else {
-      fatalError("Failed to load story generation config")
+    // Get current config from AppViewModel or load from service
+    let config: StoryGenerationConfig
+    
+    if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel,
+       let appConfig = appVM.storyGenerationConfig {
+      config = appConfig
+    } else {
+      // Load config from service if AppViewModel is not available
+      Logger.warning("AppViewModel not available, loading config from service", category: .storyGeneration)
+      do {
+        config = try createStoryGenerationConfigService().loadConfig()
+      } catch {
+        Logger.error("Failed to load story generation config: \(error.localizedDescription)", category: .storyGeneration)
+        fatalError("Failed to load story generation config: \(error.localizedDescription)")
+      }
     }
     
     let selectedModel = config.selectedModel

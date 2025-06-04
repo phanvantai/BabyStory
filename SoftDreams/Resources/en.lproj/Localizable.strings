@@ -346,6 +346,9 @@
 "app_error_data_save_failed" = "Failed to save data. Please try again.";
 "app_error_data_export_failed" = "Failed to export data. Please try again.";
 "app_error_data_import_failed" = "Failed to import data. Please check the file and try again.";
+"app_error_invalid_data" = "Invalid data format. Please try again.";
+"app_error_daily_story_limit_reached" = "You've reached your daily story limit.";
+"app_error_invalid_configuration" = "Invalid story generation configuration.";
 "app_error_invalid_name" = "Please enter a valid name.";
 "app_error_invalid_date" = "Please select a valid date.";
 "app_error_invalid_story_options" = "Story options are invalid. Please check your selections.";
@@ -356,14 +359,17 @@
 "app_error_recovery_story_generation" = "Check your internet connection and try generating the story again.";
 "app_error_recovery_save_retry" = "Please try saving again. If the problem persists, restart the app.";
 "app_error_recovery_profile_complete" = "Please complete all required profile fields.";
-"app_error_recovery_network" = "Connect to the internet and try again.";
-"app_error_recovery_data_corruption" = "Restart the app. If the problem persists, you may need to reset your profile.";
-"app_error_recovery_storage_space" = "Make sure you have enough storage space and try again.";
-"app_error_recovery_file_corruption" = "Ensure the file is not corrupted and was exported from SoftDreams.";
-"app_error_recovery_name_length" = "Enter a name with at least 1 character.";
-"app_error_recovery_date_validation" = "Choose a date that makes sense for your child's age.";
-"app_error_recovery_story_options" = "Review your story preferences and try again.";
-"app_error_recovery_character_limit" = "Select fewer characters for your story.";
+"app_error_recovery_network" = "Please check your internet connection and try again.";
+"app_error_recovery_data_corruption" = "Please restart the app. If the problem persists, contact support.";
+"app_error_recovery_storage_space" = "Please ensure you have enough storage space and try again.";
+"app_error_recovery_file_corruption" = "The file appears to be corrupted. Please try a different file.";
+"app_error_recovery_data_validation" = "Please check your input and try again.";
+"app_error_recovery_upgrade_subscription" = "Upgrade your subscription to generate more stories.";
+"app_error_recovery_configuration" = "Please check your story generation settings and try again.";
+"app_error_recovery_name_length" = "Name should be between 1 and 50 characters.";
+"app_error_recovery_date_validation" = "Please select a valid date within the allowed range.";
+"app_error_recovery_story_options" = "Please check your story options and try again.";
+"app_error_recovery_character_limit" = "Please select up to 5 characters for your story.";
 
 // MARK: - Story Options
 
@@ -577,3 +583,10 @@
 "story_usage_free_plan" = "Free Plan";
 "story_usage_premium_plan" = "Premium Plan";
 "save_33" = "Save 33%";
+
+// MARK: - Settings Premium Section
+"settings_premium_section" = "Premium Features";
+"settings_premium_features" = "View Premium Features";
+"settings_premium_features_description" = "Unlock advanced AI models and more stories";
+"settings_restore_purchases" = "Restore Purchases";
+"settings_restore_purchases_description" = "Restore your previous premium subscription";
