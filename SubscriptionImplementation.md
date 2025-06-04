@@ -65,19 +65,20 @@ Implement a freemium model that offers value to free users and unlocks premium f
 
 - [x] Implement `StoryGenerationConfig` model ✅ **COMPLETED**
 - [ ] Add story usage tracking logic  
-  - [ ] Persist `StoryGenerationConfig` to local storage (`UserDefaults`)
-  - [ ] Load it on app startup and inject into the story generation flow
-  - [ ] On story creation:
-    - [ ] Call `resetDailyCountIfNeeded()`
-    - [ ] Check `canGenerateNewStory` before proceeding
-    - [ ] If valid, call `incrementStoryCount()`
-    - [ ] Save the updated config after changes
-  - [ ] If over limit, show paywall or upsell
+  - [x] Persist `StoryGenerationConfig` to local storage (`UserDefaults`) ✅ **COMPLETED**
+  - [x] Implement `UserDefaultsStoryGenerationConfigService` to manage config persistence ✅ **COMPLETED**
+  - [x] Load it on app startup and inject into the story generation flow ✅ **COMPLETED**
+  - [x] On story creation: ✅ **COMPLETED**
+    - [x] Call `resetDailyCountIfNeeded()` ✅ **COMPLETED**
+    - [x] Check `canGenerateNewStory` before proceeding ✅ **COMPLETED**
+    - [x] If valid, call `incrementStoryCount()` ✅ **COMPLETED**
+    - [x] Save the updated config after changes ✅ **COMPLETED**
+  - [x] If over limit, show paywall or upsell ✅ **COMPLETED**
   - [ ] Optionally: log usage events via analytics
 
-- [ ] Lock model selector in UI for free users  
-  - [ ] Disable selection or show premium badge for locked models
-  - [ ] Auto-select `gpt-3.5-turbo` if user is free tier
+- [x] Lock model selector in UI for free users  
+  - [x] Disable selection or show premium badge for locked models
+  - [x] Auto-select `gpt-3.5-turbo` if user is free tier
 
 - [ ] Design and show upsell when story limit is hit  
   - [ ] Detect when `canGenerateNewStory == false`
@@ -88,7 +89,7 @@ Implement a freemium model that offers value to free users and unlocks premium f
   - [ ] Monthly / yearly subscription CTA
   - [ ] Explain access to model options, voice mode, extra daily stories
 
-- [ ] Add voice mode (text-to-speech) for premium users  
+<!-- - [ ] Add voice mode (text-to-speech) for premium users  
   - [ ] Use `AVSpeechSynthesizer` or 3rd-party API
   - [ ] Lock access behind premium check
-  - [ ] Add playback UI to story viewer
+  - [ ] Add playback UI to story viewer -->

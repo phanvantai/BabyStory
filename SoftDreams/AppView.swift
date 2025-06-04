@@ -8,7 +8,7 @@ import SwiftUI
 struct AppView: View {
   // MARK: - ViewModels
   /// Main app state management ViewModel
-  @StateObject private var appViewModel = AppViewModel()
+  @EnvironmentObject var appViewModel: AppViewModel
   /// ViewModel for the onboarding flow
   @StateObject private var onboardingVM = OnboardingViewModel()
   /// ViewModel for the home screen

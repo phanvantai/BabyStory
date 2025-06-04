@@ -3,6 +3,7 @@ import SwiftUI
 struct TodaysAdventureCard: View {
   @ObservedObject var storyGenVM: StoryGenerationViewModel
   @ObservedObject var homeVM: HomeViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @ObservedObject private var languageManager = LanguageManager.shared
   let onStoryGenerated: (Story) -> Void
   
@@ -47,7 +48,7 @@ struct TodaysAdventureCard: View {
       }
       
       Button(action: {
-        homeVM.generateTodaysStory(using: storyGenVM) { story in
+        homeVM.generateTodaysStory(using: storyGenVM, appViewModel: appViewModel) { story in
           if let story = story {
             onStoryGenerated(story)
           }

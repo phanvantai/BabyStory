@@ -24,6 +24,10 @@ class AppViewModel: ObservableObject {
     // MARK: - Dependencies
     private let userProfileService: UserProfileServiceProtocol
     private let errorManager: ErrorManager
+    private let storyGenerationConfigService: StoryGenerationConfigServiceProtocol
+    
+    /// The app's current story generation configuration
+    @Published var storyGenerationConfig: StoryGenerationConfig?
     
     // MARK: - Initialization
     
@@ -31,12 +35,15 @@ class AppViewModel: ObservableObject {
     /// - Parameters:
     ///   - userProfileService: Service for user profile operations
     ///   - errorManager: Manager for centralized error handling
+    ///   - storyGenerationConfigService: Service for story generation config operations
     init(
         userProfileService: UserProfileServiceProtocol? = nil,
-        errorManager: ErrorManager? = nil
+        errorManager: ErrorManager? = nil,
+        storyGenerationConfigService: StoryGenerationConfigServiceProtocol? = nil
     ) {
         self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
         self.errorManager = errorManager ?? ErrorManager()
+        self.storyGenerationConfigService = storyGenerationConfigService ?? ServiceFactory.shared.createStoryGenerationConfigService()
     }
     
     // MARK: - Public Methods
@@ -50,7 +57,29 @@ class AppViewModel: ObservableObject {
         try? await Task.sleep(nanoseconds: 50_000_000) // 0.05 second delay
         
         do {
+            // Load user profile
             let profile = try userProfileService.loadProfile()
+            
+            // Load story generation config
+            do {
+                var config = try storyGenerationConfigService.loadConfig()
+                
+                // Reset daily count if needed based on date
+                config.resetDailyCountIfNeeded()
+                
+                // Save config back if day reset occurred
+                if config.shouldResetDailyCount {
+                    try storyGenerationConfigService.saveConfig(config)
+                }
+                
+                storyGenerationConfig = config
+                Logger.info("Loaded story generation config - Subscription tier: \(config.subscriptionTier.rawValue), Stories today: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit)", category: .general)
+            } catch {
+                Logger.error("Failed to load story generation config: \(error.localizedDescription)", category: .general)
+                // Create default config if loading fails
+                storyGenerationConfig = StoryGenerationConfig(subscriptionTier: .free)
+                try? storyGenerationConfigService.saveConfig(storyGenerationConfig!)
+            }
             
             withAnimation(.easeInOut(duration: 0.3)) {
                 needsOnboarding = profile == nil
@@ -114,5 +143,21 @@ class AppViewModel: ObservableObject {
         Logger.info("Clearing app error state", category: .general)
         currentError = nil
         errorManager.clearError()
+    }
+    
+    /// Updates the story generation config
+    /// - Parameter config: The new config to save
+    /// - Returns: True if update was successful, false otherwise
+    @discardableResult
+    func updateStoryGenerationConfig(_ config: StoryGenerationConfig) -> Bool {
+        do {
+            try storyGenerationConfigService.saveConfig(config)
+            storyGenerationConfig = config
+            Logger.info("Updated story generation config - Subscription tier: \(config.subscriptionTier.rawValue), Stories today: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit)", category: .general)
+            return true
+        } catch {
+            Logger.error("Failed to update story generation config: \(error.localizedDescription)", category: .general)
+            return false
+        }
     }
 }

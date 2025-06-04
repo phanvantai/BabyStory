@@ -51,11 +51,18 @@ class HomeViewModel: ObservableObject {
   @MainActor
   func generateTodaysStory(
     using storyGenVM: StoryGenerationViewModel,
+    appViewModel: AppViewModel? = nil,
     completion: @escaping (Story?) -> Void
   ) {
     Task {
       do {
         self.error = nil
+        
+        // Inject the story generation config if available
+        if let appVM = appViewModel, let config = appVM.storyGenerationConfig {
+          storyGenVM.storyGenerationConfig = config
+        }
+        
         if let profile = self.profile {
           await storyGenVM.generateStory(profile: profile, options: nil)
           if let storyError = storyGenVM.error {
@@ -75,11 +82,18 @@ class HomeViewModel: ObservableObject {
   @MainActor
   func generateCustomStory(
     using storyGenVM: StoryGenerationViewModel,
+    appViewModel: AppViewModel? = nil,
     completion: @escaping (Story?) -> Void
   ) {
     Task {
       do {
         self.error = nil
+        
+        // Inject the story generation config if available
+        if let appVM = appViewModel, let config = appVM.storyGenerationConfig {
+          storyGenVM.storyGenerationConfig = config
+        }
+        
         if let profile = self.profile {
           await storyGenVM.generateStory(profile: profile, options: storyGenVM.options)
           if let storyError = storyGenVM.error {

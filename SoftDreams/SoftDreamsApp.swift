@@ -13,19 +13,30 @@ struct SoftDreamsApp: App {
   @StateObject private var themeManager = ThemeManager.shared
   @StateObject private var languageManager = LanguageManager.shared
   @StateObject private var notificationDelegate = NotificationDelegate()
+  @StateObject private var appViewModel = AppViewModel()
   
   var body: some Scene {
     WindowGroup {
       AppView()
         .environmentObject(themeManager)
         .environmentObject(languageManager)
+        .environmentObject(appViewModel)
         .preferredColorScheme(themeManager.preferredColorScheme)
         .withCustomNavigationBarAppearance() // Apply custom navigation bar appearance
         .animation(.easeInOut(duration: 0.3), value: themeManager.preferredColorScheme)
         .onAppear {
           setupNotifications()
+          setupSceneDelegate()
         }
         .environment(\.locale, .init(identifier: languageManager.currentLanguage))
+    }
+  }
+  
+  private func setupSceneDelegate() {
+    // Find the scene delegate and set the appViewModel
+    if let scene = UIApplication.shared.connectedScenes.first,
+       let delegate = scene.delegate as? SceneDelegate {
+      delegate.appViewModel = appViewModel
     }
   }
   

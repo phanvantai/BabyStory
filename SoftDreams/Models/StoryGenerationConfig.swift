@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct StoryGenerationConfig: Codable {
+struct StoryGenerationConfig: Codable, Equatable {
     /// Current subscription tier
     var subscriptionTier: SubscriptionTier
     

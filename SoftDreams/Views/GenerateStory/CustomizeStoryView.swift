@@ -6,6 +6,7 @@ struct CustomizeStoryView: View {
   @State private var charactersText: String = ""
   @State private var selectedTheme: StoryTheme = .adventure
   @State private var showContent = false
+  @State private var showUpgradeSheet = false
   
   var body: some View {
     ZStack {
@@ -22,6 +23,18 @@ struct CustomizeStoryView: View {
             CustomizeHeaderView()
           }
           
+          // Story Usage Limit Section
+          if let config = viewModel.storyGenerationConfig {
+            AnimatedEntrance(delay: 0.3) {
+              StoryUsageLimitView(
+                storiesGenerated: config.storiesGeneratedToday,
+                dailyLimit: config.dailyStoryLimit,
+                tier: config.subscriptionTier
+              )
+              .padding(.horizontal, 4)
+            }
+          }
+          
           // Story Length Section
           AnimatedEntrance(delay: 0.4) {
             StoryLengthSelector(selectedLength: $viewModel.options.length)
@@ -35,6 +48,29 @@ struct CustomizeStoryView: View {
                 viewModel.options.theme = theme.rawValue
               }
             )
+          }
+          
+          // AI Model Selector (only if config is available)
+          if let config = viewModel.storyGenerationConfig {
+            AnimatedEntrance(delay: 0.7) {
+              AIModelSelectorView(
+                selectedModel: Binding(
+                  get: { config.selectedModel },
+                  set: { newModel in
+                    if var updatedConfig = viewModel.storyGenerationConfig {
+                      let _ = updatedConfig.selectModel(newModel)
+                      viewModel.storyGenerationConfig = updatedConfig
+                      
+                      // Save the updated config
+                      if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
+                        appVM.updateStoryGenerationConfig(updatedConfig)
+                      }
+                    }
+                  }
+                ),
+                subscriptionTier: config.subscriptionTier
+              )
+            }
           }
           
           // Characters Section
@@ -75,6 +111,45 @@ struct CustomizeStoryView: View {
       }
       // Initialize characters text from viewModel
       charactersText = viewModel.options.characters.joined(separator: ", ")
+    }
+    // Listen for paywall trigger
+    .onChange(of: viewModel.showPaywall) { oldValue, newValue in
+      if newValue {
+        showUpgradeSheet = true
+        viewModel.showPaywall = false // Reset flag after handling
+      }
+    }
+    // Show paywall sheet when needed
+    .sheet(isPresented: $showUpgradeSheet) {
+      if let config = viewModel.storyGenerationConfig {
+        PaywallView(
+          onClose: { showUpgradeSheet = false },
+          onUpgrade: {
+            handleUpgradeSubscription()
+            showUpgradeSheet = false
+          },
+          config: config
+        )
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+      }
+    }
+  }
+  
+  // Handle subscription upgrade
+  private func handleUpgradeSubscription() {
+    // For demo purposes, we'll simply upgrade the user's subscription to premium
+    // In a real app, this would show the App Store's subscription UI
+    if var config = viewModel.storyGenerationConfig {
+      config.upgradeSubscription(to: .premium)
+      
+      // Update the config through AppViewModel to ensure it's properly saved
+      if let appVM = (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.appViewModel {
+        appVM.updateStoryGenerationConfig(config)
+        
+        // Also update our local copy
+        viewModel.storyGenerationConfig = config
+      }
     }
   }
 }

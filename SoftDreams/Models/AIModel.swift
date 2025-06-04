@@ -143,7 +143,8 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     
     /// All available premium models
     static var premiumModels: [AIModel] {
-        return allCases.filter { $0.isPremium }
+      return [.gpt4o]
+       // return allCases.filter { $0.isPremium }
     }
     
     /// Default model (free tier)
@@ -158,7 +159,7 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     /// - Returns: Array of available models
     static func availableModels(for isPremiumUser: Bool) -> [AIModel] {
         if isPremiumUser {
-            return allCases // All models available for premium users
+          return freeModels + premiumModels // allCases // All models available for premium users
         } else {
             return freeModels // Only free models for free users
         }

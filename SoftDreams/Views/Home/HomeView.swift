@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
   @ObservedObject var viewModel: HomeViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @ObservedObject private var languageManager = LanguageManager.shared
   @State private var showCustomize = false
   @State private var showLibrary = false
@@ -83,7 +84,7 @@ struct HomeView: View {
       }
       .navigationDestination(isPresented: $showCustomize) {
         CustomizeStoryView(viewModel: storyGenVM) {
-          viewModel.generateCustomStory(using: storyGenVM) { story in
+          viewModel.generateCustomStory(using: storyGenVM, appViewModel: appViewModel) { story in
             generatedStory = story
             showStory = true
           }
