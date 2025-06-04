@@ -2,8 +2,11 @@ import SwiftUI
 
 struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @Environment(\.dismiss) private var dismiss
   @State private var showEditProfile = false
+  @State private var showPremiumFeatures = false
+  @State private var isRestoringPurchases = false
   
   var body: some View {
     NavigationStack {
@@ -25,6 +28,14 @@ struct SettingsView: View {
             // Notifications Section
             SettingsNotificationsSectionView(viewModel: viewModel)
             
+            // Premium Features Section (only show for free users)
+            if appViewModel.storyGenerationConfig?.subscriptionTier == .free {
+              SettingsPremiumSectionView(
+                  showPremiumFeatures: $showPremiumFeatures,
+                  isRestoringPurchases: $isRestoringPurchases
+              )
+            }
+            
             // Support Section
             SettingsSupportSectionView(viewModel: viewModel)
             
@@ -38,6 +49,25 @@ struct SettingsView: View {
       .navigationBarTitleDisplayMode(.inline)
       .sheet(isPresented: $showEditProfile) {
         EditProfileView()
+      }
+    }
+  }
+  
+  private func handleRestorePurchases() {
+    isRestoringPurchases = true
+    
+    Task {
+      do {
+        try await ServiceFactory.shared.createStoreKitService().restorePurchases()
+        await MainActor.run {
+          isRestoringPurchases = false
+        }
+      } catch {
+        await MainActor.run {
+          isRestoringPurchases = false
+          // Show error alert
+//          viewModel.showError = true
+        }
       }
     }
   }

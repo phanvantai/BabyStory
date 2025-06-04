@@ -12,6 +12,8 @@ enum AppError: LocalizedError, Equatable {
   case dataExportFailed
   case dataImportFailed
   case invalidData
+  case dailyStoryLimitReached
+  case invalidConfiguration
   
   // Enhanced validation errors
   case invalidName
@@ -42,6 +44,10 @@ enum AppError: LocalizedError, Equatable {
       return "app_error_data_import_failed".localized
     case .invalidData:
       return "app_error_invalid_data".localized
+    case .dailyStoryLimitReached:
+      return "app_error_daily_story_limit_reached".localized
+    case .invalidConfiguration:
+      return "app_error_invalid_configuration".localized
     case .invalidName:
       return "app_error_invalid_name".localized
     case .invalidDate:
@@ -73,6 +79,10 @@ enum AppError: LocalizedError, Equatable {
       return "app_error_recovery_file_corruption".localized
     case .invalidData:
       return "app_error_recovery_data_validation".localized
+    case .dailyStoryLimitReached:
+      return "app_error_recovery_upgrade_subscription".localized
+    case .invalidConfiguration:
+      return "app_error_recovery_configuration".localized
     case .invalidName:
       return "app_error_recovery_name_length".localized
     case .invalidDate:

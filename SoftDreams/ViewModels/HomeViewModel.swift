@@ -45,59 +45,6 @@ class HomeViewModel: ObservableObject {
     }
   }
   
-
-  
-  // MARK: - Story Generation Methods
-  @MainActor
-  func generateTodaysStory(
-    using storyGenVM: StoryGenerationViewModel,
-    completion: @escaping (Story?) -> Void
-  ) {
-    Task {
-      do {
-        self.error = nil
-        if let profile = self.profile {
-          await storyGenVM.generateStory(profile: profile, options: nil)
-          if let storyError = storyGenVM.error {
-            self.error = storyError
-            completion(nil)
-          } else {
-            completion(storyGenVM.generatedStory)
-          }
-        } else {
-          self.error = .invalidProfile
-          completion(nil)
-        }
-      }
-    }
-  }
-  
-  @MainActor
-  func generateCustomStory(
-    using storyGenVM: StoryGenerationViewModel,
-    completion: @escaping (Story?) -> Void
-  ) {
-    Task {
-      do {
-        self.error = nil
-        if let profile = self.profile {
-          await storyGenVM.generateStory(profile: profile, options: storyGenVM.options)
-          if let storyError = storyGenVM.error {
-            self.error = storyError
-            completion(nil)
-          } else {
-            completion(storyGenVM.generatedStory)
-          }
-        } else {
-          self.error = .invalidProfile
-          completion(nil)
-        }
-      }
-    }
-  }
-  
-
-  
   // MARK: - Convenience Properties
   var hasCompletedOnboarding: Bool {
     return (try? userProfileService.loadProfile()) != nil

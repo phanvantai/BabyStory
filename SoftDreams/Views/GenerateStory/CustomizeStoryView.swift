@@ -2,6 +2,7 @@ import SwiftUI
 
 struct CustomizeStoryView: View {
   @ObservedObject var viewModel: StoryGenerationViewModel
+  @ObservedObject var appViewModel: AppViewModel
   var onGenerate: () -> Void
   @State private var charactersText: String = ""
   @State private var selectedTheme: StoryTheme = .adventure
@@ -22,6 +23,20 @@ struct CustomizeStoryView: View {
             CustomizeHeaderView()
           }
           
+          // Story Usage Limit Section
+          if let config = appViewModel.storyGenerationConfig {
+            AnimatedEntrance(delay: 0.3) {
+              VStack(spacing: 16) {
+                StoryUsageLimitView(
+                  storiesGenerated: config.storiesGeneratedToday,
+                  dailyLimit: config.dailyStoryLimit,
+                  tier: config.subscriptionTier
+                )
+                .padding(.horizontal, 4)
+              }
+            }
+          }
+          
           // Story Length Section
           AnimatedEntrance(delay: 0.4) {
             StoryLengthSelector(selectedLength: $viewModel.options.length)
@@ -35,6 +50,24 @@ struct CustomizeStoryView: View {
                 viewModel.options.theme = theme.rawValue
               }
             )
+          }
+          
+          // AI Model Selector (only if config is available)
+          if let config = appViewModel.storyGenerationConfig {
+            AnimatedEntrance(delay: 0.7) {
+              AIModelSelectorView(
+                selectedModel: Binding(
+                  get: { config.selectedModel },
+                  set: { newModel in
+                    if var updatedConfig = appViewModel.storyGenerationConfig {
+                      let _ = updatedConfig.selectModel(newModel)
+                      appViewModel.updateStoryGenerationConfig(updatedConfig)
+                    }
+                  }
+                ),
+                subscriptionTier: config.subscriptionTier
+              )
+            }
           }
           
           // Characters Section
@@ -54,7 +87,15 @@ struct CustomizeStoryView: View {
                 if !charactersText.isEmpty {
                   viewModel.options.characters = charactersText.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
                 }
-                onGenerate()
+                
+                // Check if user is free tier and at limit
+                if let config = appViewModel.storyGenerationConfig,
+                   !config.canGenerateNewStory,
+                   config.subscriptionTier == .free {
+                  viewModel.showPaywall = true
+                } else {
+                  onGenerate()
+                }
               },
               isGenerating: viewModel.isGenerating
             )
@@ -76,6 +117,24 @@ struct CustomizeStoryView: View {
       // Initialize characters text from viewModel
       charactersText = viewModel.options.characters.joined(separator: ", ")
     }
+    .sheet(isPresented: $viewModel.showPaywall, onDismiss: {
+      viewModel.showPaywall = false
+    }) {
+      if let config = appViewModel.storyGenerationConfig {
+        PaywallView(
+          onClose: { viewModel.showPaywall = false },
+          onUpgrade: {
+            // Update the story generation config after successful purchase
+            if var updatedConfig = appViewModel.storyGenerationConfig {
+              updatedConfig.upgradeSubscription(to: .premium)
+              appViewModel.updateStoryGenerationConfig(updatedConfig)
+            }
+            viewModel.showPaywall = false
+          },
+          config: config
+        )
+      }
+    }
   }
 }
 
@@ -90,7 +149,8 @@ struct CustomizeStoryView: View {
         vm.options.length = .medium
         vm.options.characters = ["brave knight", "friendly dragon"]
         return vm
-      }()
+      }(),
+      appViewModel: AppViewModel()
     ) {
       print("Generate story tapped in preview")
     }

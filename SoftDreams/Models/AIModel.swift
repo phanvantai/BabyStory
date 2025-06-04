@@ -122,7 +122,7 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     var temperature: Double {
         switch self {
         case .gpt35Turbo:
-            return 0.8 // Good creativity for basic stories
+            return 0.85 // Good creativity for basic stories
         case .gpt4o:
             return 0.85 // Higher creativity for premium experience
         case .claude3Haiku:
@@ -138,12 +138,13 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     
     /// All available free models
     static var freeModels: [AIModel] {
-        return allCases.filter { !$0.isPremium }
+      return [.gpt35Turbo] //allCases.filter { !$0.isPremium }
     }
     
     /// All available premium models
     static var premiumModels: [AIModel] {
-        return allCases.filter { $0.isPremium }
+      return [.gpt4o]
+       // return allCases.filter { $0.isPremium }
     }
     
     /// Default model (free tier)
@@ -158,7 +159,7 @@ enum AIModel: String, Codable, CaseIterable, Identifiable {
     /// - Returns: Array of available models
     static func availableModels(for isPremiumUser: Bool) -> [AIModel] {
         if isPremiumUser {
-            return allCases // All models available for premium users
+          return freeModels + premiumModels // allCases // All models available for premium users
         } else {
             return freeModels // Only free models for free users
         }

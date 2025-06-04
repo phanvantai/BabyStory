@@ -3,17 +3,18 @@ import SwiftUI
 struct TodaysAdventureCard: View {
   @ObservedObject var storyGenVM: StoryGenerationViewModel
   @ObservedObject var homeVM: HomeViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @ObservedObject private var languageManager = LanguageManager.shared
   let onStoryGenerated: (Story) -> Void
   
   private var timeOfDayIcon: String {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
-      case 6..<10:
+      case 5..<12:
         return "sunrise.fill"
-      case 10..<16:
+      case 12..<17:
         return "sun.max.fill"
-      case 16..<21:
+      case 17..<20:
         return "sunset.fill"
       default:
         return "moon.stars.fill"
@@ -23,12 +24,12 @@ struct TodaysAdventureCard: View {
   private var timeOfDayColor: Color {
     let hour = Calendar.current.component(.hour, from: Date())
     switch hour {
-      case 6..<12:
+      case 5..<12:
         return .orange
-      case 12..<18:
+      case 12..<17:
         return .yellow
-      case 18..<21:
-        return .orange
+      case 17..<20:
+        return .pink
       default:
         return .purple
     }
@@ -46,9 +47,46 @@ struct TodaysAdventureCard: View {
         Spacer()
       }
       
+      if let config = appViewModel.storyGenerationConfig {
+        if !config.canGenerateNewStory {
+          HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.triangle.fill")
+              .foregroundColor(.orange)
+            Text("home_story_limit_reached".localized)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+          .padding(.horizontal, 12)
+          .background(Color.orange.opacity(0.1))
+          .cornerRadius(8)
+        } else if config.storiesRemainingToday == 1 {
+          HStack(spacing: 8) {
+            Image(systemName: "sparkles")
+              .foregroundColor(.purple)
+            Text("home_one_story_remaining".localized)
+              .font(.subheadline)
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+          .padding(.horizontal, 12)
+          .background(Color.purple.opacity(0.1))
+          .cornerRadius(8)
+        }
+      }
+      
       Button(action: {
-        homeVM.generateTodaysStory(using: storyGenVM) { story in
-          if let story = story {
+        // Check if user is free tier and at limit
+        if let config = appViewModel.storyGenerationConfig,
+           !config.canGenerateNewStory,
+           config.subscriptionTier == .free {
+          storyGenVM.showPaywall = true
+          return
+        }
+        
+        Task {
+          if let profile = homeVM.profile,
+             let story = await storyGenVM.generateTodaysStory(profile: profile, appViewModel: appViewModel) {
             onStoryGenerated(story)
           }
         }
@@ -82,6 +120,22 @@ struct TodaysAdventureCard: View {
       shadowColor: timeOfDayColor.opacity(0.2)
     )
     .id(languageManager.currentLanguage) // Force refresh when language changes
+    .sheet(isPresented: $storyGenVM.showPaywall) {
+      if let config = appViewModel.storyGenerationConfig {
+        PaywallView(
+          onClose: { storyGenVM.showPaywall = false },
+          onUpgrade: {
+            // Update the story generation config after successful purchase
+            if var updatedConfig = appViewModel.storyGenerationConfig {
+              updatedConfig.upgradeSubscription(to: .premium)
+              appViewModel.updateStoryGenerationConfig(updatedConfig)
+            }
+            storyGenVM.showPaywall = false
+          },
+          config: config
+        )
+      }
+    }
   }
 }
 

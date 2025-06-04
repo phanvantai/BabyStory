@@ -2,12 +2,14 @@ import SwiftUI
 
 struct HomeView: View {
   @ObservedObject var viewModel: HomeViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @ObservedObject private var languageManager = LanguageManager.shared
   @State private var showCustomize = false
   @State private var showLibrary = false
   @State private var showProgress = false
   @State private var showStory = false
   @State private var showSettings = false
+  @State private var showPremiumFeatures = false
   @State private var generatedStory: Story? = nil
   
   // Lazy initialization of view models to improve performance
@@ -66,6 +68,18 @@ struct HomeView: View {
             
             // Quick stats or story time reminder
             if let profile = viewModel.profile {
+              AnimatedEntrance(delay: 0.6) {
+                if let config = appViewModel.storyGenerationConfig,
+                   !config.canGenerateNewStory {
+                  StoryUsageLimitView(
+                    storiesGenerated: config.storiesGeneratedToday,
+                    dailyLimit: config.dailyStoryLimit,
+                    tier: config.subscriptionTier
+                  )
+                  .padding(.horizontal, 4)
+                }
+              }
+              
               AnimatedEntrance(delay: 0.7) {
                 StoryTimeCard(
                   storyTime: profile.storyTime,
@@ -82,10 +96,17 @@ struct HomeView: View {
         .id(languageManager.currentLanguage) // Force refresh when language changes
       }
       .navigationDestination(isPresented: $showCustomize) {
-        CustomizeStoryView(viewModel: storyGenVM) {
-          viewModel.generateCustomStory(using: storyGenVM) { story in
-            generatedStory = story
-            showStory = true
+        CustomizeStoryView(
+          viewModel: storyGenVM,
+          appViewModel: appViewModel
+        ) {
+          if let profile = viewModel.profile {
+            Task {
+              if let story = await storyGenVM.generateCustomStory(profile: profile, appViewModel: appViewModel) {
+                generatedStory = story
+                showStory = true
+              }
+            }
           }
         }
         .customBackButton(label: "home_home_button".localized)
@@ -109,15 +130,39 @@ struct HomeView: View {
       }
       .toolbar {
         ToolbarItem(placement: .navigationBarTrailing) {
-          Button(action: { showSettings = true }) {
-            Image(systemName: "gear")
-              .font(.title3)
-              .foregroundColor(.purple)
+          HStack(spacing: 16) {
+            Button(action: { showPremiumFeatures = true }) {
+              Image(systemName: "crown.fill")
+                .font(.title3)
+                .foregroundColor(.purple)
+            }
+            
+            Button(action: { showSettings = true }) {
+              Image(systemName: "gear")
+                .font(.title3)
+                .foregroundColor(.purple)
+            }
           }
         }
       }
       .sheet(isPresented: $showSettings) {
         SettingsView(viewModel: settingsVM)
+      }
+      .sheet(isPresented: $showPremiumFeatures) {
+        if let config = appViewModel.storyGenerationConfig {
+          PaywallView(
+            onClose: { showPremiumFeatures = false },
+            onUpgrade: {
+              // Update the story generation config after successful purchase
+              if var updatedConfig = appViewModel.storyGenerationConfig {
+                updatedConfig.upgradeSubscription(to: .premium)
+                appViewModel.updateStoryGenerationConfig(updatedConfig)
+              }
+              showPremiumFeatures = false
+            },
+            config: config
+          )
+        }
       }
       .onAppear {
         libraryVM.loadStories()
@@ -128,4 +173,6 @@ struct HomeView: View {
 
 #Preview {
   HomeView(viewModel: HomeViewModel())
+    .environmentObject(AppViewModel())
+    
 }

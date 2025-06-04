@@ -55,5 +55,7 @@
 	<string>$(ANTHROPIC_API_BASE_URL)</string>
 	<key>OPENAI_API_BASE_URL</key>
 	<string>$(OPENAI_API_BASE_URL)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

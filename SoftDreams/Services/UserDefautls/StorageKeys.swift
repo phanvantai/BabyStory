@@ -12,4 +12,5 @@ enum StorageKeys {
   static let savedStories = "savedStories"
   static let selectedTheme = "selectedTheme"
   static let themeSettings = "themeSettings"
+  static let storyGenerationConfig = "storyGenerationConfig"
 }
