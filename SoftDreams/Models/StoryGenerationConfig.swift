@@ -45,7 +45,13 @@ struct StoryGenerationConfig: Codable, Equatable {
     var shouldResetDailyCount: Bool {
         let calendar = Calendar.current
         let today = Date()
-        return !calendar.isDate(lastResetDate, inSameDayAs: today)
+        
+        // Get the start of day for both dates
+        let lastResetStartOfDay = calendar.startOfDay(for: lastResetDate)
+        let todayStartOfDay = calendar.startOfDay(for: today)
+        
+        // Compare the start of day dates
+        return lastResetStartOfDay != todayStartOfDay
     }
     
     // MARK: - Initialization

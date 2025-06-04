@@ -81,12 +81,13 @@ struct TodaysAdventureCard: View {
            !config.canGenerateNewStory,
            config.subscriptionTier == .free {
           storyGenVM.showPaywall = true
-        } else {
-          Task {
-            if let profile = homeVM.profile,
-               let story = await storyGenVM.generateTodaysStory(profile: profile, appViewModel: appViewModel) {
-              onStoryGenerated(story)
-            }
+          return
+        }
+        
+        Task {
+          if let profile = homeVM.profile,
+             let story = await storyGenVM.generateTodaysStory(profile: profile, appViewModel: appViewModel) {
+            onStoryGenerated(story)
           }
         }
       }) {
@@ -119,6 +120,22 @@ struct TodaysAdventureCard: View {
       shadowColor: timeOfDayColor.opacity(0.2)
     )
     .id(languageManager.currentLanguage) // Force refresh when language changes
+    .sheet(isPresented: $storyGenVM.showPaywall) {
+      if let config = appViewModel.storyGenerationConfig {
+        PaywallView(
+          onClose: { storyGenVM.showPaywall = false },
+          onUpgrade: {
+            // Update the story generation config after successful purchase
+            if var updatedConfig = appViewModel.storyGenerationConfig {
+              updatedConfig.upgradeSubscription(to: .premium)
+              appViewModel.updateStoryGenerationConfig(updatedConfig)
+            }
+            storyGenVM.showPaywall = false
+          },
+          config: config
+        )
+      }
+    }
   }
 }
 

@@ -50,6 +50,16 @@ class AppViewModel: ObservableObject {
         self.storyGenerationConfigService = storyGenerationConfigService ?? ServiceFactory.shared.createStoryGenerationConfigService()
         self.storeKitService = storeKitService ?? ServiceFactory.shared.createStoreKitService()
         
+        // Load initial config
+        do {
+            storyGenerationConfig = try self.storyGenerationConfigService.loadConfig()
+            // Check and reset daily count if needed
+            checkAndResetDailyCount()
+        } catch {
+            Logger.error("Failed to load story generation config: \(error.localizedDescription)", category: .general)
+            storyGenerationConfig = nil
+        }
+        
         // Observe subscription status changes
         Task {
             // Listen for transaction updates
@@ -139,6 +149,16 @@ class AppViewModel: ObservableObject {
         } catch {
             Logger.error("Failed to update story generation config: \(error.localizedDescription)", category: .general)
             return false
+        }
+    }
+    
+    /// Check and reset daily story count if needed
+    func checkAndResetDailyCount() {
+        if var config = storyGenerationConfig {
+            config.resetDailyCountIfNeeded()
+            if updateStoryGenerationConfig(config) {
+                Logger.info("Reset daily story count - Stories today: \(config.storiesGeneratedToday)/\(config.dailyStoryLimit)", category: .general)
+            }
         }
     }
     

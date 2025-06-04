@@ -575,6 +575,10 @@
 "paywall_purchase_error" = "Purchase Error";
 "paywall_ok" = "OK";
 "paywall_restore_purchases" = "Restore Purchases";
+"paywall_premium_active" = "Premium Active";
+"paywall_premium_thank_you" = "Thank you for being a premium member!";
+"paywall_premium_features" = "Your Premium Benefits";
+"paywall_close" = "Close";
 
 // MARK: - Story Usage Limit
 

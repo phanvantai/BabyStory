@@ -54,6 +54,8 @@ struct AppView: View {
         // Handle home refresh if needed
         if newPhase == .active && oldPhase == .background && !appViewModel.needsOnboarding && !appViewModel.isLoading {
           homeVM.refresh()
+          // Check and reset daily story count when app becomes active
+          appViewModel.checkAndResetDailyCount()
         }
       }
     }

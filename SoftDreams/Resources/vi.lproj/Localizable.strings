@@ -567,14 +567,18 @@
 "paywall_stories_created_today" = "Bạn đã tạo %d câu chuyện tuyệt vời hôm nay. Nâng cấp lên Premium để sáng tạo không giới hạn!";
 "paywall_select_plan" = "Chọn Gói";
 "paywall_start_trial" = "Bắt đầu Dùng Thử Miễn Phí";
-"paywall_cancel_anytime" = "Hủy bất cứ lúc nào";
-"paywall_terms_agreement" = "Bằng việc bắt đầu dùng thử, bạn đồng ý với";
+"paywall_cancel_anytime" = "Hủy bất kỳ lúc nào";
+"paywall_terms_agreement" = "Bằng cách bắt đầu dùng thử, bạn đồng ý với";
 "paywall_terms_of_service" = "Điều Khoản Dịch Vụ";
 "paywall_and" = "và";
 "paywall_privacy_policy" = "Chính Sách Bảo Mật";
 "paywall_purchase_error" = "Lỗi Mua Hàng";
 "paywall_ok" = "OK";
 "paywall_restore_purchases" = "Khôi Phục Mua Hàng";
+"paywall_premium_active" = "Premium Đang Hoạt Động";
+"paywall_premium_thank_you" = "Cảm ơn bạn đã là thành viên premium!";
+"paywall_premium_features" = "Quyền Lợi Premium Của Bạn";
+"paywall_close" = "Đóng";
 
 // MARK: - Story Usage Limit
 

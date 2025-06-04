@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SettingsView: View {
   @ObservedObject var viewModel: SettingsViewModel
+  @EnvironmentObject var appViewModel: AppViewModel
   @Environment(\.dismiss) private var dismiss
   @State private var showEditProfile = false
   @State private var showPremiumFeatures = false
@@ -27,11 +28,13 @@ struct SettingsView: View {
             // Notifications Section
             SettingsNotificationsSectionView(viewModel: viewModel)
             
-            // Premium Features Section
-            SettingsPremiumSectionView(
-                showPremiumFeatures: $showPremiumFeatures,
-                isRestoringPurchases: $isRestoringPurchases
-            )
+            // Premium Features Section (only show for free users)
+            if appViewModel.storyGenerationConfig?.subscriptionTier == .free {
+              SettingsPremiumSectionView(
+                  showPremiumFeatures: $showPremiumFeatures,
+                  isRestoringPurchases: $isRestoringPurchases
+              )
+            }
             
             // Support Section
             SettingsSupportSectionView(viewModel: viewModel)
@@ -64,7 +67,6 @@ struct SettingsView: View {
           isRestoringPurchases = false
           // Show error alert
 //          viewModel.showError = true
-//          viewModel.errorMessage = error.localizedDescription
         }
       }
     }

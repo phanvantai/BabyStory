@@ -167,9 +167,6 @@ struct HomeView: View {
       .onAppear {
         libraryVM.loadStories()
       }
-      .onChange(of: appViewModel.storyGenerationConfig) { oldValue, newValue in
-        // No need to update StoryGenerationViewModel's config anymore
-      }
     }
   }
 }
