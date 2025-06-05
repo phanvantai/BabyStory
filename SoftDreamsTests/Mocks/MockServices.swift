@@ -52,8 +52,15 @@ class MockStoryService: StoryServiceProtocol {
     var saveStoryCallCount = 0
     var shouldThrowOnSave = false
     var shouldThrowOnDelete = false
+    var shouldThrowOnUpdate = false
     
-    func getAllStories() -> [Story] {
+    func saveStories(_ stories: [Story]) throws {
+        for story in stories {
+            try saveStory(story)
+        }
+    }
+    
+    func loadStories() throws -> [Story] {
         return mockStories
     }
     
@@ -80,8 +87,24 @@ class MockStoryService: StoryServiceProtocol {
         mockStories.removeAll { $0.id.uuidString == id }
     }
     
-    func getStory(withId id: String) -> Story? {
+    func updateStory(_ story: Story) throws {
+        if shouldThrowOnUpdate {
+            throw AppError.dataCorruption
+        }
+        
+        if let index = mockStories.firstIndex(where: { $0.id == story.id }) {
+            mockStories[index] = story
+        } else {
+            throw AppError.invalidData
+        }
+    }
+    
+    func getStory(withId id: String) throws -> Story? {
         return mockStories.first { $0.id.uuidString == id }
+    }
+    
+    func getStoryCount() throws -> Int {
+        return mockStories.count
     }
 }
 

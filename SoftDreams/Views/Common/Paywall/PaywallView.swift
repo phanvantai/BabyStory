@@ -162,10 +162,10 @@ struct PaywallView: View {
                                     .foregroundStyle(.secondary)
                                 
                                 HStack(spacing: 4) {
-                                    Link("paywall_terms_of_service".localized, destination: URL(string: "https://softdreams.app/terms")!)
+                                    Link("paywall_terms_of_service".localized, destination: URL(string: "https://portfolio.taiphanvan.dev/softdreams/terms")!)
                                     Text("paywall_and".localized)
                                         .foregroundStyle(.secondary)
-                                    Link("paywall_privacy_policy".localized, destination: URL(string: "https://softdreams.app/privacy")!)
+                                    Link("paywall_privacy_policy".localized, destination: URL(string: "https://portfolio.taiphanvan.dev/softdreams/privacy")!)
                                 }
                                 .font(.caption)
                             }

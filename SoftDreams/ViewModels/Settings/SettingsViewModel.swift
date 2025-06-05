@@ -10,7 +10,7 @@ class SettingsViewModel: ObservableObject {
   @Published var appVersion: String
   
   // Support URL - can be updated later
-  let supportURL = URL(string: "https://taiphanvan.dev")!
+  let supportURL = URL(string: "https://portfolio.taiphanvan.dev/softdreams#support")!
   
   // Injected services
   private let userProfileService: UserProfileServiceProtocol

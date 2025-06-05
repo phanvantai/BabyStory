@@ -60,14 +60,16 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
       throw StoryGenerationError.generationFailed
     }
   }
-  
-  func generateDailyStory(for profile: UserProfile) async throws -> Story {
-    let defaultOptions = StoryOptions(
+   func generateDailyStory(for profile: UserProfile) async throws -> Story {
+    var defaultOptions = StoryOptions(
       length: .medium,
       theme: getDailyTheme(for: profile),
       characters: []
     )
     
+    // Apply predefined characters when no characters are specified
+    defaultOptions.applyPredefinedCharactersIfNeeded(for: profile)
+
     return try await generateStory(for: profile, with: defaultOptions)
   }
   
@@ -122,18 +124,6 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
     }
     
     return Array(Set(themes)).sorted()
-  }
-  
-  func getEstimatedGenerationTime(for options: StoryOptions) -> TimeInterval {
-    // Claude API typically takes 2-8 seconds depending on length
-    switch options.length {
-    case .short:
-      return 3.0
-    case .medium:
-      return 5.0
-    case .long:
-      return 8.0
-    }
   }
   
   // MARK: - Private Helper Methods

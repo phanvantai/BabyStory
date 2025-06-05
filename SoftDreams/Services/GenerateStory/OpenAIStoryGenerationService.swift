@@ -58,7 +58,23 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     }
     
     do {
-      let prompt = buildPrompt(for: profile, with: options)
+      // Build the prompt based on profile and options
+      // get random prompt from multiple variations
+      let stablePrompt = buildPrompt(for: profile, with: options)
+      let prompts = [
+        stablePrompt,
+        buildPrompt1(for: profile, with: options),
+        buildPrompt2(for: profile, with: options),
+        buildPrompt3(for: profile, with: options),
+        buildPrompt4(for: profile, with: options),
+        buildPrompt5(for: profile, with: options),
+        buildPrompt6(for: profile, with: options),
+        buildPrompt7(for: profile, with: options),
+        buildPrompt8(for: profile, with: options),
+        buildPrompt9(for: profile, with: options),
+        buildPrompt10(for: profile, with: options)
+      ]
+      let prompt = prompts.randomElement() ?? stablePrompt
       
       // Log request summary
       Logger.info("OpenAI: Request summary - Model: \(model), Max Tokens: \(maxTokens), Temperature: \(temperature), Profile: \(profile.displayName), Theme: \(options.effectiveTheme), Length: \(options.length)", category: .storyGeneration)
@@ -76,14 +92,16 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
       throw StoryGenerationError.generationFailed
     }
   }
-  
-  func generateDailyStory(for profile: UserProfile) async throws -> Story {
-    let defaultOptions = StoryOptions(
+   func generateDailyStory(for profile: UserProfile) async throws -> Story {
+    var defaultOptions = StoryOptions(
       length: .medium,
       theme: getDailyTheme(for: profile),
       characters: []
     )
     
+    // Apply predefined characters when no characters are specified
+    defaultOptions.applyPredefinedCharactersIfNeeded(for: profile)
+
     return try await generateStory(for: profile, with: defaultOptions)
   }
   
@@ -102,54 +120,6 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     }
     
     return true
-  }
-  
-  func getSuggestedThemes(for profile: UserProfile) -> [String] {
-    // Start with base themes from StoryTheme enum
-    var themes = StoryTheme.allCases.map { $0.rawValue }
-    
-    // Add custom themes based on profile interests
-    if profile.interests.contains("Animals") {
-      themes.append(contentsOf: ["Safari Adventure", "Pet Friends", "Ocean Life"])
-    }
-    
-    if profile.interests.contains("Music") {
-      themes.append(contentsOf: ["Musical Journey", "Dancing Animals"])
-    }
-    
-    if profile.interests.contains("Colors") {
-      themes.append(contentsOf: ["Rainbow Magic", "Colorful Garden"])
-    }
-    
-    if profile.interests.contains("Sports") {
-      themes.append(contentsOf: ["Team Adventure", "Playground Fun"])
-    }
-    
-    // Age-appropriate themes
-    switch profile.babyStage {
-    case .pregnancy:
-      themes.append(contentsOf: ["Gentle Dreams", "Peaceful Journey"])
-    case .newborn, .infant:
-      themes.append(contentsOf: ["Soft Lullaby", "Gentle Touch", "Warm Embrace"])
-    case .toddler:
-      themes.append(contentsOf: ["First Steps", "Discovery Time", "Curious Explorer"])
-    case .preschooler:
-      themes.append(contentsOf: ["Big Kid Adventure", "Problem Solving", "Creative Play"])
-    }
-    
-    return Array(Set(themes)).sorted()
-  }
-  
-  func getEstimatedGenerationTime(for options: StoryOptions) -> TimeInterval {
-    // OpenAI API typically takes 3-10 seconds depending on length
-    switch options.length {
-    case .short:
-      return 4.0
-    case .medium:
-      return 7.0
-    case .long:
-      return 10.0
-    }
   }
   
   // MARK: - Private Helper Methods
@@ -234,16 +204,16 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
       return "English - Use simple, clear English appropriate for children (fallback language)"
     }
   }
-   private func makeOpenAIRequest(prompt: String) async throws -> String {
+  private func makeOpenAIRequest(prompt: String) async throws -> String {
     guard let url = URL(string: baseURL) else {
       throw StoryGenerationError.serviceUnavailable
     }
-
+    
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
+    
     let requestBody = OpenAIRequest(
       model: model,
       messages: [
@@ -253,7 +223,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
       maxTokens: maxTokens,
       temperature: temperature
     )
-
+    
     do {
       let encoder = JSONEncoder()
       encoder.keyEncodingStrategy = .convertToSnakeCase
@@ -311,15 +281,15 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
         if let responseString = String(data: data, encoding: .utf8) {
           if httpResponse.statusCode == 200 {
             // For successful responses, truncate if very long to avoid log spam
-            let truncatedResponse = responseString.count > 2000 ? 
-              String(responseString.prefix(2000)) + "... [truncated]" : responseString
+            let truncatedResponse = responseString.count > 2000 ?
+            String(responseString.prefix(2000)) + "... [truncated]" : responseString
             Logger.info("OpenAI: Response body: \(truncatedResponse)", category: .storyGeneration)
           } else {
             // For error responses, log the full response
             Logger.info("OpenAI: Full response body: \(responseString)", category: .storyGeneration)
           }
         }
-
+        
         switch httpResponse.statusCode {
         case 200:
           do {
@@ -480,5 +450,68 @@ private struct OpenAIChoice: Codable {
 // MARK: - Configuration Extension
 
 extension OpenAIStoryGenerationService {
-  // Remove the createWithStoredAPIKey method as it's no longer needed
+  /// experiment prompt
+  
+  // MARK: - Multiple Prompt Variations
+  
+  private func buildPrompt1(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Write a magical bedtime story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should focus on the theme "\(options.effectiveTheme)" and be written in \(profile.language.nativeName). Use simple, age-appropriate language, make the child the main character, and end with a comforting, happy conclusion. \(profile.interests.isEmpty ? "" : "The child enjoys \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be \(getLengthDescription(for: options.length)).
+    """
+  }
+  
+  private func buildPrompt2(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Create a personalized story for \(profile.displayName), a \(getAgeDescription(for: profile)), with the theme "\(options.effectiveTheme)". Write in \(profile.language.nativeName) using gentle, child-friendly words. Make sure the story is \(getLengthDescription(for: options.length)), imaginative, and features \(profile.displayName) as the main character. \(profile.interests.isEmpty ? "" : "Incorporate interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") End with a positive message.
+    """
+  }
+  
+  private func buildPrompt3(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Tell a bedtime story to a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should be about "\(options.effectiveTheme)", written in \(profile.language.nativeName), and \(getLengthDescription(for: options.length)). Use simple words, include sensory details, and ensure the story is uplifting. \(profile.interests.isEmpty ? "" : "Mention the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Feature these characters: \(options.characters.joined(separator: ", ")).") The story should end peacefully.
+    """
+  }
+  
+  private func buildPrompt4(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Compose a creative, age-appropriate story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be written in \(profile.language.nativeName). Use engaging, simple language and make the story \(getLengthDescription(for: options.length)). \(profile.interests.isEmpty ? "" : "Include elements related to \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") The story should be gentle and have a happy ending.
+    """
+  }
+  
+  private func buildPrompt5(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Tell a delightful story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should revolve around "\(options.effectiveTheme)", be \(getLengthDescription(for: options.length)), and written in \(profile.language.nativeName). \(profile.interests.isEmpty ? "" : "Incorporate the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") Use positive, simple language and finish with a comforting conclusion.
+    """
+  }
+  
+  private func buildPrompt6(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Write a gentle, imaginative story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). Use \(profile.language.nativeName) and ensure the language is suitable for children. \(profile.interests.isEmpty ? "" : "Mention interests like \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") The story should be uplifting and end happily.
+    """
+  }
+  
+  private func buildPrompt7(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Create a bedtime story for \(profile.displayName), a \(getAgeDescription(for: profile)), themed "\(options.effectiveTheme)". Write in \(profile.language.nativeName) using simple, child-friendly language. The story should be \(getLengthDescription(for: options.length)). \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters: \(options.characters.joined(separator: ", ")).") Make sure the story is positive and ends with a gentle message.
+    """
+  }
+  
+  private func buildPrompt8(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Please write a personalized, age-appropriate story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). Use \(profile.language.nativeName) and simple language. \(profile.interests.isEmpty ? "" : "Incorporate interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be imaginative, gentle, and have a happy ending.
+    """
+  }
+  
+  private func buildPrompt9(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Compose a story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should be about "\(options.effectiveTheme)", written in \(profile.language.nativeName), and be \(getLengthDescription(for: options.length)). \(profile.interests.isEmpty ? "" : "Mention interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") Use positive, simple language and end with a comforting message.
+    """
+  }
+  
+  private func buildPrompt10(for profile: UserProfile, with options: StoryOptions) -> String {
+    """
+    Imagine you are a storyteller for children. Write a story for \(profile.displayName) (\(getAgeDescription(for: profile))) with the theme "\(options.effectiveTheme)". The story should be \(getLengthDescription(for: options.length)), written in \(profile.language.nativeName), and use simple, age-appropriate language. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") Make the story gentle, imaginative, and end on a positive note.
+    """
+  }
+  // ...existing code...
 }
