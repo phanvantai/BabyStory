@@ -170,4 +170,19 @@ struct StoryOptions: Codable, Equatable {
     
     return cleaned
   }
+  
+  /// Applies predefined characters if the characters array is empty
+  /// - Parameter profile: The user profile to determine age-appropriate characters
+  mutating func applyPredefinedCharactersIfNeeded(for profile: UserProfile) {
+    guard characters.isEmpty else { return }
+    
+    // Get 1-3 age-appropriate characters randomly
+    let characterCount = Int.random(in: 1...3)
+    let predefinedCharacters = PredefinedCharacters.getAgeAppropriateCharacters(
+      for: profile.babyStage,
+      count: characterCount
+    )
+    
+    self.characters = predefinedCharacters
+  }
 }

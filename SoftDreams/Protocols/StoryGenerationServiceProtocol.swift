@@ -23,16 +23,6 @@ protocol StoryGenerationServiceProtocol {
   ///   - options: Story options to validate
   /// - Returns: True if generation is possible, false otherwise
   func canGenerateStory(for profile: UserProfile, with options: StoryOptions) -> Bool
-  
-  /// Get suggested themes based on user profile
-  /// - Parameter profile: The user profile
-  /// - Returns: Array of suggested theme strings
-  func getSuggestedThemes(for profile: UserProfile) -> [String]
-  
-  /// Get estimated generation time for a story
-  /// - Parameter options: Story options to estimate for
-  /// - Returns: Estimated time interval in seconds
-  func getEstimatedGenerationTime(for options: StoryOptions) -> TimeInterval
 }
 
 // MARK: - Story Generation Error

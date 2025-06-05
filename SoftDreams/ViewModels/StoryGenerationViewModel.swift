@@ -60,7 +60,11 @@ class StoryGenerationViewModel: ObservableObject {
       return
     }
     
-    let storyOptions = options ?? self.options
+    var storyOptions = options ?? self.options
+    
+    // Apply predefined characters when no characters are specified
+    storyOptions.applyPredefinedCharactersIfNeeded(for: profile)
+    
     Logger.info("Generating story with theme: \(storyOptions.theme), length: \(storyOptions.length), characters: \(storyOptions.characters.joined(separator: ", "))", category: .storyGeneration)
     
     // Ensure we have the correct service for the selected model
