@@ -6,6 +6,9 @@
   
 */
 
+// app loading
+"app_loading_title" = "Loading SoftDreams...";
+
 // Onboarding views
 
 // language selection
@@ -602,3 +605,8 @@
 "feature_voice_narration" = "Voice narration";
 "feature_multiple_baby_profiles" = "Multiple Baby Profiles";
 "feature_daily_story_limit" = "20 stories per day";
+
+// MARK: - Premium Upgrade
+"subscription_trial_period" = "7-days free trial";
+"subscription_cancel_anytime" = "Cancel anytime";
+"subscription_premium_features" = "Premium Features";

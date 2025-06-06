@@ -6,6 +6,9 @@
   
 */
 
+// app loading
+"app_loading_title" = "Đang tải SoftDreams...";
+
 // Onboarding views
 
 // language selection
@@ -602,3 +605,8 @@
 "feature_voice_narration" = "Đọc chuyện bằng giọng nói";
 "feature_multiple_baby_profiles" = "Nhiều hồ sơ bé";
 "feature_daily_story_limit" = "20 câu chuyện mỗi ngày";
+
+// MARK: - Premium Upgrade
+"subscription_trial_period" = "Dùng thử miễn phí 7 ngày";
+"subscription_cancel_anytime" = "Hủy bất kỳ lúc nào";
+"subscription_premium_features" = "Mở khóa các tính năng Premium";

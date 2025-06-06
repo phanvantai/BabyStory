@@ -12,15 +12,12 @@ struct SubscriptionOptionButton: View {
   let product: Product
   let isSelected: Bool
   let action: () -> Void
+  let features: [String] 
   
   @Environment(\.locale) private var locale
   
   private var isYearly: Bool {
     product.id.contains("yearly")
-  }
-  
-  private var localization: SubscriptionLocalization {
-    SubscriptionLocalization.localization(for: locale)
   }
   
   private var savingsText: String {
@@ -30,29 +27,6 @@ struct SubscriptionOptionButton: View {
     return ""
   }
   
-  private var displayPrice: String {
-    if isYearly {
-      return localization.formatPrice(localization.yearlyPrice)
-    } else {
-      return localization.formatPrice(localization.monthlyPrice)
-    }
-  }
-  
-  private var monthlyEquivalent: String {
-    if isYearly {
-      return localization.formatMonthlyPrice(localization.yearlyPrice)
-    }
-    return ""
-  }
-  
-  private var title: String {
-    isYearly ? localization.yearlyTitle : localization.monthlyTitle
-  }
-  
-  private var description: String {
-    isYearly ? localization.yearlyDescription : localization.monthlyDescription
-  }
-  
   var body: some View {
     Button(action: action) {
       VStack(spacing: 0) {
@@ -60,7 +34,7 @@ struct SubscriptionOptionButton: View {
         HStack {
           VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 8) {
-              Text(title)
+              Text(product.displayName)
                 .font(.headline)
               
               if isYearly {
@@ -81,7 +55,7 @@ struct SubscriptionOptionButton: View {
               }
             }
             
-            Text(description)
+            Text(product.description)
               .font(.caption)
               .foregroundStyle(.secondary)
           }
@@ -89,18 +63,8 @@ struct SubscriptionOptionButton: View {
           Spacer()
           
           VStack(alignment: .trailing, spacing: 2) {
-            Text(displayPrice)
+            Text(product.displayPrice)
               .font(.headline)
-//            if isYearly {
-//              Text(monthlyEquivalent)
-//                .font(.caption)
-//                .foregroundStyle(.secondary)
-//                .strikethrough()
-//            } else {
-//              Text(localization.cancelAnytime)
-//                .font(.caption2)
-//                .foregroundStyle(.secondary)
-//            }
           }
         }
         .padding()
@@ -111,10 +75,10 @@ struct SubscriptionOptionButton: View {
           HStack {
             Image(systemName: "gift.fill")
               .foregroundStyle(Color.purple)
-            Text(localization.trialPeriod)
+            Text("subscription_trial_period".localized)
               .font(.headline)
             Spacer()
-            Text(localization.cancelAnytime)
+            Text("subscription_cancel_anytime".localized)
               .font(.subheadline)
               .foregroundStyle(.secondary)
           }
@@ -126,10 +90,10 @@ struct SubscriptionOptionButton: View {
           
           // Premium features
           VStack(alignment: .leading, spacing: 12) {
-            Text(localization.premiumFeatures)
+            Text("subscription_premium_features".localized)
               .font(.headline)
             
-            ForEach(localization.features, id: \.self) { feature in
+            ForEach(features, id: \.self) { feature in
               FeatureRow(icon: getIconForFeature(feature), text: feature)
             }
           }
