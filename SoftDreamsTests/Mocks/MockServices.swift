@@ -7,6 +7,7 @@
 
 @testable import SoftDreams
 import Foundation
+import StoreKit
 
 // MARK: - Mock Story Generation Service
 
@@ -181,4 +182,42 @@ protocol StoryGenerationConfigServiceProtocol {
     func loadConfig() throws -> StoryGenerationConfig
     func resetConfig() throws
     func configExists() -> Bool
+}
+
+// MARK: - Mock StoreKit Service
+
+@MainActor
+class MockStoreKitService: ObservableObject {
+    @Published var subscriptions: [Product] = []
+    @Published var purchasedSubscriptions: [Product] = []
+    @Published var subscriptionGroupStatus: Product.SubscriptionInfo.RenewalState?
+    
+    var mockSubscriptions: [Product] = [] {
+        didSet {
+            subscriptions = mockSubscriptions
+        }
+    }
+    
+    var hasActivePremiumSubscription: Bool = false
+    
+    func loadProducts() async {
+        subscriptions = mockSubscriptions
+    }
+    
+    func purchase(_ product: Product) async throws -> Bool {
+        purchasedSubscriptions.append(product)
+        hasActivePremiumSubscription = true
+        return true
+    }
+    
+    func restorePurchases() async throws {
+        // Mock restore functionality
+    }
+    
+    func getSubscriptionStatus() async -> SubscriptionStatus {
+        if hasActivePremiumSubscription {
+            return .active(subscriptions.first!)
+        }
+        return .none
+    }
 }

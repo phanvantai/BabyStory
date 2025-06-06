@@ -7,16 +7,13 @@ struct PaywallView: View {
     let onUpgrade: () -> Void
     let config: StoryGenerationConfig
     
-    @StateObject private var storeKitService = ServiceFactory.shared.createStoreKitService()
+    @ObservedObject var storeKitService: StoreKitService
     @State private var selectedProduct: Product?
     @State private var isPurchasing = false
     @State private var isRestoring = false
     @State private var showError = false
     @State private var errorMessage = ""
-    
-    private var currentLocalization: SubscriptionLocalization {
-        SubscriptionLocalization.localization(for: Locale.current)
-    }
+    @State private var wasNotPremium = true // Track if user was not premium when view appeared
     
     // MARK: - Body
     var body: some View {
@@ -65,7 +62,7 @@ struct PaywallView: View {
                                 Text("paywall_premium_features".localized)
                                     .font(.headline)
                                 
-                                ForEach(currentLocalization.features, id: \.self) { feature in
+                                ForEach(FeaturesLocalization.features, id: \.self) { feature in
                                     HStack(spacing: 12) {
                                         Image(systemName: "checkmark.circle.fill")
                                             .foregroundStyle(.green)
@@ -162,7 +159,7 @@ struct PaywallView: View {
                                     .foregroundStyle(.secondary)
                                 
                                 HStack(spacing: 4) {
-                                    Link("paywall_terms_of_service".localized, destination: URL(string: "https://portfolio.taiphanvan.dev/softdreams/terms")!)
+                                    Link("paywall_terms_of_service".localized, destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
                                     Text("paywall_and".localized)
                                         .foregroundStyle(.secondary)
                                     Link("paywall_privacy_policy".localized, destination: URL(string: "https://portfolio.taiphanvan.dev/softdreams/privacy")!)
@@ -194,6 +191,16 @@ struct PaywallView: View {
                 await storeKitService.loadProducts()
                 if let firstProduct = storeKitService.subscriptions.first {
                     selectedProduct = firstProduct
+                }
+            }
+            .onAppear {
+                // Track initial premium status
+                wasNotPremium = !storeKitService.hasActivePremiumSubscription
+            }
+            .onChange(of: storeKitService.hasActivePremiumSubscription) { oldValue, newValue in
+                // If user just became premium (and wasn't before), trigger upgrade
+                if wasNotPremium && newValue {
+                    onUpgrade()
                 }
             }
         }
@@ -236,7 +243,14 @@ struct PaywallView: View {
                 
                 await MainActor.run {
                     isRestoring = false
-                    onUpgrade()
+                    
+                    // Check if user now has active subscription
+                    if !storeKitService.hasActivePremiumSubscription {
+                        // Show message that no purchases were found to restore
+                        errorMessage = "paywall_no_purchases_to_restore".localized
+                        showError = true
+                    }
+                    // Note: If user does have premium, the onChange modifier will handle calling onUpgrade
                 }
             } catch {
                 await MainActor.run {
@@ -259,6 +273,7 @@ struct PaywallView: View {
             selectedModel: .gpt35Turbo,
             storiesGeneratedToday: 3,
             lastResetDate: Date()
-        )
+        ),
+        storeKitService: ServiceFactory.shared.createStoreKitService()
     )
 }

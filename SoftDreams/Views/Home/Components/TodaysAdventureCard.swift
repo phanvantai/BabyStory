@@ -125,14 +125,11 @@ struct TodaysAdventureCard: View {
         PaywallView(
           onClose: { storyGenVM.showPaywall = false },
           onUpgrade: {
-            // Update the story generation config after successful purchase
-            if var updatedConfig = appViewModel.storyGenerationConfig {
-              updatedConfig.upgradeSubscription(to: .premium)
-              appViewModel.updateStoryGenerationConfig(updatedConfig)
-            }
+            // The AppViewModel will automatically detect subscription changes
             storyGenVM.showPaywall = false
           },
-          config: config
+          config: config,
+          storeKitService: appViewModel.storeKitService
         )
       }
     }

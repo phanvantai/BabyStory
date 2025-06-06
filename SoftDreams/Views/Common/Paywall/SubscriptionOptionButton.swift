@@ -91,16 +91,16 @@ struct SubscriptionOptionButton: View {
           VStack(alignment: .trailing, spacing: 2) {
             Text(displayPrice)
               .font(.headline)
-            if isYearly {
-              Text(monthlyEquivalent)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .strikethrough()
-            } else {
-              Text(localization.cancelAnytime)
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-            }
+//            if isYearly {
+//              Text(monthlyEquivalent)
+//                .font(.caption)
+//                .foregroundStyle(.secondary)
+//                .strikethrough()
+//            } else {
+//              Text(localization.cancelAnytime)
+//                .font(.caption2)
+//                .foregroundStyle(.secondary)
+//            }
           }
         }
         .padding()
