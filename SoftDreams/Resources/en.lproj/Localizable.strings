@@ -6,6 +6,9 @@
   
 */
 
+// app loading
+"app_loading_title" = "Loading SoftDreams...";
+
 // Onboarding views
 
 // language selection
@@ -575,6 +578,7 @@
 "paywall_purchase_error" = "Purchase Error";
 "paywall_ok" = "OK";
 "paywall_restore_purchases" = "Restore Purchases";
+"paywall_no_purchases_to_restore" = "No previous purchases found to restore for this Apple ID.";
 "paywall_premium_active" = "Premium Active";
 "paywall_premium_thank_you" = "Thank you for being a premium member!";
 "paywall_premium_features" = "Your Premium Benefits";
@@ -594,3 +598,15 @@
 "settings_premium_features_description" = "Unlock advanced AI models and more stories";
 "settings_restore_purchases" = "Restore Purchases";
 "settings_restore_purchases_description" = "Restore your previous premium subscription";
+
+// MARK: - Premium Features
+"feature_custom_story_settings" = "Custom Story Settings";
+"feature_advanced_ai_models" = "Access to advanced AI models";
+"feature_voice_narration" = "Voice narration";
+"feature_multiple_baby_profiles" = "Multiple Baby Profiles";
+"feature_daily_story_limit" = "20 stories per day";
+
+// MARK: - Premium Upgrade
+"subscription_trial_period" = "7-days free trial";
+"subscription_cancel_anytime" = "Cancel anytime";
+"subscription_premium_features" = "Premium Features";

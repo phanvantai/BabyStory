@@ -10,37 +10,19 @@ class StoreKitService: ObservableObject {
     
     // MARK: - Private Properties
     private let productIds = [
-        "com.randomtech.softdreams.monthly",
-        "com.randomtech.softdreams.yearly"
+        "com.randomtech.softDreams.monthly",
+        "com.randomtech.softDreams.yearly"
     ]
     
     private var updateListenerTask: Task<Void, Error>?
     
     // MARK: - Initialization
     init() {
-        #if DEBUG
-        // In debug builds, we'll use the StoreKit configuration file
-        if ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1" {
-            // Preview environment - use mock data
-            setupPreviewData()
-        } else {
-            // Simulator environment - use StoreKit configuration
-            updateListenerTask = listenForTransactions()
-            
-            Task {
-                await loadProducts()
-                await updateSubscriptionStatus()
-            }
-        }
-        #else
-        // Release builds - use real StoreKit
         updateListenerTask = listenForTransactions()
-        
         Task {
             await loadProducts()
             await updateSubscriptionStatus()
         }
-        #endif
     }
     
     deinit {

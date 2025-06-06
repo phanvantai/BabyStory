@@ -89,7 +89,7 @@ struct LoadingView: View {
         ProgressView()
           .scaleEffect(1.5)
         
-        Text("Loading SoftDreams...")
+        Text("app_loading_title".localized)
           .font(.headline)
           .foregroundColor(.secondary)
       }

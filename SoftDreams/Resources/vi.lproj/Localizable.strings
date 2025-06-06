@@ -6,6 +6,9 @@
   
 */
 
+// app loading
+"app_loading_title" = "Đang tải SoftDreams...";
+
 // Onboarding views
 
 // language selection
@@ -575,6 +578,7 @@
 "paywall_purchase_error" = "Lỗi Mua Hàng";
 "paywall_ok" = "OK";
 "paywall_restore_purchases" = "Khôi Phục Mua Hàng";
+"paywall_no_purchases_to_restore" = "Không tìm thấy giao dịch mua hàng nào để khôi phục cho Apple ID này.";
 "paywall_premium_active" = "Premium Đang Hoạt Động";
 "paywall_premium_thank_you" = "Cảm ơn bạn đã là thành viên premium!";
 "paywall_premium_features" = "Quyền Lợi Premium Của Bạn";
@@ -594,3 +598,15 @@
 "settings_premium_features_description" = "Mở khóa các mô hình AI nâng cao và nhiều câu chuyện hơn";
 "settings_restore_purchases" = "Khôi Phục Mua Hàng";
 "settings_restore_purchases_description" = "Khôi phục gói đăng ký premium trước đây của bạn";
+
+// MARK: - Premium Features
+"feature_custom_story_settings" = "Tùy chỉnh cài đặt câu chuyện";
+"feature_advanced_ai_models" = "Truy cập các mô hình AI nâng cao";
+"feature_voice_narration" = "Đọc chuyện bằng giọng nói";
+"feature_multiple_baby_profiles" = "Nhiều hồ sơ bé";
+"feature_daily_story_limit" = "20 câu chuyện mỗi ngày";
+
+// MARK: - Premium Upgrade
+"subscription_trial_period" = "Dùng thử miễn phí 7 ngày";
+"subscription_cancel_anytime" = "Hủy bất kỳ lúc nào";
+"subscription_premium_features" = "Mở khóa các tính năng Premium";

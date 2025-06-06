@@ -26,7 +26,7 @@ class AppViewModel: ObservableObject {
     private let userProfileService: UserProfileServiceProtocol
     private let errorManager: ErrorManager
     private let storyGenerationConfigService: StoryGenerationConfigServiceProtocol
-    private let storeKitService: StoreKitService
+    let storeKitService: StoreKitService // Made public so it can be passed to PaywallView
     
     /// The app's current story generation configuration
     @Published var storyGenerationConfig: StoryGenerationConfig?
@@ -66,6 +66,12 @@ class AppViewModel: ObservableObject {
             for await _ in Transaction.updates {
                 await updateSubscriptionStatus()
             }
+        }
+        
+        // Observe StoreKit service changes for immediate subscription updates
+        Task {
+            // Initial subscription check
+            await checkSubscriptionStatus()
         }
     }
     
