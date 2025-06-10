@@ -9,13 +9,16 @@ class HomeViewModel: ObservableObject {
   private let userProfileService: UserProfileServiceProtocol
   private let storyService: StoryServiceProtocol
   private let autoUpdateService: AutoProfileUpdateService
+  private let storyTimeNotificationService: StoryTimeNotificationServiceProtocol
   
   init(
     userProfileService: UserProfileServiceProtocol? = nil,
-    storyService: StoryServiceProtocol? = nil
+    storyService: StoryServiceProtocol? = nil,
+    storyTimeNotificationService: StoryTimeNotificationServiceProtocol? = nil
   ) {
     self.userProfileService = userProfileService ?? ServiceFactory.shared.createUserProfileService()
     self.storyService = storyService ?? ServiceFactory.shared.createStoryService()
+    self.storyTimeNotificationService = storyTimeNotificationService ?? ServiceFactory.shared.createStoryTimeNotificationService()
     self.autoUpdateService = AutoProfileUpdateService(userProfileService: userProfileService)
     
     // Don't automatically refresh in init to avoid race conditions
@@ -36,6 +39,13 @@ class HomeViewModel: ObservableObject {
       if profile != nil {
         Task {
           await checkAndPerformAutoUpdates()
+        }
+      }
+      
+      // Check and schedule story time notifications if needed
+      if let currentProfile = profile {
+        Task {
+          await ensureStoryTimeNotificationsScheduled(for: currentProfile)
         }
       }
       
@@ -107,6 +117,32 @@ class HomeViewModel: ObservableObject {
     
     // Ensure due date notifications are properly set up
     await ensureDueDateNotificationsSetup()
+  }
+  
+  /// Ensures story time notifications are set up for the current profile
+  private func ensureStoryTimeNotificationsScheduled(for profile: UserProfile) async {
+    Logger.debug("Checking if story time notifications are scheduled for \(profile.name)", category: .notification)
+    
+    // Check if notifications are already scheduled
+    let hasScheduled = await storyTimeNotificationService.hasScheduledStoryTimeReminders()
+    
+    if !hasScheduled {
+      Logger.info("No story time notifications found, attempting to schedule for \(profile.name)", category: .notification)
+      
+      // Schedule story time notifications
+      let success = await storyTimeNotificationService.scheduleStoryTimeReminder(
+        for: profile.storyTime,
+        babyName: profile.displayName
+      )
+      
+      if success {
+        Logger.info("Successfully scheduled story time notifications for \(profile.displayName) at \(profile.storyTime.formatted(date: .omitted, time: .shortened))", category: .notification)
+      } else {
+        Logger.info("Failed to schedule story time notifications - likely due to permission not granted", category: .notification)
+      }
+    } else {
+      Logger.debug("Story time notifications already scheduled for \(profile.name)", category: .notification)
+    }
   }
   
   /// Ensures due date notifications are set up for pregnancy profiles

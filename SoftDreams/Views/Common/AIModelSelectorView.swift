@@ -10,7 +10,7 @@ struct AIModelSelectorView: View {
   }
   
   private var lockedModels: [AIModel] {
-    return [.gpt4o, .gpt35Turbo].filter { !subscriptionTier.availableModels.contains($0) }
+    return subscriptionTier.allPremiumModels.filter { !subscriptionTier.availableModels.contains($0) }
   }
   
   var body: some View {
@@ -40,7 +40,7 @@ struct AIModelSelectorView: View {
       
       // Locked models (for non-premium users)
       if subscriptionTier == .free && !lockedModels.isEmpty {
-        Text("Premium Models")
+        Text("ai_model_premium_models_section".localized)
           .font(.subheadline)
           .foregroundStyle(.secondary)
           .padding(.top, 12)

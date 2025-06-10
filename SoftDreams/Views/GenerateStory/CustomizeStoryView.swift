@@ -52,9 +52,19 @@ struct CustomizeStoryView: View {
             )
           }
           
+          // Characters Section
+          AnimatedEntrance(delay: 0.7) {
+            CharactersInputView(
+              charactersText: $charactersText,
+              onTextChanged: { newValue in
+                viewModel.options.characters = newValue.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
+              }
+            )
+          }
+          
           // AI Model Selector (only if config is available)
           if let config = appViewModel.storyGenerationConfig {
-            AnimatedEntrance(delay: 0.7) {
+            AnimatedEntrance(delay: 0.8) {
               AIModelSelectorView(
                 selectedModel: Binding(
                   get: { config.selectedModel },
@@ -70,18 +80,8 @@ struct CustomizeStoryView: View {
             }
           }
           
-          // Characters Section
-          AnimatedEntrance(delay: 0.8) {
-            CharactersInputView(
-              charactersText: $charactersText,
-              onTextChanged: { newValue in
-                viewModel.options.characters = newValue.split(separator: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-              }
-            )
-          }
-          
           // Generate Button
-          AnimatedEntrance(delay: 1.0) {
+          AnimatedEntrance(delay: 0.9) {
             GenerateButtonView(
               onGenerate: {
                 if !charactersText.isEmpty {
