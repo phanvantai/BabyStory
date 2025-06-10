@@ -18,4 +18,8 @@ protocol StoryTimeNotificationServiceProtocol {
     
     /// Cancels all pending story time reminder notifications
     func cancelStoryTimeReminders() async
+    
+    /// Checks if story time reminder notifications are currently scheduled
+    /// - Returns: Boolean indicating whether story time notifications are scheduled
+    func hasScheduledStoryTimeReminders() async -> Bool
 }

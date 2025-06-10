@@ -60,6 +60,7 @@ struct SoftDreamsApp: App {
       options: []
     )
     
+    // Due date notification category
     let dueDateCategory = UNNotificationCategory(
       identifier: "DUE_DATE_REMINDER",
       actions: [updateAction, remindLaterAction],
@@ -67,7 +68,15 @@ struct SoftDreamsApp: App {
       options: []
     )
     
-    UNUserNotificationCenter.current().setNotificationCategories([dueDateCategory])
+    // Story time notification category (no actions needed, just tap to open app)
+    let storyTimeCategory = UNNotificationCategory(
+      identifier: "STORY_TIME",
+      actions: [],
+      intentIdentifiers: [],
+      options: []
+    )
+    
+    UNUserNotificationCenter.current().setNotificationCategories([dueDateCategory, storyTimeCategory])
   }
 }
 
@@ -92,7 +101,13 @@ class NotificationDelegate: NSObject, ObservableObject, UNUserNotificationCenter
       
     default:
       // Default action (tap notification)
-      Logger.info("User tapped notification", category: .notification)
+      let categoryId = response.notification.request.content.categoryIdentifier
+      if categoryId == "STORY_TIME" {
+        Logger.info("User tapped story time notification", category: .notification)
+        // App will open to home screen - no special action needed
+      } else {
+        Logger.info("User tapped notification", category: .notification)
+      }
     }
     
     completionHandler()

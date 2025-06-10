@@ -14,7 +14,6 @@ class StoryTimeNotificationService: StoryTimeNotificationServiceProtocol {
   // MARK: - Properties
   private let permissionManager: any NotificationPermissionManagerProtocol
   private let notificationReminderTimeInterval: TimeInterval = 600 // 10 minutes in seconds
-  private let minimumFutureBuffer: TimeInterval = 300 // 5 minutes minimum buffer for scheduling
   
   // Notification identifiers
   enum NotificationIdentifier: String {
@@ -46,53 +45,25 @@ class StoryTimeNotificationService: StoryTimeNotificationServiceProtocol {
     // Cancel any existing notifications first
     await cancelStoryTimeReminders()
     
-    // Current time for comparison
-    let now = Date()
     let calendar = Calendar.current
     
     // Extract hour and minute from the provided story time
     let storyTimeComponents = calendar.dateComponents([.hour, .minute], from: storyTime)
     
-    // Create a date for today with the story time's hour and minute
-    let todayWithStoryTime = calendar.date(bySettingHour: storyTimeComponents.hour ?? 0, 
+    // Create a notification time (10 minutes before story time)
+    guard let storyTimeToday = calendar.date(bySettingHour: storyTimeComponents.hour ?? 0, 
                                            minute: storyTimeComponents.minute ?? 0, 
                                            second: 0, 
-                                           of: now) ?? now
-    
-    // Calculate notification time (10 minutes before story time)
-    let todayNotificationTime = todayWithStoryTime.addingTimeInterval(-notificationReminderTimeInterval)
-    
-    // Calculate the minimum valid notification time (now + buffer)
-    let minimumValidTime = now.addingTimeInterval(minimumFutureBuffer)
-    
-    // Check if notification would be too soon or in the past
-    if todayNotificationTime < minimumValidTime {
-      Logger.info("Story time notification would be too soon (less than 5 minutes from now), scheduling for tomorrow", category: .notification)
-      
-      // Create tomorrow's date with the same hour and minute
-      guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) else {
-        Logger.error("Failed to calculate tomorrow's date", category: .notification)
-        return false
-      }
-      
-      // Set the hour and minute from the original story time to tomorrow
-      guard let tomorrowStoryTime = calendar.date(bySettingHour: storyTimeComponents.hour ?? 0, 
-                                                  minute: storyTimeComponents.minute ?? 0, 
-                                                  second: 0, 
-                                                  of: tomorrow) else {
-        Logger.error("Failed to set time for tomorrow's story time", category: .notification)
-        return false
-      }
-      
-      let tomorrowNotificationTime = tomorrowStoryTime.addingTimeInterval(-notificationReminderTimeInterval)
-      Logger.info("Rescheduled for tomorrow at \(tomorrowStoryTime.formatted(date: .omitted, time: .standard))", category: .notification)
-      
-      return await scheduleNotification(for: tomorrowStoryTime, at: tomorrowNotificationTime, babyName: babyName)
+                                           of: Date()) else {
+      Logger.error("Failed to create story time date", category: .notification)
+      return false
     }
     
-    // Schedule notification for today
-    Logger.info("Scheduling story time notification for today at \(todayNotificationTime.formatted(date: .numeric, time: .standard))", category: .notification)
-    return await scheduleNotification(for: todayWithStoryTime, at: todayNotificationTime, babyName: babyName)
+    let notificationTime = storyTimeToday.addingTimeInterval(-notificationReminderTimeInterval)
+    
+    // Schedule daily repeating notification
+    Logger.info("Scheduling daily story time notification at \(notificationTime.formatted(date: .omitted, time: .standard)) for story time at \(storyTimeToday.formatted(date: .omitted, time: .standard))", category: .notification)
+    return await scheduleNotification(for: storyTimeToday, at: notificationTime, babyName: babyName)
   }
   
   /// Private helper method to schedule the actual notification
@@ -117,11 +88,11 @@ class StoryTimeNotificationService: StoryTimeNotificationServiceProtocol {
       content.sound = UNNotificationSound.default
       content.categoryIdentifier = "STORY_TIME"
       
-      // Extract date and time components for the trigger
-      let components = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute], from: notificationTime)
+      // Extract only hour and minute components for daily repeating notification
+      let components = Calendar.current.dateComponents([.hour, .minute], from: notificationTime)
       
-      // Create trigger with all date components to ensure correct date
-      let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+      // Create trigger with only hour and minute to repeat daily
+      let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
       
       // Create request
       let request = UNNotificationRequest(
@@ -133,7 +104,7 @@ class StoryTimeNotificationService: StoryTimeNotificationServiceProtocol {
       // Schedule notification
       try await UNUserNotificationCenter.current().add(request)
       
-      Logger.info("Successfully scheduled story time reminder for \(storyTime.formatted()) (notification at \(notificationTime.formatted()))", category: .notification)
+      Logger.info("Successfully scheduled daily story time reminder at \(notificationTime.formatted(date: .omitted, time: .standard)) (10 minutes before \(storyTime.formatted(date: .omitted, time: .standard)))", category: .notification)
       return true
     } catch {
       Logger.error("Failed to schedule story time reminder: \(error)", category: .notification)
@@ -156,6 +127,21 @@ class StoryTimeNotificationService: StoryTimeNotificationServiceProtocol {
     } else {
       Logger.debug("No existing story time reminders found to cancel", category: .notification)
     }
+  }
+  
+  /// Checks if story time reminder notifications are currently scheduled
+  /// - Returns: Boolean indicating whether story time notifications are scheduled
+  func hasScheduledStoryTimeReminders() async -> Bool {
+    let identifiers = [NotificationIdentifier.storyTimeReminder.rawValue]
+    
+    // Get current pending notifications
+    let pendingRequests = await UNUserNotificationCenter.current().pendingNotificationRequests()
+    let storyTimeRequests = pendingRequests.filter { identifiers.contains($0.identifier) }
+    
+    let hasScheduled = !storyTimeRequests.isEmpty
+    Logger.debug("Story time notifications scheduled: \(hasScheduled) (\(storyTimeRequests.count) found)", category: .notification)
+    
+    return hasScheduled
   }
   
   /// Requests notification permission using the graceful permission manager
