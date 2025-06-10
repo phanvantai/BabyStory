@@ -11,7 +11,7 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 - **Data Persistence**: UserDefaults
 - **Target Devices**: iPhone and iPad
 - **Testing Framework**: Swift Testing
-- **Development Approach**: Test-Driven Development (TDD)
+- **Development Approach**: Fast Implementation with Optional Testing
 
 ## Key Features
 1. **Onboarding Flow**: Multi-step setup for child profile and preferences
@@ -53,29 +53,17 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 
 ## Development Guidelines
 
-### Test-Driven Development (TDD) Requirements
-**ALL new features and code changes MUST follow TDD practices:**
+### Fast Implementation Approach
+**Focus on rapid feature development and iteration:**
 
-1. **Red Phase**: Write failing tests first
-   - Create comprehensive test cases that define the expected behavior
-   - Tests should fail initially (red state)
-   - Cover edge cases, error conditions, and happy paths
+1. **Feature First**: Implement core functionality quickly to validate concepts
+2. **Iterative Improvement**: Refine and enhance features based on testing and feedback
+3. **Pragmatic Testing**: Add tests for critical functionality when stability is needed
 
-2. **Green Phase**: Write minimal code to make tests pass
-   - Implement only the code necessary to pass the tests
-   - Focus on functionality, not optimization
-
-3. **Refactor Phase**: Improve code while maintaining test coverage
-   - Clean up code structure and design
-   - Ensure all tests continue to pass
-   - Optimize performance if needed
-
-### Testing Standards
-- **Minimum 80% code coverage** for all new code
-- **Unit tests** for all ViewModels, Models, and Services
-- **Integration tests** for data persistence and API interactions
-- **UI tests** for critical user flows (onboarding, story generation)
-- **Protocol compliance tests** for all protocol implementations
+### Testing Standards (Optional)
+- Add tests for core business logic when time permits
+- Focus testing efforts on critical user flows
+- Test data persistence and error handling for important features
 
 ### Test Naming Convention
 - Test files: `[Feature/Component]Tests.swift`
@@ -83,36 +71,29 @@ SoftDreams is a SwiftUI iOS application that generates personalized bedtime stor
 - Example: `testOnboardingViewModel_WhenValidProfileData_ShouldSaveSuccessfully()`
 
 ### Test Organization
-- Place test files in `SoftDreamsTests/` folder
+- Place test files in `SoftDreamsTests/` folder when needed
 - Mirror the main app folder structure
 - Group related tests in the same file
 - Use `@Test` attribute for Swift Testing framework
-- **All new mocks for testing should be placed in `SoftDreamsTests/Mocks/` folder for consistency**
+- **Place mocks for testing in `SoftDreamsTests/Mocks/` folder for consistency**
 
 ### When Adding New Features:
-1. **WRITE TESTS FIRST** (TDD Red Phase)
-   - Create test file in appropriate `SoftDreamsTests/` subfolder
-   - Write failing tests that define expected behavior
-   - Test both success and failure scenarios
-2. **Implement minimal code** to pass tests (TDD Green Phase)
-3. **Refactor and optimize** while maintaining test coverage (TDD Refactor Phase)
-4. Create appropriate models in `Models/` folder
-5. Implement ViewModels with `@Published` properties
-6. Create SwiftUI views following existing patterns
-7. Update `UserDefaultsManager` if persistence is needed
-8. Follow the established navigation patterns
-9. Place feature-specific components in `Views/[Feature]/Components/` folder
-10. Only add components to `Views/Common/` if they are truly reusable across multiple features
+1. **Implement core functionality** quickly to validate the concept
+2. Create appropriate models in `Models/` folder
+3. Implement ViewModels with `@Published` properties
+4. Create SwiftUI views following existing patterns
+5. Update `UserDefaultsManager` if persistence is needed
+6. Follow the established navigation patterns
+7. Place feature-specific components in `Views/[Feature]/Components/` folder
+8. Only add components to `Views/Common/` if they are truly reusable across multiple features
+9. **Add tests later** for critical functionality when stability is required
 
 ### When Modifying Existing Code:
-- **WRITE TESTS FIRST** if tests don't exist for the code being modified
-- Ensure existing tests pass before making changes
-- Add new tests for any new functionality or edge cases
+- Implement changes quickly and test manually
 - Maintain consistency with existing code style
 - Update related ViewModels when changing data models
 - Ensure proper error handling for async operations
 - Test onboarding flow after profile-related changes
-- Verify test coverage remains above 80%
 
 ### UI/UX Considerations:
 - Maintain child-friendly design patterns
@@ -148,13 +129,13 @@ Task {
 ```
 
 ## Testing Considerations
-- Test onboarding flow completion
-- Verify story generation and saving functionality
-- Test data persistence across app launches
-- **REMEMBER**: Always follow TDD - write tests before implementing features
-- Maintain comprehensive test coverage for all business logic
-- Test error handling and edge cases thoroughly
-- Use Swift Testing framework with `@Test` attributes
+- Test onboarding flow completion when needed
+- Verify story generation and saving functionality periodically
+- Test data persistence across app launches for critical features
+- **Focus on manual testing** during development for speed
+- Add automated tests for core business logic when stability is needed
+- Test error handling and edge cases for critical flows
+- Use Swift Testing framework with `@Test` attributes when writing tests
 - Mock external dependencies in unit tests
 
 ## Future Development Notes
