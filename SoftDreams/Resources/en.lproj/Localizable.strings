@@ -566,6 +566,7 @@
 "ai_model_premium_badge" = "Premium";
 "ai_model_free_badge" = "Free";
 "ai_model_premium_required" = "Premium subscription required";
+"ai_model_premium_models_section" = "Premium Models";
 "ai_model_upgrade_prompt" = "Upgrade to unlock different story styles and premium models";
 
 /* Story Limit Warnings */

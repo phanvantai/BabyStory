@@ -40,7 +40,7 @@ struct AIModelSelectorView: View {
       
       // Locked models (for non-premium users)
       if subscriptionTier == .free && !lockedModels.isEmpty {
-        Text("Premium Models")
+        Text("ai_model_premium_models_section".localized)
           .font(.subheadline)
           .foregroundStyle(.secondary)
           .padding(.top, 12)

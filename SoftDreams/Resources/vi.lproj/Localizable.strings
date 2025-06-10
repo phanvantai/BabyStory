@@ -566,6 +566,7 @@
 "ai_model_premium_badge" = "Cao Cấp";
 "ai_model_free_badge" = "Miễn Phí";
 "ai_model_premium_required" = "Cần đăng ký cao cấp";
+"ai_model_premium_models_section" = "Mô Hình Cao Cấp";
 "ai_model_upgrade_prompt" = "Nâng cấp để mở khóa các phong cách câu chuyện khác nhau và mô hình cao cấp";
 
 /* Story Limit Warnings */
