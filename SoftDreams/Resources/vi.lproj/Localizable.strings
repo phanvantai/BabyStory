@@ -540,6 +540,10 @@
 
 // AI Model Names
 "ai_model_gpt35_turbo_name" = "GPT-3.5 Turbo";
+"ai_model_gpt35_turbo_16k_name" = "GPT-3.5 Turbo 16K";
+"ai_model_gpt4_name" = "GPT-4";
+"ai_model_gpt4_turbo_name" = "GPT-4 Turbo";
+"ai_model_gpt4_mini_name" = "GPT-4 Mini";
 "ai_model_gpt4o_name" = "GPT-4o";
 "ai_model_claude3_haiku_name" = "Claude 3 Haiku";
 "ai_model_claude3_sonnet_name" = "Claude 3 Sonnet";
@@ -547,6 +551,10 @@
 
 // AI Model Descriptions
 "ai_model_gpt35_turbo_description" = "Kể chuyện nhanh và đơn giản cho những câu chuyện ru ngủ hàng ngày";
+"ai_model_gpt35_turbo_16k_description" = "Kể chuyện mở rộng với những cuộc phiêu lưu ru ngủ dài hơn, chi tiết hơn";
+"ai_model_gpt4_description" = "Những câu chuyện chất lượng cao, suy tư với sự phát triển nhân vật phong phú";
+"ai_model_gpt4_turbo_description" = "Kể chuyện cao cấp nhanh chóng với khả năng sáng tạo và chi tiết đặc biệt";
+"ai_model_gpt4_mini_description" = "Những câu chuyện hiệu quả và quyến rũ hoàn hảo cho việc đọc nhanh trước khi ngủ";
 "ai_model_gpt4o_description" = "Những câu chuyện phong phú, đầy tưởng tượng và cảm xúc, quyến rũ tâm trí trẻ thơ";
 "ai_model_claude3_haiku_description" = "Những câu chuyện nhanh và nhẹ nhàng với giọng điệu ấm áp, nuôi dưỡng hoàn hảo cho giờ đi ngủ";
 "ai_model_claude3_sonnet_description" = "Những câu chuyện được tạo ra một cách tuyệt đẹp, nhẹ nhàng với sự ấm áp và chiều sâu cảm xúc";

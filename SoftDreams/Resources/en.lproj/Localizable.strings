@@ -540,6 +540,10 @@
 
 // AI Model Names
 "ai_model_gpt35_turbo_name" = "GPT-3.5 Turbo";
+"ai_model_gpt35_turbo_16k_name" = "GPT-3.5 Turbo 16K";
+"ai_model_gpt4_name" = "GPT-4";
+"ai_model_gpt4_turbo_name" = "GPT-4 Turbo";
+"ai_model_gpt4_mini_name" = "GPT-4 Mini";
 "ai_model_gpt4o_name" = "GPT-4o";
 "ai_model_claude3_haiku_name" = "Claude 3 Haiku";
 "ai_model_claude3_sonnet_name" = "Claude 3 Sonnet";
@@ -547,6 +551,10 @@
 
 // AI Model Descriptions
 "ai_model_gpt35_turbo_description" = "Fast and simple storytelling for everyday bedtime stories";
+"ai_model_gpt35_turbo_16k_description" = "Extended storytelling with longer, more detailed bedtime adventures";
+"ai_model_gpt4_description" = "High-quality, thoughtful stories with rich character development";
+"ai_model_gpt4_turbo_description" = "Fast premium storytelling with exceptional creativity and detail";
+"ai_model_gpt4_mini_description" = "Efficient and charming stories perfect for quick bedtime reads";
 "ai_model_gpt4o_description" = "Rich, imaginative, and emotionally expressive stories that captivate young minds";
 "ai_model_claude3_haiku_description" = "Quick and gentle stories with a warm, nurturing tone perfect for bedtime";
 "ai_model_claude3_sonnet_description" = "Beautifully crafted, gentle stories with warmth and emotional depth";
