@@ -179,6 +179,14 @@
 "settings_theme_system_description" = "Follows your device setting";
 "settings_theme_light_description" = "Always use light appearance";
 "settings_theme_dark_description" = "Always use dark appearance";
+"settings_app_icon_title" = "App Icon";
+"settings_app_icon_change_error" = "Icon Change Error";
+"settings_app_icon_not_supported" = "This device does not support alternate app icons";
+"settings_app_icon_change_failed" = "Failed to change app icon. Please try again";
+"app_icon_normal_name" = "Classic";
+"app_icon_normal_description" = "The original SoftDreams icon";
+"app_icon_liquid_glass_name" = "Liquid Glass";
+"app_icon_liquid_glass_description" = "Modern liquid glass effect icon";
 "settings_auto_update_profile_title" = "Auto-Update Profile";
 "settings_auto_update_profile_description" = "Manage automatic profile updates as your child grows";
 "settings_voice_narration_title" = "Voice Narration";

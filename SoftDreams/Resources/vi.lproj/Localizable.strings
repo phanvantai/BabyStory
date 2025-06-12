@@ -179,6 +179,14 @@
 "settings_theme_system_description" = "Theo cài đặt thiết bị của bạn";
 "settings_theme_light_description" = "Luôn sử dụng giao diện sáng";
 "settings_theme_dark_description" = "Luôn sử dụng giao diện tối";
+"settings_app_icon_title" = "Biểu Tượng Ứng Dụng";
+"settings_app_icon_change_error" = "Lỗi Thay Đổi Biểu Tượng";
+"settings_app_icon_not_supported" = "Thiết bị này không hỗ trợ thay đổi biểu tượng ứng dụng";
+"settings_app_icon_change_failed" = "Không thể thay đổi biểu tượng ứng dụng. Vui lòng thử lại";
+"app_icon_normal_name" = "Cổ Điển";
+"app_icon_normal_description" = "Biểu tượng SoftDreams gốc";
+"app_icon_liquid_glass_name" = "Thủy Tinh Lỏng";
+"app_icon_liquid_glass_description" = "Biểu tượng hiệu ứng thủy tinh lỏng hiện đại";
 "settings_auto_update_profile_title" = "Tự Động Cập Nhật Hồ Sơ";
 "settings_auto_update_profile_description" = "Quản lý cập nhật hồ sơ tự động khi con bạn lớn lên";
 "settings_voice_narration_title" = "Kể Chuyện Bằng Giọng Nói";

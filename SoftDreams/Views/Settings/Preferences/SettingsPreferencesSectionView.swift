@@ -37,6 +37,12 @@ struct SettingsPreferencesSectionView: View {
           
           LanguagePicker()
           
+          // App Icon Picker
+          Divider()
+            .background(Color(UIColor.separator))
+          
+          AppIconPicker(viewModel: viewModel)
+          
           // Auto-Update Settings Navigation
           Divider()
             .background(Color(UIColor.separator))

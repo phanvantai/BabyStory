@@ -50,7 +50,7 @@ struct LanguagePicker: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
-        .background(AppTheme.cardBackground)
+        .background(AppTheme.cardBackground.opacity(0.8))
         .cornerRadius(8)
         .overlay(
           RoundedRectangle(cornerRadius: 8)
