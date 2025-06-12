@@ -57,29 +57,29 @@
     <string>$(OPENAI_API_BASE_URL)</string>
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
-    <key>CFBundleIcons</key>
-    <dict>
-      <key>CFBundlePrimaryIcon</key>
-      <dict>
-        <key>CFBundleIconFiles</key>
-        <array>
-          <string>AppIcon</string>
-        </array>
-        <key>UIPrerenderedIcon</key>
-        <false/>
-      </dict>
-      <key>CFBundleAlternateIcons</key>
-      <dict>
-        <key>AppIconClassic</key>
-        <dict>
-          <key>CFBundleIconFiles</key>
-          <array>
-            <string>AppIconClassic</string>
-          </array>
-          <key>UIPrerenderedIcon</key>
-          <false/>
-        </dict>
-      </dict>
-    </dict>
+<!--    <key>CFBundleIcons</key>-->
+<!--    <dict>-->
+<!--      <key>CFBundlePrimaryIcon</key>-->
+<!--      <dict>-->
+<!--        <key>CFBundleIconFiles</key>-->
+<!--        <array>-->
+<!--          <string>AppIcon</string>-->
+<!--        </array>-->
+<!--        <key>UIPrerenderedIcon</key>-->
+<!--        <false/>-->
+<!--      </dict>-->
+<!--      <key>CFBundleAlternateIcons</key>-->
+<!--      <dict>-->
+<!--        <key>AppIconClassic</key>-->
+<!--        <dict>-->
+<!--          <key>CFBundleIconFiles</key>-->
+<!--          <array>-->
+<!--            <string>AppIconClassic</string>-->
+<!--          </array>-->
+<!--          <key>UIPrerenderedIcon</key>-->
+<!--          <false/>-->
+<!--        </dict>-->
+<!--      </dict>-->
+<!--    </dict>-->
   </dict>
 </plist>
