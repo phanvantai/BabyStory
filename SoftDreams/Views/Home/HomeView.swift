@@ -114,23 +114,18 @@ struct HomeView: View {
             }
           }
         }
-        .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showLibrary) {
         LibraryView(viewModel: libraryVM)
-          .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showProgress) {
         ReadingProgressView(profile: viewModel.profile)
-          .customBackButton(label: "home_home_button".localized)
       }
       .navigationDestination(isPresented: $showStory) {
         if let story = generatedStory {
           StoryView(story: story)
-            .customBackButton(label: "home_back_button".localized)
         } else {
           Text("home_no_story_generated".localized)
-            .customBackButton(label: "home_home_button".localized)
         }
       }
       .toolbar {
