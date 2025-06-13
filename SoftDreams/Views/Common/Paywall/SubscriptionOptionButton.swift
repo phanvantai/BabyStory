@@ -106,8 +106,8 @@ struct SubscriptionOptionButton: View {
       }
       .background(
         RoundedRectangle(cornerRadius: 12)
-          .fill(Color(.systemBackground))
-          .shadow(color: .black.opacity(0.1), radius: 5)
+          .fill(Color(.systemBackground).opacity(0.3))
+          .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
       )
       .overlay(
         RoundedRectangle(cornerRadius: 12)
