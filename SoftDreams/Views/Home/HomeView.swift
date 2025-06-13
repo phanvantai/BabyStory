@@ -86,6 +86,11 @@ struct HomeView: View {
                   storiesCount: libraryVM.stories.count
                 )
               }
+              
+              // Feedback Card
+              AnimatedEntrance(delay: 0.8) {
+                FeedbackCard()
+              }
             }
             
             Spacer(minLength: 100)

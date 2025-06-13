@@ -22,6 +22,11 @@ enum AppError: LocalizedError, Equatable {
   case invalidCharacterCount
   case profileIncomplete
   
+  // Network and feedback errors
+  case networkError
+  case feedbackSubmissionFailed
+  case invalidFeedbackData
+  
   var errorDescription: String? {
     switch self {
     case .storyGenerationFailed:
@@ -58,6 +63,12 @@ enum AppError: LocalizedError, Equatable {
       return "app_error_invalid_character_count".localized
     case .profileIncomplete:
       return "app_error_profile_incomplete".localized
+    case .networkError:
+      return "app_error_network_error".localized
+    case .feedbackSubmissionFailed:
+      return "app_error_feedback_submission_failed".localized
+    case .invalidFeedbackData:
+      return "app_error_invalid_feedback_data".localized
     }
   }
   
@@ -91,6 +102,12 @@ enum AppError: LocalizedError, Equatable {
       return "app_error_recovery_story_options".localized
     case .invalidCharacterCount:
       return "app_error_recovery_character_limit".localized
+    case .networkError:
+      return "app_error_recovery_network_check".localized
+    case .feedbackSubmissionFailed:
+      return "app_error_recovery_feedback_retry".localized
+    case .invalidFeedbackData:
+      return "app_error_recovery_feedback_validation".localized
     }
   }
 }

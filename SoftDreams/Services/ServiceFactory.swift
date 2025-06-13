@@ -130,6 +130,12 @@ class ServiceFactory {
   func createStoryTimeNotificationService() -> StoryTimeNotificationServiceProtocol {
     return StoryTimeNotificationService()
   }
+  
+  /// Create a feedback service instance
+  /// - Returns: A service conforming to FeedbackServiceProtocol
+  func createFeedbackService() -> FeedbackServiceProtocol {
+    return FeedbackService.shared
+  }
 }
 
 // MARK: - Story Generation Service Type Enum

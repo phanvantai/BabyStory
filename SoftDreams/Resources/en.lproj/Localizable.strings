@@ -627,3 +627,27 @@
 "subscription_trial_period" = "7-days free trial";
 "subscription_cancel_anytime" = "Cancel anytime";
 "subscription_premium_features" = "Premium Features";
+
+// MARK: - Feedback
+"feedback_title" = "Send Feedback";
+"feedback_card_title" = "Help us improve";
+"feedback_card_subtitle" = "Share your thoughts and suggestions";
+"feedback_header_title" = "We'd love to hear from you!";
+"feedback_header_subtitle" = "Your feedback helps us make SoftDreams better for everyone";
+"feedback_type_label" = "Feedback Type";
+"feedback_type_support" = "Support Request";
+"feedback_type_general" = "General Feedback";
+"feedback_type_bug" = "Bug Report";
+"feedback_type_feature" = "Feature Request";
+"feedback_email_label" = "Your Email";
+"feedback_email_placeholder" = "Enter your email address";
+"feedback_message_label" = "Your Message";
+"feedback_message_placeholder" = "Tell us what's on your mind...";
+"feedback_submit" = "Send Feedback";
+"feedback_submitting" = "Sending...";
+"feedback_success_title" = "Thank You!";
+"feedback_success_message" = "Your feedback has been sent successfully. We appreciate your input!";
+"feedback_error_title" = "Oops!";
+"feedback_error_submission" = "Failed to send feedback. Please check your internet connection and try again.";
+"common_cancel" = "Cancel";
+"common_ok" = "OK";

@@ -15,6 +15,8 @@ struct Logger {
     case settings = "Settings"
     case general = "General"
     case notification = "Notification"
+    case network = "Network"
+    case feedback = "Feedback"
     
     var subsystem: String {
       return "com.randomtech.SoftDreams"
