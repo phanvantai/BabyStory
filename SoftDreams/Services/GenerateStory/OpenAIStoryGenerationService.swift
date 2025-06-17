@@ -14,17 +14,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
   
   // MARK: - Initialization
   init(
-    apiKe  private func buildPrompt3(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    MANDATORY: Write the entire story in \(profile.language.nativeName) language ONLY - no other languages allowed.
-    
-    Tell a bedtime story to a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and \(getLengthDescription(for: options.length)). 
-    
-    Use simple words, include sensory details, ensure the story is uplifting, and use appropriate gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Mention the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Feature these characters: \(options.characters.joined(separator: ", ")).") The story should end peacefully. Remember: use ONLY \(profile.language.nativeName).
-    """
-  },
+    apiKey: String,
     model: String = "gpt-3.5-turbo",
     maxTokens: Int = 1500,
     temperature: Double = 0.85,
