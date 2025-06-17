@@ -27,7 +27,7 @@ struct PaywallView: View {
   
   // MARK: - Body
   var body: some View {
-    NavigationView {
+    NavigationStack {
       ScrollView {
         mainContent
       }

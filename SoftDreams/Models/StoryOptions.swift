@@ -176,8 +176,8 @@ struct StoryOptions: Codable, Equatable {
   mutating func applyPredefinedCharactersIfNeeded(for profile: UserProfile) {
     guard characters.isEmpty else { return }
     
-    // Get 1-3 age-appropriate characters randomly
-    let characterCount = Int.random(in: 1...3)
+    // Get 1 age-appropriate character randomly
+    let characterCount = 1
     let predefinedCharacters = PredefinedCharacters.getAgeAppropriateCharacters(
       for: profile.babyStage,
       count: characterCount

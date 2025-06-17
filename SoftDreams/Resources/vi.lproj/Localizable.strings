@@ -627,3 +627,27 @@
 "subscription_trial_period" = "Dùng thử miễn phí 7 ngày";
 "subscription_cancel_anytime" = "Hủy bất kỳ lúc nào";
 "subscription_premium_features" = "Mở khóa các tính năng Premium";
+
+// MARK: - Feedback
+"feedback_title" = "Gửi Phản Hồi";
+"feedback_card_title" = "Giúp chúng tôi cải thiện";
+"feedback_card_subtitle" = "Chia sẻ ý kiến và đề xuất của bạn";
+"feedback_header_title" = "Chúng tôi muốn nghe từ bạn!";
+"feedback_header_subtitle" = "Phản hồi của bạn giúp chúng tôi làm cho SoftDreams tốt hơn cho mọi người";
+"feedback_type_label" = "Loại Phản Hồi";
+"feedback_type_support" = "Yêu Cầu Hỗ Trợ";
+"feedback_type_general" = "Phản Hồi Chung";
+"feedback_type_bug" = "Báo Lỗi";
+"feedback_type_feature" = "Yêu Cầu Tính Năng";
+"feedback_email_label" = "Email Của Bạn";
+"feedback_email_placeholder" = "Nhập địa chỉ email của bạn";
+"feedback_message_label" = "Tin Nhắn Của Bạn";
+"feedback_message_placeholder" = "Hãy cho chúng tôi biết suy nghĩ của bạn...";
+"feedback_submit" = "Gửi Phản Hồi";
+"feedback_submitting" = "Đang gửi...";
+"feedback_success_title" = "Cảm ơn bạn!";
+"feedback_success_message" = "Phản hồi của bạn đã được gửi thành công. Chúng tôi đánh giá cao ý kiến của bạn!";
+"feedback_error_title" = "Oops!";
+"feedback_error_submission" = "Không thể gửi phản hồi. Vui lòng kiểm tra kết nối internet và thử lại.";
+"common_cancel" = "Hủy";
+"common_ok" = "OK";

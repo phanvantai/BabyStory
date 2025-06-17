@@ -127,6 +127,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
   private func buildPrompt(for profile: UserProfile, with options: StoryOptions) -> String {
     let ageDescription = getAgeDescription(for: profile)
     let lengthDescription = getLengthDescription(for: options.length)
+    let genderDescription = getGenderDescription(for: profile)
     let interestsText = profile.interests.isEmpty ? "" : " The child loves \(profile.interests.joined(separator: ", "))."
     let charactersText = options.characters.isEmpty ? "" : " Include these characters: \(options.characters.joined(separator: ", "))."
     let languageInstruction = getLanguageInstruction(for: profile.language)
@@ -136,6 +137,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     
     - Child's name: \(profile.displayName)
     - Age/Stage: \(ageDescription)
+    - Gender: \(genderDescription)
     - Theme: \(options.effectiveTheme)
     - Length: \(lengthDescription)
     - REQUIRED LANGUAGE: \(languageInstruction)
@@ -150,6 +152,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     Guidelines:
     - Write the complete story exclusively in \(profile.language.nativeName) language
     - Use simple, age-appropriate language suitable for \(profile.babyStage.displayName)
+    - Use appropriate pronouns and gender references based on: \(genderDescription)
     - Include positive messages and gentle lessons
     - Make the story engaging and imaginative
     - Ensure the child is the main character
@@ -157,6 +160,7 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     - End with a comforting, happy conclusion
     - Avoid scary or negative content
     - Use cultural context appropriate for \(profile.language.nativeName) speakers when relevant
+    - When referring to the child in the story, use pronouns and descriptions that match \(genderDescription)
     
     Format the response as a complete story with a clear beginning, middle, and end.
     """
@@ -209,6 +213,18 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
       return "English - Use simple, clear English appropriate for children (fallback language)"
     }
   }
+  
+  private func getGenderDescription(for profile: UserProfile) -> String {
+    switch profile.gender {
+    case .male:
+      return "boy - use male pronouns (he/him/his)"
+    case .female:
+      return "girl - use female pronouns (she/her/hers)"
+    case .notSpecified:
+      return "child - use neutral pronouns (they/them/their) or the child's name"
+    }
+  }
+  
   private func makeOpenAIRequest(prompt: String) async throws -> String {
     guard let url = URL(string: baseURL) else {
       throw StoryGenerationError.serviceUnavailable
@@ -460,105 +476,124 @@ extension OpenAIStoryGenerationService {
   // MARK: - Multiple Prompt Variations
   
   private func buildPrompt1(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     CRITICAL LANGUAGE REQUIREMENT: Write the ENTIRE story ONLY in \(profile.language.nativeName) language.
     
-    Write a magical bedtime story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should focus on the theme "\(options.effectiveTheme)" and be written EXCLUSIVELY in \(profile.language.nativeName). 
+    Write a magical bedtime story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should focus on the theme "\(options.effectiveTheme)" and be written EXCLUSIVELY in \(profile.language.nativeName). 
     
     IMPORTANT: Every single word, sentence, and dialogue MUST be in \(profile.language.nativeName) only - do NOT mix languages.
     
-    Use simple, age-appropriate language, make the child the main character, and end with a comforting, happy conclusion. \(profile.interests.isEmpty ? "" : "The child enjoys \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be \(getLengthDescription(for: options.length)).
+    Use simple, age-appropriate language, make the child the main character with appropriate gender references (\(genderDescription)), and end with a comforting, happy conclusion. \(profile.interests.isEmpty ? "" : "The child enjoys \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be \(getLengthDescription(for: options.length)).
     """
   }
   
   private func buildPrompt2(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     LANGUAGE REQUIREMENT: Write EXCLUSIVELY in \(profile.language.nativeName) - do NOT use any other language.
     
-    Create a personalized story for \(profile.displayName), a \(getAgeDescription(for: profile)), with the theme "\(options.effectiveTheme)". Write ONLY in \(profile.language.nativeName) using gentle, child-friendly words. Every word must be in \(profile.language.nativeName).
+    Create a personalized story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), with the theme "\(options.effectiveTheme)". Write ONLY in \(profile.language.nativeName) using gentle, child-friendly words. Every word must be in \(profile.language.nativeName).
     
-    Make sure the story is \(getLengthDescription(for: options.length)), imaginative, and features \(profile.displayName) as the main character. \(profile.interests.isEmpty ? "" : "Incorporate interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") End with a positive message.
+    Make sure the story is \(getLengthDescription(for: options.length)), imaginative, and features \(profile.displayName) as the main character using appropriate pronouns and references (\(genderDescription)). \(profile.interests.isEmpty ? "" : "Incorporate interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") End with a positive message.
     """
   }
   
   private func buildPrompt3(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     MANDATORY: Write the entire story in \(profile.language.nativeName) language ONLY - no other languages allowed.
     
-    Tell a bedtime story to a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and \(getLengthDescription(for: options.length)). 
+    Tell a bedtime story to a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and \(getLengthDescription(for: options.length)). 
     
-    Use simple words, include sensory details, and ensure the story is uplifting. \(profile.interests.isEmpty ? "" : "Mention the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Feature these characters: \(options.characters.joined(separator: ", ")).") The story should end peacefully. Remember: use ONLY \(profile.language.nativeName).
+    Use simple words, include sensory details, ensure the story is uplifting, and use appropriate gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Mention the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Feature these characters: \(options.characters.joined(separator: ", ")).") The story should end peacefully. Remember: use ONLY \(profile.language.nativeName).
     """
   }
   
   private func buildPrompt4(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     IMPORTANT LANGUAGE INSTRUCTION: The entire story MUST be written ONLY in \(profile.language.nativeName) - no exceptions.
     
-    Compose a creative, age-appropriate story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be written EXCLUSIVELY in \(profile.language.nativeName). Use engaging, simple language and make the story \(getLengthDescription(for: options.length)). 
+    Compose a creative, age-appropriate story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be written EXCLUSIVELY in \(profile.language.nativeName). Use engaging, simple language and make the story \(getLengthDescription(for: options.length)). 
     
-    Do not mix any other language - write everything in \(profile.language.nativeName) only. \(profile.interests.isEmpty ? "" : "Include elements related to \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") The story should be gentle and have a happy ending.
+    Do not mix any other language - write everything in \(profile.language.nativeName) only. Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Include elements related to \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") The story should be gentle and have a happy ending.
     """
   }
   
   private func buildPrompt5(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     LANGUAGE REQUIREMENT: The complete story must be written EXCLUSIVELY in \(profile.language.nativeName) - no language mixing allowed.
     
-    Tell a delightful story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should revolve around "\(options.effectiveTheme)", be \(getLengthDescription(for: options.length)), and written ONLY in \(profile.language.nativeName). 
+    Tell a delightful story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should revolve around "\(options.effectiveTheme)", be \(getLengthDescription(for: options.length)), and written ONLY in \(profile.language.nativeName). 
     
-    Every word, sentence, and dialogue must be in \(profile.language.nativeName). \(profile.interests.isEmpty ? "" : "Incorporate the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") Use positive, simple language and finish with a comforting conclusion.
+    Every word, sentence, and dialogue must be in \(profile.language.nativeName). Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Incorporate the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") Use positive, simple language and finish with a comforting conclusion.
     """
   }
   
   private func buildPrompt6(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     CRITICAL: Write the entire story EXCLUSIVELY in \(profile.language.nativeName) - no other languages permitted.
     
-    Write a gentle, imaginative story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). 
+    Write a gentle, imaginative story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). 
     
-    Use ONLY \(profile.language.nativeName) and ensure the language is suitable for children. Do not mix languages - every word must be in \(profile.language.nativeName). \(profile.interests.isEmpty ? "" : "Mention interests like \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") The story should be uplifting and end happily.
+    Use ONLY \(profile.language.nativeName) and ensure the language is suitable for children. Do not mix languages - every word must be in \(profile.language.nativeName). Use appropriate gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Mention interests like \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") The story should be uplifting and end happily.
     """
   }
   
   private func buildPrompt7(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     LANGUAGE REQUIREMENT: Write EXCLUSIVELY in \(profile.language.nativeName) - do NOT use any other language.
     
-    Create a bedtime story for \(profile.displayName), a \(getAgeDescription(for: profile)), themed "\(options.effectiveTheme)". Write in \(profile.language.nativeName) using simple, child-friendly language. The story should be \(getLengthDescription(for: options.length)). 
+    Create a bedtime story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), themed "\(options.effectiveTheme)". Write in \(profile.language.nativeName) using simple, child-friendly language. The story should be \(getLengthDescription(for: options.length)). 
     
-    Every word must be in \(profile.language.nativeName) only. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters: \(options.characters.joined(separator: ", ")).") Make sure the story is positive and ends with a gentle message.
+    Every word must be in \(profile.language.nativeName) only. Use appropriate pronouns and gender references (\(genderDescription)) when referring to the child. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters: \(options.characters.joined(separator: ", ")).") Make sure the story is positive and ends with a gentle message.
     """
   }
   
   private func buildPrompt8(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     CRITICAL LANGUAGE INSTRUCTION: Write the ENTIRE story ONLY in \(profile.language.nativeName) language - no mixing allowed.
     
-    Please write a personalized, age-appropriate story for \(profile.displayName) (\(getAgeDescription(for: profile))). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). Use EXCLUSIVELY \(profile.language.nativeName) and simple language. 
+    Please write a personalized, age-appropriate story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). Use EXCLUSIVELY \(profile.language.nativeName) and simple language. 
     
-    Every single word must be in \(profile.language.nativeName) - do not use any other language. \(profile.interests.isEmpty ? "" : "Incorporate interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be imaginative, gentle, and have a happy ending.
+    Every single word must be in \(profile.language.nativeName) - do not use any other language. Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Incorporate interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be imaginative, gentle, and have a happy ending.
     """
   }
   
   private func buildPrompt9(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     CRITICAL LANGUAGE REQUIREMENT: Write the ENTIRE story ONLY in \(profile.language.nativeName) language - no mixing permitted.
     
-    Compose a story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and be \(getLengthDescription(for: options.length)). 
+    Compose a story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and be \(getLengthDescription(for: options.length)). 
     
-    Every word, sentence, and dialogue must be in \(profile.language.nativeName) only. \(profile.interests.isEmpty ? "" : "Mention interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") Use positive, simple language and end with a comforting message.
+    Every word, sentence, and dialogue must be in \(profile.language.nativeName) only. Use appropriate gender references (\(genderDescription)) when referring to the child throughout the story. \(profile.interests.isEmpty ? "" : "Mention interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") Use positive, simple language and end with a comforting message.
     """
   }
   
   private func buildPrompt10(for profile: UserProfile, with options: StoryOptions) -> String {
-    """
+    let genderDescription = getGenderDescription(for: profile)
+    
+    return """
     MANDATORY LANGUAGE INSTRUCTION: Write the complete story EXCLUSIVELY in \(profile.language.nativeName) - no other languages allowed.
     
-    Imagine you are a storyteller for children. Write a story for \(profile.displayName) (\(getAgeDescription(for: profile))) with the theme "\(options.effectiveTheme)". The story should be \(getLengthDescription(for: options.length)), written ONLY in \(profile.language.nativeName), and use simple, age-appropriate language. 
+    Imagine you are a storyteller for children. Write a story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), with the theme "\(options.effectiveTheme)". The story should be \(getLengthDescription(for: options.length)), written ONLY in \(profile.language.nativeName), and use simple, age-appropriate language. 
     
-    Every word must be in \(profile.language.nativeName) - do not mix any other language. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") Make the story gentle, imaginative, and end on a positive note.
+    Every word must be in \(profile.language.nativeName) - do not mix any other language. Use appropriate pronouns and gender references (\(genderDescription)) when referring to the child. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") Make the story gentle, imaginative, and end on a positive note.
     """
   }
-  // ...existing code...
 }

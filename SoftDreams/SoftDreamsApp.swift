@@ -22,7 +22,6 @@ struct SoftDreamsApp: App {
         .environmentObject(languageManager)
         .environmentObject(appViewModel)
         .preferredColorScheme(themeManager.preferredColorScheme)
-        .withCustomNavigationBarAppearance() // Apply custom navigation bar appearance
         .animation(.easeInOut(duration: 0.3), value: themeManager.preferredColorScheme)
         .onAppear {
           setupNotifications()
