@@ -10,6 +10,8 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
   private let model: String
   private let maxTokens: Int
   private let temperature: Double
+  private var storyHistory: [String] = [] // Track recent story combinations
+  private let maxHistorySize = 15 // Keep last 15 story combinations
   private let session: URLSession
   private let apiVersion = "2023-06-01" // Anthropic API version
   
@@ -25,7 +27,7 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
     self.apiKey = apiKey
     self.model = model
     self.maxTokens = maxTokens
-    self.temperature = temperature
+    self.temperature = max(temperature, 0.9) // Ensure minimum creativity
     self.session = session
     self.baseURL = APIConfig.anthropicBaseUrl + "/messages"
   }
@@ -49,6 +51,10 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
       let prompt = buildPrompt(for: profile, with: options)
       let response = try await makeClaudeRequest(prompt: prompt)
       let story = createStory(from: response, for: profile, with: options)
+      
+      // Track this story's theme and title for future uniqueness
+      trackStoryElement("theme:\(options.effectiveTheme)")
+      trackStoryElement("title_pattern:\(extractTitlePattern(story.title))")
       
       Logger.info("Claude: Story generation completed - '\(story.title)'", category: .storyGeneration)
       return story
@@ -135,6 +141,10 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
     let charactersText = options.characters.isEmpty ? "" : " Include these characters: \(options.characters.joined(separator: ", "))."
     let languageInstruction = getLanguageInstruction(for: profile.language)
     
+    // Add unique story elements for variety
+    let uniqueElements = generateUniqueStoryElements(for: profile, with: options)
+    let creativityBoost = getCreativityInstructions()
+    
     return """
     Write a personalized children's story with the following requirements:
     
@@ -146,6 +156,12 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
     - Story should be appropriate for \(ageDescription)
     \(interestsText)\(charactersText)
     
+    UNIQUENESS REQUIREMENTS:
+    \(uniqueElements.setting)
+    \(uniqueElements.plotDevice)
+    \(uniqueElements.narrative)
+    \(uniqueElements.mood)
+    
     Guidelines:
     - Write the story in \(profile.language.nativeName) language
     - Use simple, age-appropriate language suitable for \(profile.babyStage.displayName)
@@ -156,6 +172,7 @@ class AnthropicClaudeStoryGenerationService: StoryGenerationServiceProtocol, @un
     - End with a comforting, happy conclusion
     - Avoid scary or negative content
     - Use cultural context appropriate for \(profile.language.nativeName) speakers when relevant
+    \(creativityBoost)
     
     Format the response as a complete story with a clear beginning, middle, and end.
     """
@@ -425,5 +442,160 @@ private struct ClaudeContent: Codable {
 // MARK: - Configuration Extension
 
 extension AnthropicClaudeStoryGenerationService {
-  // Remove the createWithStoredAPIKey method as it's no longer needed
+  // MARK: - Uniqueness Enhancement Methods
+  
+  private func generateUniqueStoryElements(for profile: UserProfile, with options: StoryOptions) -> (setting: String, plotDevice: String, narrative: String, mood: String) {
+    let settings = getRandomSettings(for: profile.babyStage)
+    let plotDevices = getRandomPlotDevices(for: profile.babyStage)
+    let narratives = getRandomNarrativeStyles()
+    let moods = getRandomMoods(for: profile.babyStage)
+    
+    // Find elements not recently used
+    let availableSettings = settings.filter { !isRecentlyUsed("setting:\($0)") }
+    let availablePlotDevices = plotDevices.filter { !isRecentlyUsed("plot:\($0)") }
+    let availableNarratives = narratives.filter { !isRecentlyUsed("narrative:\($0)") }
+    let availableMoods = moods.filter { !isRecentlyUsed("mood:\($0)") }
+    
+    // Use fresh elements if available, fallback to any if all recently used
+    let selectedSetting = availableSettings.randomElement() ?? settings.randomElement() ?? "magical garden"
+    let selectedPlotDevice = availablePlotDevices.randomElement() ?? plotDevices.randomElement() ?? "discovery"
+    let selectedNarrative = availableNarratives.randomElement() ?? narratives.randomElement() ?? "adventure"
+    let selectedMood = availableMoods.randomElement() ?? moods.randomElement() ?? "cheerful"
+    
+    // Track usage
+    trackStoryElement("setting:\(selectedSetting)")
+    trackStoryElement("plot:\(selectedPlotDevice)")
+    trackStoryElement("narrative:\(selectedNarrative)")
+    trackStoryElement("mood:\(selectedMood)")
+    
+    return (
+      setting: "- Setting: \(selectedSetting)",
+      plotDevice: "- Story device: \(selectedPlotDevice)",
+      narrative: "- Narrative style: \(selectedNarrative)",
+      mood: "- Story mood: \(selectedMood)"
+    )
+  }
+  
+  private func isRecentlyUsed(_ element: String) -> Bool {
+    return storyHistory.contains(element)
+  }
+  
+  private func trackStoryElement(_ element: String) {
+    // Add to history
+    storyHistory.append(element)
+    
+    // Keep only recent elements (limit memory usage)
+    if storyHistory.count > maxHistorySize {
+      storyHistory.removeFirst(storyHistory.count - maxHistorySize)
+    }
+  }
+  
+  private func getRandomSettings(for stage: BabyStage) -> [String] {
+    let baseSettings = [
+      "enchanted forest with singing trees",
+      "cozy library with talking books",
+      "magical bakery with dancing ingredients",
+      "underwater kingdom with friendly sea creatures",
+      "cloud city with rainbow bridges",
+      "music box world with tiny dancers",
+      "garden where flowers tell jokes",
+      "treehouse village in the sky",
+      "candy kingdom with chocolate rivers",
+      "art studio where paintings come alive"
+    ]
+    
+    switch stage {
+    case .pregnancy, .newborn:
+      return ["peaceful meadow with gentle butterflies", "warm nest in the clouds", "soft blanket fort"]
+    case .infant:
+      return ["colorful playroom with bouncing balls", "musical toy chest", "sunny nursery"]
+    case .toddler:
+      return baseSettings.prefix(5) + ["playground with magical swings", "sandbox with buried treasures"]
+    case .preschooler:
+      return baseSettings + ["space station with friendly aliens", "time machine workshop", "dinosaur valley"]
+    }
+  }
+  
+  private func getRandomPlotDevices(for stage: BabyStage) -> [String] {
+    let baseDevices = [
+      "finding a magical key that opens special doors",
+      "helping a lost animal find its way home",
+      "solving a gentle mystery with friends",
+      "learning a new skill from a wise mentor",
+      "discovering a hidden talent",
+      "going on a treasure hunt for kindness",
+      "teaching someone something important",
+      "fixing something that's broken with creativity"
+    ]
+    
+    switch stage {
+    case .pregnancy, .newborn:
+      return ["gentle exploration", "peaceful discovery", "warm encounters"]
+    case .infant:
+      return ["sensory exploration", "cause and effect learning", "social interaction"]
+    case .toddler:
+      return baseDevices.prefix(4) + ["learning to share", "overcoming a small fear"]
+    case .preschooler:
+      return baseDevices + ["time travel adventure", "becoming a superhero helper", "scientific discovery"]
+    }
+  }
+  
+  private func getRandomNarrativeStyles() -> [String] {
+    return [
+      "tell the story like a gentle lullaby",
+      "use lots of sound effects and onomatopoeia",
+      "include interactive questions for the listener",
+      "tell it as a series of discoveries",
+      "use rhythmic, poem-like language",
+      "include sensory descriptions (touch, smell, taste)",
+      "tell it as a conversation between characters",
+      "use counting or patterns in the storytelling",
+      "include silly wordplay and rhymes",
+      "tell it as a step-by-step adventure"
+    ]
+  }
+  
+  private func getRandomMoods(for stage: BabyStage) -> [String] {
+    let baseMoods = [
+      "cheerful and optimistic",
+      "curious and wonder-filled",
+      "warm and comforting",
+      "playful and silly",
+      "gentle and soothing",
+      "exciting but safe",
+      "magical and dreamy",
+      "cozy and intimate"
+    ]
+    
+    switch stage {
+    case .pregnancy, .newborn:
+      return ["peaceful and serene", "gentle and loving", "soft and dreamy"]
+    case .infant:
+      return ["bright and cheerful", "calm and soothing", "gentle and playful"]
+    case .toddler, .preschooler:
+      return baseMoods
+    }
+  }
+  
+  private func getCreativityInstructions() -> String {
+    let instructions = [
+      "- BE HIGHLY CREATIVE: Invent unique details, unexpected (but safe) plot twists, and original elements",
+      "- AVOID CLICHÉS: Don't use common fairy tale tropes - create something fresh and original",
+      "- ADD SURPRISE ELEMENTS: Include unexpected but delightful moments that will surprise and engage",
+      "- CREATE UNIQUE CHARACTERS: Even familiar animals or objects should have distinctive personalities",
+      "- INVENT ORIGINAL DETAILS: Create specific, imaginative details that make this story one-of-a-kind",
+      "- USE UNEXPECTED COMBINATIONS: Mix different themes, settings, or ideas in creative ways",
+      "- INCLUDE SENSORY SURPRISES: Add unexpected sounds, textures, colors, or sensations",
+      "- CREATE ORIGINAL DIALOGUE: Characters should speak in unique, memorable ways"
+    ]
+    
+    return instructions.randomElement() ?? instructions[0]
+  }
+  
+  private func extractTitlePattern(_ title: String) -> String {
+    // Extract pattern from title to avoid similar titles
+    // e.g., "Emma's Adventure" -> "[name]'s Adventure"
+    let pattern = title.replacingOccurrences(of: "\\b[A-Z][a-z]+(?='s)\\b", with: "[name]", options: .regularExpression)
+    return pattern
+  }
 }
