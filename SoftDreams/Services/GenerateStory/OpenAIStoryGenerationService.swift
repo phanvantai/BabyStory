@@ -60,23 +60,8 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     }
     
     do {
-      // Build the prompt based on profile and options
-      // get random prompt from multiple variations
-      let stablePrompt = buildPrompt(for: profile, with: options)
-      let prompts = [
-        stablePrompt,
-        buildPrompt1(for: profile, with: options),
-        buildPrompt2(for: profile, with: options),
-        buildPrompt3(for: profile, with: options),
-        buildPrompt4(for: profile, with: options),
-        buildPrompt5(for: profile, with: options),
-        buildPrompt6(for: profile, with: options),
-        buildPrompt7(for: profile, with: options),
-        buildPrompt8(for: profile, with: options),
-        buildPrompt9(for: profile, with: options),
-        buildPrompt10(for: profile, with: options)
-      ]
-      let prompt = prompts.randomElement() ?? stablePrompt
+      // Build the enhanced prompt based on profile and options
+      let prompt = buildPrompt(for: profile, with: options)
       
       // Log request summary
       Logger.info("OpenAI: Request summary - Model: \(model), Max Tokens: \(maxTokens), Temperature: \(temperature), Profile: \(profile.displayName), Theme: \(options.effectiveTheme), Length: \(options.length)", category: .storyGeneration)
@@ -131,55 +116,82 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
   // MARK: - Private Helper Methods
   
   private func buildPrompt(for profile: UserProfile, with options: StoryOptions) -> String {
-    let ageDescription = getAgeDescription(for: profile)
-    let lengthDescription = getLengthDescription(for: options.length)
-    let genderDescription = getGenderDescription(for: profile)
-    let interestsText = profile.interests.isEmpty ? "" : " The child loves \(profile.interests.joined(separator: ", "))."
-    let charactersText = options.characters.isEmpty ? "" : " Include these characters: \(options.characters.joined(separator: ", "))."
-    let languageInstruction = getLanguageInstruction(for: profile.language)
-    
-    // Add unique story elements for variety
+    let developmentalContext = getDevelopmentalContext(for: profile.babyStage, requestedLength: options.length)
+    let educationalObjectives = getEducationalObjectives(for: profile.babyStage)
     let uniqueElements = generateUniqueStoryElements(for: profile, with: options)
-    let creativityBoost = getCreativityInstructions()
     
     return """
-    Write a personalized children's story with the following requirements:
+    # Expert Children's Story Writer
     
-    - Child's name: \(profile.displayName)
-    - Age/Stage: \(ageDescription)
-    - Gender: \(genderDescription)
-    - Theme: \(options.effectiveTheme)
-    - Length: \(lengthDescription)
-    - REQUIRED LANGUAGE: \(languageInstruction)
-    - Story should be appropriate for \(ageDescription)
-    \(interestsText)\(charactersText)
+    You are an expert children's story writer specializing in developmentally appropriate, educational storytelling for children aged 0-5 years.
     
-    UNIQUENESS REQUIREMENTS:
-    \(uniqueElements.setting)
-    \(uniqueElements.plotDevice)
-    \(uniqueElements.narrative)
-    \(uniqueElements.mood)
+    ## Task
+    Create a personalized bedtime story in \(profile.language.nativeName) language only.
     
-    CRITICAL LANGUAGE REQUIREMENT:
-    - The ENTIRE story MUST be written ONLY in \(profile.language.nativeName) language
-    - Do NOT mix languages - use ONLY \(profile.language.nativeName)
-    - Every word, sentence, and dialogue must be in \(profile.language.nativeName)
+    ## Child Profile
+    - **Name**: \(profile.displayName)
+    - **Age/Stage**: \(getAgeDescription(for: profile)) 
+    - **Gender**: \(getGenderDescription(for: profile))
+    - **Interests**: \(profile.interests.isEmpty ? "Not specified" : profile.interests.joined(separator: ", "))
+    - **Language**: \(profile.language.nativeName) (write EXCLUSIVELY in this language)
     
-    Guidelines:
-    - Write the complete story exclusively in \(profile.language.nativeName) language
-    - Use simple, age-appropriate language suitable for \(profile.babyStage.displayName)
-    - Use appropriate pronouns and gender references based on: \(genderDescription)
-    - Include positive messages and gentle lessons
-    - Make the story engaging and imaginative
-    - Ensure the child is the main character
-    - Include sensory details (sounds, colors, textures)
-    - End with a comforting, happy conclusion
-    - Avoid scary or negative content
-    - Use cultural context appropriate for \(profile.language.nativeName) speakers when relevant
-    - When referring to the child in the story, use pronouns and descriptions that match \(genderDescription)
-    \(creativityBoost)
+    ## Story Requirements
+    - **Theme**: \(options.effectiveTheme)
+    - **Target Length**: \(getLengthDescription(for: options.length, stage: profile.babyStage))
+    - **Characters**: \(options.characters.isEmpty ? "Create age-appropriate characters" : options.characters.joined(separator: ", "))
     
-    Format the response as a complete story with a clear beginning, middle, and end.
+    ## Developmental Context
+    \(developmentalContext.description)
+    **Child's Attention Span**: \(developmentalContext.attentionSpan)
+    **Optimal Story Length**: \(developmentalContext.adjustedLength)
+    **Key Development Areas**: \(developmentalContext.developmentAreas.joined(separator: ", "))
+    
+    ## Educational Objectives
+    \(educationalObjectives.joined(separator: "\n"))
+    
+    ## Creative Elements (Use These)
+    - **Setting**: \(uniqueElements.setting)
+    - **Plot Device**: \(uniqueElements.plotDevice)
+    - **Narrative Style**: \(uniqueElements.narrative)
+    - **Mood**: \(uniqueElements.mood)
+    
+    ## Story Structure Guidelines
+    
+    ### Beginning (25% of target length)
+    - Introduce \(profile.displayName) in a relatable situation
+    - Establish the setting using sensory details appropriate for \(profile.babyStage.displayName)
+    - Present a gentle challenge or opportunity for discovery matching attention span
+    
+    ### Middle (50% of target length)
+    - Develop the adventure with \(profile.babyStage.displayName)-appropriate obstacles
+    - Include interactive moments (what would \(profile.displayName) do?)
+    - Integrate learning opportunities from educational objectives above
+    - Use repetitive elements for engagement within the \(options.length.rawValue) format
+    
+    ### End (25% of target length)
+    - Resolve the story with \(profile.displayName)'s growth/success
+    - Include a gentle lesson matching developmental stage
+    - End with a peaceful, bedtime-appropriate conclusion
+    - Ensure total story matches the \(options.length.rawValue) length requirement
+    
+    ## Language & Style Requirements
+    - Write EXCLUSIVELY in \(profile.language.nativeName) - no other languages
+    - Use vocabulary appropriate for \(profile.babyStage.displayName)
+    - Include rich sensory descriptions (colors, sounds, textures, smells)
+    - Use appropriate pronouns: \(getGenderDescription(for: profile))
+    - Incorporate rhythm and repetition for engagement
+    \(profile.language.code == "vi" ? "- Include Vietnamese cultural elements and values naturally" : "- Include culturally relevant elements when appropriate")
+    
+    ## Quality Standards
+    - NO scary, sad, or negative content
+    - Encourage positive values (kindness, curiosity, courage, friendship)
+    - Make \(profile.displayName) the capable, brave main character
+    - Include at least 3 sensory details appropriate for \(profile.babyStage.displayName)
+    - End with a sentence that promotes calm and sleepiness
+    - **CRITICAL LENGTH REQUIREMENT**: Write \(getWordCountGuidance(for: options.length, stage: profile.babyStage))
+    - **ATTENTION SPAN PRIORITY**: The story MUST respect the \(profile.babyStage.displayName) attention span over user length preference
+    
+    Create the complete story now, ensuring it perfectly matches the developmental needs and attention span requirements above.
     """
   }
   
@@ -198,8 +210,38 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     }
   }
   
-  private func getLengthDescription(for length: StoryLength) -> String {
-    return length.aiPromptDescription
+  private func getLengthDescription(for length: StoryLength, stage: BabyStage) -> String {
+    let baseDescription = length.aiPromptDescription
+    
+    // Add developmental context to length guidance
+    switch (length, stage) {
+    case (.short, .pregnancy), (.short, .newborn):
+      return "\(baseDescription) - Brief, soothing narrative perfect for bonding moments"
+    case (.short, .infant):
+      return "\(baseDescription) - Simple story with repetitive elements and sensory focus"
+    case (.short, .toddler):
+      return "\(baseDescription) - Quick adventure with clear problem-solving elements"
+    case (.short, .preschooler):
+      return "\(baseDescription) - Concise story with moral lesson and character development"
+      
+    case (.medium, .pregnancy), (.medium, .newborn):
+      return "\(baseDescription) - Well-paced narrative with emotional depth for parent reading"
+    case (.medium, .infant):
+      return "\(baseDescription) - Engaging story with cause-effect patterns and vocabulary building"
+    case (.medium, .toddler):
+      return "\(baseDescription) - Balanced adventure with social skills and independence themes"
+    case (.medium, .preschooler):
+      return "\(baseDescription) - Rich narrative with complex themes and pre-literacy elements"
+      
+    case (.long, .pregnancy), (.long, .newborn):
+      return "\(baseDescription) - Extended narrative for relaxed reading sessions with detailed imagery"
+    case (.long, .infant):
+      return "\(baseDescription) - Comprehensive story with multiple sensory experiences and concepts"
+    case (.long, .toddler):
+      return "\(baseDescription) - Full adventure with multiple challenges and learning opportunities"
+    case (.long, .preschooler):
+      return "\(baseDescription) - Complex story with multiple characters, moral depth, and educational content"
+    }
   }
   
   private func getLanguageInstruction(for language: Language) -> String {
@@ -240,6 +282,157 @@ class OpenAIStoryGenerationService: StoryGenerationServiceProtocol, @unchecked S
     case .notSpecified:
       return "child - use neutral pronouns (they/them/their) or the child's name"
     }
+  }
+  
+  private func getDevelopmentalContext(for stage: BabyStage, requestedLength: StoryLength) -> (description: String, attentionSpan: String, developmentAreas: [String], adjustedLength: String) {
+    let baseContext = getBaseDevelopmentalContext(for: stage)
+    let adjustedLength = getOptimalLength(for: stage, requested: requestedLength)
+    
+    return (
+      description: baseContext.description,
+      attentionSpan: baseContext.attentionSpan,
+      developmentAreas: baseContext.developmentAreas,
+      adjustedLength: adjustedLength
+    )
+  }
+  
+  private func getBaseDevelopmentalContext(for stage: BabyStage) -> (description: String, attentionSpan: String, developmentAreas: [String]) {
+    switch stage {
+    case .pregnancy:
+      return (
+        description: "This story is for an unborn baby, meant to be read by parents during pregnancy to promote bonding.",
+        attentionSpan: "10-15 minutes (parent reading time)",
+        developmentAreas: ["Prenatal bonding", "Emotional connection", "Anticipation building"]
+      )
+    case .newborn:
+      return (
+        description: "Newborns respond to rhythm, repetition, and soothing sounds. Focus on gentle, rhythmic language.",
+        attentionSpan: "2-3 minutes",
+        developmentAreas: ["Auditory development", "Language exposure", "Comfort and security"]
+      )
+    case .infant:
+      return (
+        description: "Infants are developing object permanence and enjoy cause-and-effect relationships.",
+        attentionSpan: "3-5 minutes",
+        developmentAreas: ["Sensory exploration", "Cause and effect", "Social interaction", "Basic emotions"]
+      )
+    case .toddler:
+      return (
+        description: "Toddlers are exploring independence, learning basic social skills, and developing language rapidly.",
+        attentionSpan: "5-10 minutes",
+        developmentAreas: ["Language development", "Independence", "Social skills", "Emotional regulation", "Problem solving"]
+      )
+    case .preschooler:
+      return (
+        description: "Preschoolers can follow complex stories, understand moral lessons, and enjoy imaginative play.",
+        attentionSpan: "10-15 minutes",
+        developmentAreas: ["Complex language", "Moral reasoning", "Imagination", "Pre-literacy skills", "Emotional intelligence"]
+      )
+    }
+  }
+  
+  private func getOptimalLength(for stage: BabyStage, requested: StoryLength) -> String {
+    // Determine what length is actually appropriate for this developmental stage
+    let maxAppropriateLengths: [BabyStage: StoryLength] = [
+      .pregnancy: .long,    // Parents can read longer stories
+      .newborn: .short,     // 2-3 min attention span
+      .infant: .medium,     // 3-5 min attention span  
+      .toddler: .medium,    // 5-10 min attention span
+      .preschooler: .long   // 10-15 min attention span
+    ]
+    
+    let maxAppropriate = maxAppropriateLengths[stage] ?? .medium
+    
+    // If requested length exceeds developmental capacity, adjust down with explanation
+    if requested.rawValue.count > maxAppropriate.rawValue.count {
+      switch (stage, requested) {
+      case (.newborn, .medium), (.newborn, .long):
+        return "Short story (adjusted from \(requested.rawValue) to match 2-3 minute attention span)"
+      case (.infant, .long):
+        return "Medium story (adjusted from long to match 3-5 minute attention span)"
+      case (.toddler, .long):
+        return "Medium story (recommended over long for 5-10 minute attention span)"
+      default:
+        return requested.aiPromptDescription
+      }
+    }
+    
+    return requested.aiPromptDescription
+  }
+  
+  private func getEducationalObjectives(for stage: BabyStage) -> [String] {
+    switch stage {
+    case .pregnancy:
+      return [
+        "- Create emotional connection between parent and unborn child",
+        "- Establish positive expectations for the future",
+        "- Introduce the child's name and family context"
+      ]
+    case .newborn:
+      return [
+        "- Provide auditory stimulation through varied intonation",
+        "- Create association between story time and comfort",
+        "- Use repetitive, soothing language patterns"
+      ]
+    case .infant:
+      return [
+        "- Introduce basic concepts (colors, sounds, textures)",
+        "- Demonstrate simple cause-and-effect relationships",
+        "- Encourage sensory exploration through descriptive language",
+        "- Build vocabulary with naming objects and actions"
+      ]
+    case .toddler:
+      return [
+        "- Teach basic social skills (sharing, kindness, cooperation)",
+        "- Introduce problem-solving strategies",
+        "- Expand vocabulary with descriptive adjectives",
+        "- Practice emotional recognition and naming",
+        "- Encourage independence and confidence"
+      ]
+    case .preschooler:
+      return [
+        "- Develop pre-literacy skills (story structure, sequencing)",
+        "- Teach complex social-emotional concepts",
+        "- Introduce basic moral reasoning",
+        "- Expand imagination and creative thinking",
+        "- Build attention span and listening skills",
+        "- Practice memory and comprehension"
+      ]
+    }
+  }
+  
+  private func getWordCountGuidance(for length: StoryLength, stage: BabyStage) -> String {
+    // Get developmentally appropriate word counts, respecting attention spans
+    let adjustedCounts: (min: Int, max: Int) = {
+      switch (stage, length) {
+      // Pregnancy - parent reading, can be longer
+      case (.pregnancy, .short): return (150, 300)
+      case (.pregnancy, .medium): return (300, 600)
+      case (.pregnancy, .long): return (600, 1000)
+      
+      // Newborn - max 2-3 minutes, very short regardless of request
+      case (.newborn, .short): return (80, 150)
+      case (.newborn, .medium): return (80, 150)  // Adjusted down
+      case (.newborn, .long): return (80, 150)    // Adjusted down
+      
+      // Infant - max 3-5 minutes
+      case (.infant, .short): return (100, 200)
+      case (.infant, .medium): return (200, 350)
+      case (.infant, .long): return (200, 350)    // Adjusted down
+      
+      // Toddler - max 5-10 minutes  
+      case (.toddler, .short): return (120, 250)
+      case (.toddler, .medium): return (250, 450)
+      case (.toddler, .long): return (350, 450)   // Slightly adjusted
+      
+      // Preschooler - can handle full lengths
+      case (.preschooler, .short): return (150, 300)
+      case (.preschooler, .medium): return (300, 600)
+      case (.preschooler, .long): return (600, 900)
+      }
+    }()
+    
+    return "approximately \(adjustedCounts.min)-\(adjustedCounts.max) words total"
   }
   
   private func makeOpenAIRequest(prompt: String) async throws -> String {
@@ -645,129 +838,4 @@ private struct OpenAIChoice: Codable {
 // MARK: - Configuration Extension
 
 extension OpenAIStoryGenerationService {
-  /// experiment prompt
-  
-  // MARK: - Multiple Prompt Variations
-  
-  private func buildPrompt1(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    CRITICAL LANGUAGE REQUIREMENT: Write the ENTIRE story ONLY in \(profile.language.nativeName) language.
-    
-    Write a magical bedtime story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should focus on the theme "\(options.effectiveTheme)" and be written EXCLUSIVELY in \(profile.language.nativeName). 
-    
-    IMPORTANT: Every single word, sentence, and dialogue MUST be in \(profile.language.nativeName) only - do NOT mix languages.
-    
-    Use simple, age-appropriate language, make the child the main character with appropriate gender references (\(genderDescription)), and end with a comforting, happy conclusion. \(profile.interests.isEmpty ? "" : "The child enjoys \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be \(getLengthDescription(for: options.length)).
-    """
-  }
-  
-  private func buildPrompt2(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    LANGUAGE REQUIREMENT: Write EXCLUSIVELY in \(profile.language.nativeName) - do NOT use any other language.
-    
-    Create a personalized story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), with the theme "\(options.effectiveTheme)". Write ONLY in \(profile.language.nativeName) using gentle, child-friendly words. Every word must be in \(profile.language.nativeName).
-    
-    Make sure the story is \(getLengthDescription(for: options.length)), imaginative, and features \(profile.displayName) as the main character using appropriate pronouns and references (\(genderDescription)). \(profile.interests.isEmpty ? "" : "Incorporate interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") End with a positive message.
-    """
-  }
-  
-  private func buildPrompt3(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    MANDATORY: Write the entire story in \(profile.language.nativeName) language ONLY - no other languages allowed.
-    
-    Tell a bedtime story to a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and \(getLengthDescription(for: options.length)). 
-    
-    Use simple words, include sensory details, ensure the story is uplifting, and use appropriate gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Mention the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Feature these characters: \(options.characters.joined(separator: ", ")).") The story should end peacefully. Remember: use ONLY \(profile.language.nativeName).
-    """
-  }
-  
-  private func buildPrompt4(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    IMPORTANT LANGUAGE INSTRUCTION: The entire story MUST be written ONLY in \(profile.language.nativeName) - no exceptions.
-    
-    Compose a creative, age-appropriate story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be written EXCLUSIVELY in \(profile.language.nativeName). Use engaging, simple language and make the story \(getLengthDescription(for: options.length)). 
-    
-    Do not mix any other language - write everything in \(profile.language.nativeName) only. Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Include elements related to \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") The story should be gentle and have a happy ending.
-    """
-  }
-  
-  private func buildPrompt5(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    LANGUAGE REQUIREMENT: The complete story must be written EXCLUSIVELY in \(profile.language.nativeName) - no language mixing allowed.
-    
-    Tell a delightful story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should revolve around "\(options.effectiveTheme)", be \(getLengthDescription(for: options.length)), and written ONLY in \(profile.language.nativeName). 
-    
-    Every word, sentence, and dialogue must be in \(profile.language.nativeName). Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Incorporate the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") Use positive, simple language and finish with a comforting conclusion.
-    """
-  }
-  
-  private func buildPrompt6(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    CRITICAL: Write the entire story EXCLUSIVELY in \(profile.language.nativeName) - no other languages permitted.
-    
-    Write a gentle, imaginative story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). 
-    
-    Use ONLY \(profile.language.nativeName) and ensure the language is suitable for children. Do not mix languages - every word must be in \(profile.language.nativeName). Use appropriate gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Mention interests like \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") The story should be uplifting and end happily.
-    """
-  }
-  
-  private func buildPrompt7(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    LANGUAGE REQUIREMENT: Write EXCLUSIVELY in \(profile.language.nativeName) - do NOT use any other language.
-    
-    Create a bedtime story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), themed "\(options.effectiveTheme)". Write in \(profile.language.nativeName) using simple, child-friendly language. The story should be \(getLengthDescription(for: options.length)). 
-    
-    Every word must be in \(profile.language.nativeName) only. Use appropriate pronouns and gender references (\(genderDescription)) when referring to the child. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters: \(options.characters.joined(separator: ", ")).") Make sure the story is positive and ends with a gentle message.
-    """
-  }
-  
-  private func buildPrompt8(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    CRITICAL LANGUAGE INSTRUCTION: Write the ENTIRE story ONLY in \(profile.language.nativeName) language - no mixing allowed.
-    
-    Please write a personalized, age-appropriate story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription). The theme is "\(options.effectiveTheme)", and the story should be \(getLengthDescription(for: options.length)). Use EXCLUSIVELY \(profile.language.nativeName) and simple language. 
-    
-    Every single word must be in \(profile.language.nativeName) - do not use any other language. Use appropriate pronouns and gender references (\(genderDescription)) throughout the story. \(profile.interests.isEmpty ? "" : "Incorporate interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Include these characters: \(options.characters.joined(separator: ", ")).") The story should be imaginative, gentle, and have a happy ending.
-    """
-  }
-  
-  private func buildPrompt9(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    CRITICAL LANGUAGE REQUIREMENT: Write the ENTIRE story ONLY in \(profile.language.nativeName) language - no mixing permitted.
-    
-    Compose a story for a child named \(profile.displayName), who is a \(getAgeDescription(for: profile)) and a \(genderDescription). The story should be about "\(options.effectiveTheme)", written EXCLUSIVELY in \(profile.language.nativeName), and be \(getLengthDescription(for: options.length)). 
-    
-    Every word, sentence, and dialogue must be in \(profile.language.nativeName) only. Use appropriate gender references (\(genderDescription)) when referring to the child throughout the story. \(profile.interests.isEmpty ? "" : "Mention interests such as \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Characters to include: \(options.characters.joined(separator: ", ")).") Use positive, simple language and end with a comforting message.
-    """
-  }
-  
-  private func buildPrompt10(for profile: UserProfile, with options: StoryOptions) -> String {
-    let genderDescription = getGenderDescription(for: profile)
-    
-    return """
-    MANDATORY LANGUAGE INSTRUCTION: Write the complete story EXCLUSIVELY in \(profile.language.nativeName) - no other languages allowed.
-    
-    Imagine you are a storyteller for children. Write a story for \(profile.displayName), a \(getAgeDescription(for: profile)) and a \(genderDescription), with the theme "\(options.effectiveTheme)". The story should be \(getLengthDescription(for: options.length)), written ONLY in \(profile.language.nativeName), and use simple, age-appropriate language. 
-    
-    Every word must be in \(profile.language.nativeName) - do not mix any other language. Use appropriate pronouns and gender references (\(genderDescription)) when referring to the child. \(profile.interests.isEmpty ? "" : "Include the child's interests: \(profile.interests.joined(separator: ", ")).") \(options.characters.isEmpty ? "" : "Add these characters: \(options.characters.joined(separator: ", ")).") Make the story gentle, imaginative, and end on a positive note.
-    """
-  }
 }
